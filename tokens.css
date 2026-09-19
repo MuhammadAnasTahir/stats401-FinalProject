@@ -1,0 +1,53 @@
+:root {
+    --color-paper: oklch(96% 0.016 145);
+    --color-paper-2: oklch(91% 0.032 145);
+    --color-rule: oklch(74% 0.028 145);
+    --color-muted: oklch(40% 0.038 145);
+    --color-ink: oklch(21% 0.040 145);
+    --color-mast: oklch(25% 0.062 145);
+    --color-mast-text: oklch(96% 0.016 145);
+    --color-mast-muted: oklch(81% 0.030 145);
+    --color-accent: oklch(73% 0.135 145);
+    --color-focus: oklch(48% 0.120 145);
+
+    --font-display: "Newsreader", ui-serif, serif;
+    --font-body: "IBM Plex Sans", ui-sans-serif, sans-serif;
+
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-xl: clamp(1.5rem, 2.4vw, 2rem);
+    --text-2xl: clamp(2rem, 4vw, 3.125rem);
+    --text-display: clamp(2.75rem, 5vw + 1rem, 5.25rem);
+
+    --weight-ui: 600;
+    --weight-display: 600;
+    --leading-body: 1.65;
+    --leading-caption: 1.45;
+    --leading-lede: 1.25;
+    --leading-heading: 1.05;
+    --leading-display: 0.98;
+    --tracking-body: -0.012em;
+    --tracking-display: -0.035em;
+    --tracking-label: 0.08em;
+
+    --space-2xs: 0.25rem;
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2.5rem;
+    --space-2xl: 4rem;
+    --space-3xl: 6rem;
+    --space-4xl: 9rem;
+
+    --page-width: 72rem;
+    --page-gutter: clamp(1rem, 4vw, 4rem);
+    --measure: 65ch;
+    --measure-wide: 20ch;
+    --chart-height: 22rem;
+    --chart-height-wide: 34rem;
+    --rule-hair: 1px;
+    --rule-double-gap: 4px;
+    --rule-focus: 2px;
+}

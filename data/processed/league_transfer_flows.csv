@@ -1,0 +1,450 @@
+season,season_label,from_group,to_group,total_fee_eur,transfer_count,known_fee_count,unknown_fee_count,free_transfer_count
+2016,2016/17,Premier League,Premier League,308650000.0,30,30,0,14
+2016,2016/17,Outside Europe / Unknown,Premier League,266810000.0,74,57,17,26
+2016,2016/17,Serie A,Serie A,225950000.0,78,78,0,55
+2016,2016/17,Outside Europe / Unknown,Bundesliga,216618000.0,78,55,23,25
+2016,2016/17,Bundesliga,Premier League,187200000.0,11,11,0,5
+2016,2016/17,Outside Europe / Unknown,Serie A,183490000.0,144,131,13,92
+2016,2016/17,Bundesliga,Bundesliga,154500000.0,27,27,0,13
+2016,2016/17,Serie A,Premier League,152000000.0,13,13,0,9
+2016,2016/17,Other Europe,Premier League,119400000.0,23,23,0,13
+2016,2016/17,Other Europe,Bundesliga,111050000.0,10,10,0,1
+2016,2016/17,Other Europe,Serie A,103470000.0,22,22,0,13
+2016,2016/17,Serie A,La Liga,92000000.0,12,12,0,5
+2016,2016/17,La Liga,Premier League,91000000.0,16,16,0,12
+2016,2016/17,Ligue 1,Premier League,82200000.0,6,6,0,2
+2016,2016/17,La Liga,La Liga,80950000.0,47,47,0,41
+2016,2016/17,Ligue 1,Bundesliga,64800000.0,6,6,0,0
+2016,2016/17,Ligue 1,La Liga,59000000.0,7,7,0,2
+2016,2016/17,Outside Europe / Unknown,Ligue 1,58350000.0,79,46,33,27
+2016,2016/17,Premier League,Serie A,51600000.0,12,12,0,7
+2016,2016/17,Premier League,Outside Europe / Unknown,51480000.0,38,37,1,30
+2016,2016/17,Outside Europe / Unknown,La Liga,50810000.0,71,46,25,26
+2016,2016/17,Ligue 1,Ligue 1,50700000.0,29,29,0,21
+2016,2016/17,Other Europe,Ligue 1,49350000.0,22,21,1,13
+2016,2016/17,Other Europe,La Liga,40000000.0,20,20,0,12
+2016,2016/17,La Liga,Bundesliga,38750000.0,12,12,0,4
+2016,2016/17,Ligue 1,Outside Europe / Unknown,26395000.0,37,32,5,26
+2016,2016/17,Bundesliga,Other Europe,21050000.0,7,7,0,2
+2016,2016/17,La Liga,Serie A,19450000.0,8,8,0,6
+2016,2016/17,Premier League,Bundesliga,16000000.0,5,5,0,3
+2016,2016/17,Premier League,Ligue 1,16000000.0,3,3,0,2
+2016,2016/17,Premier League,La Liga,15500000.0,13,13,0,9
+2016,2016/17,Serie A,Outside Europe / Unknown,13250500.0,103,98,5,90
+2016,2016/17,Bundesliga,Outside Europe / Unknown,11900000.0,34,31,3,27
+2016,2016/17,Serie A,Ligue 1,11000000.0,4,4,0,3
+2016,2016/17,Ligue 1,Serie A,9800000.0,4,4,0,3
+2016,2016/17,Premier League,Other Europe,5920000.0,17,17,0,15
+2016,2016/17,Bundesliga,Ligue 1,5300000.0,2,2,0,0
+2016,2016/17,Ligue 1,Other Europe,4800000.0,23,23,0,17
+2016,2016/17,Serie A,Other Europe,3560000.0,11,11,0,9
+2016,2016/17,Serie A,Bundesliga,2500000.0,2,2,0,1
+2016,2016/17,Bundesliga,La Liga,0.0,5,5,0,5
+2016,2016/17,Bundesliga,Serie A,0.0,2,2,0,2
+2016,2016/17,La Liga,Ligue 1,0.0,3,3,0,3
+2016,2016/17,La Liga,Other Europe,0.0,14,14,0,14
+2016,2016/17,La Liga,Outside Europe / Unknown,0.0,29,26,3,26
+2017,2017/18,Premier League,Premier League,668450000.0,40,39,1,18
+2017,2017/18,Serie A,Serie A,322270000.0,97,97,0,73
+2017,2017/18,Ligue 1,Premier League,288900000.0,12,12,0,4
+2017,2017/18,Other Europe,Premier League,277500000.0,37,37,0,20
+2017,2017/18,La Liga,Ligue 1,247500000.0,10,10,0,6
+2017,2017/18,La Liga,Premier League,203000000.0,21,21,0,13
+2017,2017/18,Premier League,La Liga,196500000.0,22,22,0,15
+2017,2017/18,Bundesliga,Bundesliga,193500000.0,33,33,0,13
+2017,2017/18,Outside Europe / Unknown,Premier League,184150000.0,90,74,16,50
+2017,2017/18,Bundesliga,La Liga,174500000.0,5,5,0,1
+2017,2017/18,Serie A,Premier League,155250000.0,8,7,1,1
+2017,2017/18,La Liga,La Liga,139300000.0,38,38,0,28
+2017,2017/18,Outside Europe / Unknown,Bundesliga,138770000.0,77,60,17,35
+2017,2017/18,Outside Europe / Unknown,Serie A,137691000.0,127,111,16,79
+2017,2017/18,Other Europe,Bundesliga,103800000.0,17,17,0,7
+2017,2017/18,Other Europe,Serie A,101670000.0,26,26,0,15
+2017,2017/18,Outside Europe / Unknown,Ligue 1,98300000.0,97,67,30,41
+2017,2017/18,La Liga,Outside Europe / Unknown,92000000.0,48,48,0,42
+2017,2017/18,Other Europe,La Liga,84600000.0,22,22,0,12
+2017,2017/18,Bundesliga,Premier League,78950000.0,16,16,0,14
+2017,2017/18,Ligue 1,Ligue 1,78000000.0,36,36,0,24
+2017,2017/18,Outside Europe / Unknown,La Liga,68700000.0,72,55,17,36
+2017,2017/18,Serie A,Ligue 1,61400000.0,9,9,0,6
+2017,2017/18,Other Europe,Ligue 1,58075000.0,20,18,2,7
+2017,2017/18,Ligue 1,Bundesliga,49500000.0,2,2,0,0
+2017,2017/18,Serie A,La Liga,45500000.0,14,14,0,9
+2017,2017/18,Premier League,Serie A,42850000.0,5,5,0,1
+2017,2017/18,Serie A,Other Europe,40750000.0,21,21,0,14
+2017,2017/18,Bundesliga,Serie A,38300000.0,4,4,0,2
+2017,2017/18,La Liga,Other Europe,33300000.0,17,17,0,13
+2017,2017/18,Premier League,Outside Europe / Unknown,31690000.0,62,60,2,51
+2017,2017/18,Premier League,Ligue 1,31000000.0,8,8,0,4
+2017,2017/18,Ligue 1,Other Europe,28100000.0,13,13,0,7
+2017,2017/18,Serie A,Bundesliga,26000000.0,5,5,0,2
+2017,2017/18,Serie A,Outside Europe / Unknown,25170000.0,89,86,3,74
+2017,2017/18,Ligue 1,Outside Europe / Unknown,23300000.0,50,48,2,42
+2017,2017/18,Premier League,Other Europe,23250000.0,22,22,0,18
+2017,2017/18,Premier League,Bundesliga,23000000.0,14,14,0,12
+2017,2017/18,Bundesliga,Outside Europe / Unknown,22100000.0,48,44,4,34
+2017,2017/18,Ligue 1,Serie A,20500000.0,10,10,0,7
+2017,2017/18,Bundesliga,Ligue 1,10000000.0,1,1,0,0
+2017,2017/18,Ligue 1,La Liga,1600000.0,7,7,0,6
+2017,2017/18,Bundesliga,Other Europe,1000000.0,8,8,0,7
+2017,2017/18,La Liga,Bundesliga,0.0,3,3,0,3
+2017,2017/18,La Liga,Serie A,0.0,9,9,0,9
+2018,2018/19,Serie A,Serie A,394560000.0,112,112,0,82
+2018,2018/19,Ligue 1,Ligue 1,283500000.0,41,41,0,27
+2018,2018/19,La Liga,Serie A,274950000.0,16,16,0,8
+2018,2018/19,Bundesliga,Premier League,261300000.0,18,18,0,7
+2018,2018/19,Outside Europe / Unknown,Bundesliga,248890000.0,79,64,15,26
+2018,2018/19,Outside Europe / Unknown,Premier League,236660000.0,105,88,17,59
+2018,2018/19,La Liga,Premier League,232950000.0,28,28,0,18
+2018,2018/19,Ligue 1,La Liga,223250000.0,15,15,0,7
+2018,2018/19,Outside Europe / Unknown,Serie A,211575000.0,138,124,14,82
+2018,2018/19,Serie A,Premier League,201150000.0,11,11,0,6
+2018,2018/19,La Liga,La Liga,197700000.0,60,60,0,40
+2018,2018/19,Premier League,Premier League,197200000.0,26,26,0,17
+2018,2018/19,Outside Europe / Unknown,La Liga,191050000.0,130,90,40,57
+2018,2018/19,Other Europe,Premier League,170650000.0,31,31,0,21
+2018,2018/19,Other Europe,Ligue 1,142150000.0,27,27,0,13
+2018,2018/19,Ligue 1,Premier League,133500000.0,13,13,0,6
+2018,2018/19,Outside Europe / Unknown,Ligue 1,116920000.0,100,67,33,39
+2018,2018/19,Other Europe,La Liga,97400000.0,20,20,0,10
+2018,2018/19,Premier League,La Liga,83000000.0,22,22,0,17
+2018,2018/19,Bundesliga,Ligue 1,62000000.0,4,4,0,1
+2018,2018/19,Bundesliga,Bundesliga,58500000.0,31,31,0,24
+2018,2018/19,Ligue 1,Bundesliga,58000000.0,6,6,0,1
+2018,2018/19,Premier League,Outside Europe / Unknown,50790000.0,76,75,1,64
+2018,2018/19,Other Europe,Serie A,44500000.0,29,29,0,23
+2018,2018/19,Premier League,Other Europe,41660000.0,36,36,0,30
+2018,2018/19,Other Europe,Bundesliga,36800000.0,18,18,0,11
+2018,2018/19,La Liga,Outside Europe / Unknown,33700000.0,71,68,3,60
+2018,2018/19,Ligue 1,Serie A,30800000.0,15,15,0,10
+2018,2018/19,Serie A,La Liga,29000000.0,9,9,0,7
+2018,2018/19,Serie A,Ligue 1,28150000.0,13,13,0,10
+2018,2018/19,Serie A,Outside Europe / Unknown,22840000.0,105,99,6,84
+2018,2018/19,Premier League,Bundesliga,22500000.0,7,7,0,5
+2018,2018/19,Bundesliga,La Liga,22000000.0,4,4,0,2
+2018,2018/19,Bundesliga,Outside Europe / Unknown,18750000.0,42,38,4,25
+2018,2018/19,Ligue 1,Outside Europe / Unknown,16200000.0,45,45,0,40
+2018,2018/19,La Liga,Bundesliga,15500000.0,5,5,0,2
+2018,2018/19,Serie A,Other Europe,14200000.0,28,27,1,22
+2018,2018/19,Ligue 1,Other Europe,12700000.0,14,14,0,11
+2018,2018/19,La Liga,Other Europe,12400000.0,16,16,0,13
+2018,2018/19,Premier League,Ligue 1,6000000.0,9,9,0,7
+2018,2018/19,Serie A,Bundesliga,4500000.0,2,2,0,1
+2018,2018/19,Bundesliga,Other Europe,3100000.0,19,18,1,15
+2018,2018/19,Premier League,Serie A,1500000.0,9,9,0,8
+2018,2018/19,La Liga,Ligue 1,0.0,6,6,0,6
+2019,2019/20,Serie A,Serie A,513450000.0,152,151,1,120
+2019,2019/20,La Liga,La Liga,424650000.0,69,69,0,44
+2019,2019/20,Other Europe,La Liga,367690000.0,31,31,0,19
+2019,2019/20,Premier League,Premier League,312930000.0,25,25,0,12
+2019,2019/20,Other Europe,Premier League,312520000.0,40,39,1,24
+2019,2019/20,Outside Europe / Unknown,Premier League,306150000.0,131,102,29,72
+2019,2019/20,Outside Europe / Unknown,Bundesliga,291900000.0,89,71,18,41
+2019,2019/20,Ligue 1,Premier League,287400000.0,15,15,0,6
+2019,2019/20,Other Europe,Serie A,252450000.0,45,45,0,25
+2019,2019/20,Ligue 1,Ligue 1,231750000.0,44,44,0,17
+2019,2019/20,Outside Europe / Unknown,La Liga,215350000.0,119,92,27,66
+2019,2019/20,Bundesliga,Bundesliga,198000000.0,48,47,1,32
+2019,2019/20,Ligue 1,La Liga,181750000.0,14,14,0,6
+2019,2019/20,La Liga,Premier League,168000000.0,17,17,0,13
+2019,2019/20,Serie A,Premier League,165000000.0,19,19,0,12
+2019,2019/20,Outside Europe / Unknown,Serie A,163831000.0,159,135,24,96
+2019,2019/20,Premier League,Serie A,163230000.0,20,20,0,12
+2019,2019/20,Outside Europe / Unknown,Ligue 1,161915000.0,120,81,39,46
+2019,2019/20,La Liga,Ligue 1,124000000.0,14,14,0,7
+2019,2019/20,Bundesliga,Premier League,119000000.0,15,15,0,11
+2019,2019/20,Other Europe,Ligue 1,107150000.0,30,30,0,19
+2019,2019/20,La Liga,Serie A,99500000.0,12,12,0,7
+2019,2019/20,Ligue 1,Bundesliga,95500000.0,12,12,0,3
+2019,2019/20,La Liga,Other Europe,93200000.0,25,25,0,19
+2019,2019/20,Other Europe,Bundesliga,89090000.0,23,23,0,12
+2019,2019/20,La Liga,Bundesliga,88000000.0,6,6,0,4
+2019,2019/20,Bundesliga,La Liga,78000000.0,7,7,0,5
+2019,2019/20,Serie A,Outside Europe / Unknown,71581000.0,118,111,7,95
+2019,2019/20,Bundesliga,Other Europe,62000000.0,19,19,0,13
+2019,2019/20,Premier League,Outside Europe / Unknown,60100000.0,79,78,1,69
+2019,2019/20,Ligue 1,Serie A,58500000.0,11,11,0,8
+2019,2019/20,Serie A,Other Europe,51130000.0,33,33,0,23
+2019,2019/20,Premier League,Bundesliga,47500000.0,16,16,0,12
+2019,2019/20,Ligue 1,Other Europe,44150000.0,33,32,1,21
+2019,2019/20,Premier League,Ligue 1,43500000.0,8,8,0,6
+2019,2019/20,Serie A,Ligue 1,42000000.0,12,12,0,8
+2019,2019/20,Premier League,Other Europe,39200000.0,30,29,1,24
+2019,2019/20,Bundesliga,Serie A,32650000.0,9,9,0,7
+2019,2019/20,Premier League,La Liga,31540000.0,19,19,0,15
+2019,2019/20,Ligue 1,Outside Europe / Unknown,31505000.0,65,61,4,47
+2019,2019/20,Serie A,Bundesliga,30750000.0,7,7,0,5
+2019,2019/20,Bundesliga,Ligue 1,26000000.0,5,5,0,3
+2019,2019/20,La Liga,Outside Europe / Unknown,18100000.0,74,71,3,66
+2019,2019/20,Bundesliga,Outside Europe / Unknown,12650000.0,51,45,6,33
+2019,2019/20,Serie A,La Liga,9000000.0,10,10,0,8
+2020,2020/21,Outside Europe / Unknown,Premier League,406959000.0,104,84,20,50
+2020,2020/21,Serie A,Serie A,331080000.0,121,121,0,92
+2020,2020/21,Other Europe,Premier League,232350000.0,46,46,0,37
+2020,2020/21,La Liga,Premier League,209500000.0,22,22,0,15
+2020,2020/21,Premier League,Premier League,203200000.0,38,38,0,28
+2020,2020/21,Bundesliga,Premier League,188000000.0,14,14,0,10
+2020,2020/21,Ligue 1,Premier League,151500000.0,19,19,0,9
+2020,2020/21,La Liga,Serie A,147780000.0,14,14,0,8
+2020,2020/21,Outside Europe / Unknown,Bundesliga,124450000.0,98,57,41,42
+2020,2020/21,Outside Europe / Unknown,Ligue 1,114650000.0,126,85,41,56
+2020,2020/21,Other Europe,Serie A,112250000.0,42,42,0,25
+2020,2020/21,Outside Europe / Unknown,Serie A,106552000.0,144,123,21,97
+2020,2020/21,La Liga,La Liga,103650000.0,47,47,0,32
+2020,2020/21,Serie A,La Liga,103480000.0,11,11,0,5
+2020,2020/21,Ligue 1,Ligue 1,94000000.0,36,36,0,21
+2020,2020/21,Ligue 1,Serie A,89300000.0,15,15,0,11
+2020,2020/21,Outside Europe / Unknown,La Liga,87440000.0,98,64,34,47
+2020,2020/21,Serie A,Ligue 1,86000000.0,15,15,0,11
+2020,2020/21,Other Europe,Ligue 1,79600000.0,34,34,0,28
+2020,2020/21,Other Europe,La Liga,77190000.0,20,20,0,14
+2020,2020/21,Serie A,Premier League,72800000.0,13,13,0,10
+2020,2020/21,Premier League,Bundesliga,72700000.0,13,13,0,9
+2020,2020/21,Bundesliga,Bundesliga,71500000.0,47,47,0,36
+2020,2020/21,Premier League,Other Europe,57070000.0,54,53,1,47
+2020,2020/21,Serie A,Bundesliga,54500000.0,9,9,0,6
+2020,2020/21,Bundesliga,Other Europe,44700000.0,28,27,1,22
+2020,2020/21,Serie A,Outside Europe / Unknown,42200000.0,116,105,11,93
+2020,2020/21,Premier League,La Liga,35000000.0,18,18,0,17
+2020,2020/21,Premier League,Serie A,29500000.0,16,16,0,14
+2020,2020/21,Ligue 1,Outside Europe / Unknown,23870000.0,73,67,6,60
+2020,2020/21,Other Europe,Bundesliga,20300000.0,23,23,0,17
+2020,2020/21,La Liga,Ligue 1,19000000.0,8,8,0,5
+2020,2020/21,Ligue 1,Bundesliga,18750000.0,10,10,0,7
+2020,2020/21,Bundesliga,Ligue 1,15000000.0,8,8,0,6
+2020,2020/21,La Liga,Outside Europe / Unknown,9550000.0,66,62,4,56
+2020,2020/21,Ligue 1,Other Europe,8600000.0,39,34,5,29
+2020,2020/21,Premier League,Outside Europe / Unknown,6880000.0,67,61,6,58
+2020,2020/21,Bundesliga,Serie A,6700000.0,6,6,0,5
+2020,2020/21,La Liga,Bundesliga,3700000.0,7,7,0,6
+2020,2020/21,La Liga,Other Europe,2500000.0,17,16,1,15
+2020,2020/21,Premier League,Ligue 1,2230000.0,11,11,0,10
+2020,2020/21,Bundesliga,La Liga,2000000.0,5,5,0,4
+2020,2020/21,Bundesliga,Outside Europe / Unknown,500000.0,50,45,5,44
+2020,2020/21,Ligue 1,La Liga,0.0,4,4,0,4
+2020,2020/21,Serie A,Other Europe,0.0,29,28,1,28
+2021,2021/22,Premier League,Premier League,484690000.0,35,35,0,18
+2021,2021/22,Serie A,Serie A,294945000.0,131,131,0,104
+2021,2021/22,Other Europe,Premier League,235000000.0,54,54,0,37
+2021,2021/22,Outside Europe / Unknown,Serie A,213275000.0,183,160,23,113
+2021,2021/22,Bundesliga,Premier League,187500000.0,10,10,0,4
+2021,2021/22,Outside Europe / Unknown,Premier League,181460000.0,118,98,20,76
+2021,2021/22,Serie A,Premier League,180100000.0,19,19,0,13
+2021,2021/22,La Liga,Premier League,172000000.0,19,19,0,12
+2021,2021/22,Ligue 1,Premier League,162500000.0,21,21,0,10
+2021,2021/22,Bundesliga,Bundesliga,151850000.0,51,51,0,34
+2021,2021/22,Outside Europe / Unknown,Bundesliga,129000000.0,119,86,33,54
+2021,2021/22,Other Europe,Bundesliga,123300000.0,40,40,0,26
+2021,2021/22,Outside Europe / Unknown,Ligue 1,111140000.0,128,78,50,55
+2021,2021/22,Premier League,Serie A,106700000.0,20,20,0,13
+2021,2021/22,Other Europe,Ligue 1,104740000.0,46,45,1,29
+2021,2021/22,Outside Europe / Unknown,La Liga,94990000.0,130,98,32,75
+2021,2021/22,Ligue 1,Ligue 1,91050000.0,42,42,0,28
+2021,2021/22,Serie A,Ligue 1,88500000.0,15,15,0,12
+2021,2021/22,Premier League,La Liga,86000000.0,20,19,1,16
+2021,2021/22,Other Europe,Serie A,74950000.0,44,44,0,32
+2021,2021/22,Ligue 1,Serie A,63400000.0,23,23,0,14
+2021,2021/22,Ligue 1,La Liga,47000000.0,9,9,0,5
+2021,2021/22,Serie A,La Liga,46410000.0,13,13,0,9
+2021,2021/22,Bundesliga,Serie A,45220000.0,11,11,0,7
+2021,2021/22,Ligue 1,Bundesliga,42750000.0,9,9,0,4
+2021,2021/22,Bundesliga,La Liga,41000000.0,8,8,0,6
+2021,2021/22,Premier League,Outside Europe / Unknown,41000000.0,99,91,8,84
+2021,2021/22,Bundesliga,Ligue 1,40300000.0,9,9,0,5
+2021,2021/22,La Liga,La Liga,37150000.0,61,60,1,51
+2021,2021/22,Bundesliga,Other Europe,36400000.0,27,26,1,19
+2021,2021/22,Premier League,Bundesliga,34550000.0,7,7,0,4
+2021,2021/22,Ligue 1,Other Europe,32800000.0,47,45,2,32
+2021,2021/22,Ligue 1,Outside Europe / Unknown,32000000.0,70,65,5,55
+2021,2021/22,Serie A,Other Europe,30900000.0,43,43,0,37
+2021,2021/22,Premier League,Other Europe,24700000.0,51,49,2,41
+2021,2021/22,Serie A,Outside Europe / Unknown,22000000.0,121,116,5,106
+2021,2021/22,La Liga,Outside Europe / Unknown,18200000.0,84,79,5,73
+2021,2021/22,La Liga,Bundesliga,16600000.0,5,5,0,4
+2021,2021/22,La Liga,Ligue 1,16500000.0,7,7,0,6
+2021,2021/22,Other Europe,La Liga,15700000.0,27,27,0,23
+2021,2021/22,Premier League,Ligue 1,11500000.0,17,16,1,14
+2021,2021/22,Bundesliga,Outside Europe / Unknown,11050000.0,58,55,3,44
+2021,2021/22,La Liga,Other Europe,750000.0,24,24,0,23
+2021,2021/22,La Liga,Serie A,0.0,8,8,0,8
+2021,2021/22,Serie A,Bundesliga,0.0,7,7,0,7
+2022,2022/23,Other Europe,Premier League,768870000.0,47,47,0,27
+2022,2022/23,Premier League,Premier League,717250000.0,58,58,0,30
+2022,2022/23,Outside Europe / Unknown,Premier League,480047000.0,180,147,33,106
+2022,2022/23,Ligue 1,Premier League,369220000.0,36,36,0,19
+2022,2022/23,Serie A,Serie A,352070000.0,165,165,0,133
+2022,2022/23,Bundesliga,Premier League,281500000.0,20,20,0,5
+2022,2022/23,La Liga,Premier League,277350000.0,24,24,0,15
+2022,2022/23,Serie A,Premier League,237510000.0,27,27,0,16
+2022,2022/23,Outside Europe / Unknown,Serie A,204940000.0,224,176,48,129
+2022,2022/23,Other Europe,Ligue 1,202190000.0,59,59,0,39
+2022,2022/23,Other Europe,Serie A,172530000.0,51,51,0,29
+2022,2022/23,Ligue 1,Ligue 1,172300000.0,58,58,0,39
+2022,2022/23,La Liga,La Liga,157000000.0,69,69,0,51
+2022,2022/23,Outside Europe / Unknown,Ligue 1,122850000.0,175,116,59,78
+2022,2022/23,Outside Europe / Unknown,Bundesliga,120665000.0,132,102,30,72
+2022,2022/23,Bundesliga,Bundesliga,117650000.0,54,53,1,30
+2022,2022/23,Serie A,Ligue 1,116550000.0,19,19,0,9
+2022,2022/23,Other Europe,Bundesliga,109450000.0,48,48,0,31
+2022,2022/23,Ligue 1,La Liga,103000000.0,18,18,0,14
+2022,2022/23,Outside Europe / Unknown,La Liga,92370000.0,158,107,51,79
+2022,2022/23,Serie A,Bundesliga,87700000.0,12,12,0,8
+2022,2022/23,Premier League,Other Europe,86120000.0,42,42,0,32
+2022,2022/23,Bundesliga,Serie A,74800000.0,15,15,0,8
+2022,2022/23,Other Europe,La Liga,72540000.0,32,32,0,19
+2022,2022/23,Bundesliga,La Liga,64790000.0,11,11,0,7
+2022,2022/23,Premier League,La Liga,64000000.0,23,23,0,20
+2022,2022/23,Premier League,Bundesliga,60200000.0,10,10,0,6
+2022,2022/23,Ligue 1,Bundesliga,50500000.0,22,22,0,14
+2022,2022/23,Bundesliga,Other Europe,50160000.0,50,49,1,35
+2022,2022/23,Ligue 1,Outside Europe / Unknown,41900000.0,97,89,8,77
+2022,2022/23,Ligue 1,Serie A,36500000.0,16,16,0,10
+2022,2022/23,Serie A,Outside Europe / Unknown,32690000.0,138,131,7,118
+2022,2022/23,Serie A,Other Europe,32080000.0,37,37,0,29
+2022,2022/23,Premier League,Ligue 1,32000000.0,29,26,3,22
+2022,2022/23,Bundesliga,Ligue 1,28600000.0,15,14,1,10
+2022,2022/23,Serie A,La Liga,28020000.0,17,17,0,15
+2022,2022/23,La Liga,Serie A,24500000.0,12,12,0,10
+2022,2022/23,Bundesliga,Outside Europe / Unknown,23230000.0,88,82,6,64
+2022,2022/23,Premier League,Serie A,21500000.0,19,19,0,17
+2022,2022/23,La Liga,Other Europe,19900000.0,31,31,0,22
+2022,2022/23,La Liga,Ligue 1,18000000.0,13,13,0,12
+2022,2022/23,La Liga,Outside Europe / Unknown,15050000.0,108,101,7,93
+2022,2022/23,Premier League,Outside Europe / Unknown,14720000.0,124,114,10,106
+2022,2022/23,Ligue 1,Other Europe,12840000.0,55,50,5,45
+2022,2022/23,La Liga,Bundesliga,0.0,6,6,0,6
+2023,2023/24,Premier League,Premier League,829930000.0,61,60,1,35
+2023,2023/24,Outside Europe / Unknown,Premier League,629020000.0,194,155,39,113
+2023,2023/24,Bundesliga,Premier League,448000000.0,28,28,0,17
+2023,2023/24,Premier League,Outside Europe / Unknown,381060000.0,156,146,10,122
+2023,2023/24,Serie A,Premier League,351870000.0,21,21,0,10
+2023,2023/24,Serie A,Serie A,339730000.0,176,175,1,129
+2023,2023/24,Other Europe,Premier League,309570000.0,56,56,0,39
+2023,2023/24,Other Europe,Ligue 1,283400000.0,55,55,0,29
+2023,2023/24,Outside Europe / Unknown,Ligue 1,273580000.0,183,131,52,80
+2023,2023/24,Outside Europe / Unknown,Serie A,247990000.0,231,195,36,141
+2023,2023/24,Ligue 1,Ligue 1,218900000.0,49,48,1,31
+2023,2023/24,Ligue 1,Outside Europe / Unknown,211660000.0,119,105,14,80
+2023,2023/24,Ligue 1,Premier League,206500000.0,21,21,0,13
+2023,2023/24,Outside Europe / Unknown,Bundesliga,186400000.0,139,102,37,66
+2023,2023/24,Serie A,Outside Europe / Unknown,169470000.0,184,173,11,142
+2023,2023/24,Bundesliga,Bundesliga,158200000.0,67,65,2,46
+2023,2023/24,Ligue 1,Bundesliga,157300000.0,17,17,0,6
+2023,2023/24,Outside Europe / Unknown,La Liga,156690000.0,158,120,38,88
+2023,2023/24,Bundesliga,La Liga,150000000.0,13,13,0,9
+2023,2023/24,Bundesliga,Ligue 1,149700000.0,10,10,0,6
+2023,2023/24,La Liga,Outside Europe / Unknown,148750000.0,119,112,7,95
+2023,2023/24,La Liga,Premier League,134500000.0,24,24,0,19
+2023,2023/24,Other Europe,Bundesliga,131230000.0,41,41,0,25
+2023,2023/24,La Liga,Ligue 1,121100000.0,12,11,1,3
+2023,2023/24,Premier League,Serie A,116800000.0,18,18,0,11
+2023,2023/24,Premier League,Bundesliga,115000000.0,19,19,0,16
+2023,2023/24,Serie A,Bundesliga,105000000.0,10,10,0,5
+2023,2023/24,La Liga,La Liga,101400000.0,81,81,0,58
+2023,2023/24,Serie A,Other Europe,99890000.0,59,56,3,43
+2023,2023/24,Other Europe,Serie A,98970000.0,52,52,0,34
+2023,2023/24,Other Europe,La Liga,96950000.0,33,33,0,22
+2023,2023/24,Bundesliga,Serie A,91300000.0,16,16,0,8
+2023,2023/24,La Liga,Serie A,89940000.0,16,16,0,10
+2023,2023/24,Ligue 1,Other Europe,76240000.0,63,60,3,42
+2023,2023/24,La Liga,Other Europe,63000000.0,35,34,1,25
+2023,2023/24,Ligue 1,Serie A,60250000.0,27,27,0,17
+2023,2023/24,Serie A,Ligue 1,59100000.0,19,19,0,14
+2023,2023/24,Bundesliga,Outside Europe / Unknown,55720000.0,91,80,11,63
+2023,2023/24,Premier League,Ligue 1,48900000.0,22,22,0,19
+2023,2023/24,Ligue 1,La Liga,39000000.0,9,9,0,4
+2023,2023/24,Bundesliga,Other Europe,34850000.0,39,37,2,30
+2023,2023/24,Premier League,Other Europe,27090000.0,55,54,1,46
+2023,2023/24,Premier League,La Liga,13250000.0,26,26,0,23
+2023,2023/24,Serie A,La Liga,12250000.0,12,12,0,8
+2023,2023/24,La Liga,Bundesliga,0.0,6,6,0,6
+2024,2024/25,Premier League,Premier League,827200000.0,76,76,0,47
+2024,2024/25,Outside Europe / Unknown,Premier League,627460000.0,154,123,31,79
+2024,2024/25,Other Europe,Premier League,440750000.0,46,46,0,24
+2024,2024/25,Serie A,Serie A,424920000.0,159,159,0,122
+2024,2024/25,Premier League,Outside Europe / Unknown,323490000.0,136,108,28,89
+2024,2024/25,Ligue 1,Premier League,257500000.0,29,29,0,20
+2024,2024/25,Other Europe,Ligue 1,249320000.0,65,65,0,38
+2024,2024/25,Bundesliga,Premier League,238000000.0,14,14,0,6
+2024,2024/25,La Liga,Premier League,207000000.0,27,27,0,16
+2024,2024/25,Serie A,Premier League,200600000.0,24,24,0,14
+2024,2024/25,Other Europe,Serie A,199850000.0,91,91,0,56
+2024,2024/25,Outside Europe / Unknown,Ligue 1,197100000.0,150,95,55,66
+2024,2024/25,Ligue 1,Ligue 1,187200000.0,52,52,0,36
+2024,2024/25,Bundesliga,Bundesliga,184250000.0,48,48,0,27
+2024,2024/25,Ligue 1,Bundesliga,173250000.0,28,28,0,18
+2024,2024/25,Premier League,Serie A,170850000.0,24,24,0,16
+2024,2024/25,Outside Europe / Unknown,Serie A,170005000.0,194,139,55,99
+2024,2024/25,Other Europe,Bundesliga,167250000.0,62,61,1,38
+2024,2024/25,Ligue 1,Serie A,147700000.0,25,25,0,13
+2024,2024/25,Premier League,La Liga,144700000.0,24,24,0,17
+2024,2024/25,Premier League,Bundesliga,138300000.0,16,16,0,11
+2024,2024/25,Premier League,Ligue 1,134790000.0,30,30,0,21
+2024,2024/25,La Liga,La Liga,128575000.0,86,86,0,63
+2024,2024/25,Outside Europe / Unknown,La Liga,118775000.0,130,74,56,54
+2024,2024/25,Other Europe,La Liga,113915000.0,27,27,0,14
+2024,2024/25,La Liga,Serie A,105530000.0,20,20,0,13
+2024,2024/25,Outside Europe / Unknown,Bundesliga,104725000.0,119,86,33,56
+2024,2024/25,Serie A,Outside Europe / Unknown,103730000.0,165,127,38,104
+2024,2024/25,Serie A,Ligue 1,97420000.0,18,17,1,11
+2024,2024/25,La Liga,Outside Europe / Unknown,89650000.0,115,91,24,73
+2024,2024/25,La Liga,Other Europe,74650000.0,38,38,0,27
+2024,2024/25,Bundesliga,La Liga,65000000.0,14,14,0,11
+2024,2024/25,Ligue 1,Outside Europe / Unknown,58814000.0,100,75,25,60
+2024,2024/25,Bundesliga,Ligue 1,57500000.0,20,20,0,17
+2024,2024/25,Bundesliga,Other Europe,56570000.0,52,52,0,40
+2024,2024/25,Premier League,Other Europe,38670000.0,46,42,4,34
+2024,2024/25,Ligue 1,Other Europe,27350000.0,58,54,4,41
+2024,2024/25,Bundesliga,Serie A,27100000.0,11,11,0,7
+2024,2024/25,Ligue 1,La Liga,23500000.0,9,9,0,7
+2024,2024/25,Serie A,Other Europe,22415000.0,76,71,5,56
+2024,2024/25,La Liga,Ligue 1,18300000.0,6,6,0,4
+2024,2024/25,La Liga,Bundesliga,18000000.0,9,9,0,8
+2024,2024/25,Serie A,La Liga,11450000.0,13,13,0,10
+2024,2024/25,Bundesliga,Outside Europe / Unknown,11300000.0,99,65,34,59
+2024,2024/25,Serie A,Bundesliga,9500000.0,8,8,0,7
+2025,2025/26,Premier League,Premier League,1409780000.0,70,68,2,29
+2025,2025/26,Bundesliga,Premier League,647000000.0,37,37,0,21
+2025,2025/26,Other Europe,Premier League,544840000.0,62,62,0,34
+2025,2025/26,Outside Europe / Unknown,Premier League,429300000.0,128,99,29,73
+2025,2025/26,Serie A,Serie A,407360000.0,144,144,0,110
+2025,2025/26,Ligue 1,Premier League,400600000.0,37,37,0,20
+2025,2025/26,Other Europe,Serie A,357060000.0,97,96,1,53
+2025,2025/26,Serie A,Premier League,318100000.0,31,31,0,18
+2025,2025/26,Other Europe,Bundesliga,254750000.0,71,71,0,40
+2025,2025/26,Premier League,Outside Europe / Unknown,247510000.0,127,108,19,90
+2025,2025/26,La Liga,Premier League,246600000.0,21,21,0,13
+2025,2025/26,Other Europe,Ligue 1,231480000.0,79,79,0,47
+2025,2025/26,Serie A,Other Europe,226050000.0,94,89,5,59
+2025,2025/26,Premier League,Bundesliga,218300000.0,29,29,0,19
+2025,2025/26,Outside Europe / Unknown,Bundesliga,198550000.0,146,102,44,61
+2025,2025/26,Outside Europe / Unknown,Serie A,191770000.0,157,138,19,99
+2025,2025/26,La Liga,La Liga,184550000.0,85,85,0,60
+2025,2025/26,Ligue 1,Outside Europe / Unknown,182992000.0,104,81,23,60
+2025,2025/26,Premier League,Ligue 1,181900000.0,37,37,0,23
+2025,2025/26,Ligue 1,Serie A,175100000.0,30,30,0,16
+2025,2025/26,Outside Europe / Unknown,La Liga,173520000.0,129,89,40,64
+2025,2025/26,Ligue 1,Ligue 1,159050000.0,55,54,1,35
+2025,2025/26,Bundesliga,Outside Europe / Unknown,150150000.0,99,89,10,67
+2025,2025/26,Serie A,Outside Europe / Unknown,132500000.0,144,113,31,96
+2025,2025/26,Premier League,La Liga,129000000.0,24,24,0,18
+2025,2025/26,Other Europe,La Liga,117700000.0,33,33,0,22
+2025,2025/26,Ligue 1,Other Europe,115420000.0,87,86,1,59
+2025,2025/26,Bundesliga,Bundesliga,110050000.0,61,60,1,41
+2025,2025/26,Serie A,La Liga,95000000.0,22,22,0,16
+2025,2025/26,Premier League,Serie A,92780000.0,24,24,0,18
+2025,2025/26,Ligue 1,Bundesliga,87000000.0,20,20,0,11
+2025,2025/26,Bundesliga,Other Europe,78470000.0,75,73,2,52
+2025,2025/26,Outside Europe / Unknown,Ligue 1,70130000.0,162,87,75,66
+2025,2025/26,La Liga,Serie A,68500000.0,17,17,0,13
+2025,2025/26,La Liga,Outside Europe / Unknown,67800000.0,80,70,10,61
+2025,2025/26,Premier League,Other Europe,61600000.0,52,51,1,43
+2025,2025/26,La Liga,Other Europe,60475000.0,39,39,0,29
+2025,2025/26,Ligue 1,La Liga,47500000.0,16,16,0,11
+2025,2025/26,La Liga,Ligue 1,46700000.0,12,12,0,6
+2025,2025/26,La Liga,Bundesliga,45000000.0,5,5,0,3
+2025,2025/26,Bundesliga,Serie A,33300000.0,12,12,0,9
+2025,2025/26,Bundesliga,Ligue 1,20000000.0,17,16,1,10
+2025,2025/26,Serie A,Ligue 1,12750000.0,21,21,0,18
+2025,2025/26,Serie A,Bundesliga,10000000.0,10,10,0,9
+2025,2025/26,Bundesliga,La Liga,7000000.0,5,5,0,3

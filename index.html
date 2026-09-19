@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="A visual report on spending, transfer flows, and performance across Europe's top five football leagues.">
+    <title>The Football Transfer Market | STATS 401</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+
+<body id="top">
+    <header class="nav-mast">
+        <p class="mast-line">STATS 401 Final Project</p>
+        <h1 class="mast-name">The Football Transfer Market</h1>
+        <p class="mast-authors">
+            Zihan (Martina) Ma &amp; Muhammad Anas Tahir
+        </p>
+
+        <nav class="mast-nav" aria-label="Report sections">
+            <a href="#market-composition">Composition</a>
+            <a href="#transfer-flows">Flows</a>
+            <a href="#spending-performance">Performance</a>
+        </nav>
+    </header>
+
+    <main class="report">
+        <article class="report-introduction">
+            <p class="lede">
+                A visual report on where transfer money moves, who receives it,
+                and whether it changes what happens on the pitch.
+            </p>
+
+            <p>
+                European football's transfer market is often discussed through
+                record fees and individual deals. This project steps back to
+                examine its wider structure across the five major leagues.
+            </p>
+        </article>
+
+        <section
+            id="market-composition"
+            class="report-section"
+            aria-labelledby="market-composition-title"
+        >
+            <div class="section-copy">
+                <h2 id="market-composition-title">Market composition</h2>
+
+                <p>
+                    Transfer expenditure is concentrated among a small group of
+                    clubs across Europe’s five major leagues.
+                </p>
+            </div>
+
+            <figure class="chart-figure">
+                <div
+                    id="treemap-chart"
+                    class="chart-container"
+                    role="region"
+                    aria-label="Treemap of club transfer spending"
+                >
+                    <div class="treemap-toolbar">
+                        <label class="treemap-control" for="treemap-season">
+                            <span>Season</span>
+
+                            <select
+                                id="treemap-season"
+                                aria-label="Select football season"
+                            ></select>
+                        </label>
+
+                        <button
+                            id="treemap-play"
+                            class="treemap-play-button"
+                            type="button"
+                            aria-label="Play season animation"
+                        >
+                            Play
+                        </button>
+
+                        <div class="treemap-summary" aria-live="polite">
+                            <span>Top-five spending</span>
+                            <strong id="treemap-total">Loading…</strong>
+                        </div>
+                    </div>
+
+                    <div class="treemap-stage">
+                        <svg
+                            id="treemap-svg"
+                            viewBox="0 0 1100 640"
+                            role="img"
+                            aria-labelledby="treemap-svg-title treemap-svg-description"
+                        >
+                            <title id="treemap-svg-title">
+                                Club transfer spending treemap
+                            </title>
+
+                            <desc id="treemap-svg-description">
+                                Club rectangles are sized by transfer spending
+                                and grouped by league.
+                            </desc>
+                        </svg>
+
+                        <div
+                            id="treemap-tooltip"
+                            class="treemap-tooltip"
+                            role="tooltip"
+                            aria-hidden="true"
+                        ></div>
+                    </div>
+                </div>
+
+                <figcaption>
+                    Figure 1. Club transfer spending across Europe’s five major
+                    leagues.
+                </figcaption>
+            </figure>
+        </section>
+
+        <section
+            id="transfer-flows"
+            class="report-section"
+            aria-labelledby="transfer-flows-title"
+        >
+            <div class="section-copy">
+                <h2 id="transfer-flows-title">Transfer flows</h2>
+
+                <p>
+                    Transfer fees connect Europe’s top leagues with each other
+                    and with clubs across the rest of the world.
+                </p>
+            </div>
+
+            <figure class="chart-figure">
+                <div
+                    id="transfer-flow-chart"
+                    class="chart-container"
+                    role="region"
+                    aria-label="Transfer fee flows between league groups"
+                >
+                    <p class="chart-placeholder">
+                        Transfer flow visualization
+                    </p>
+                </div>
+
+                <figcaption>
+                    Figure 2. Transfer fee flows between league groups.
+                </figcaption>
+            </figure>
+        </section>
+
+        <section
+            id="spending-performance"
+            class="report-section"
+            aria-labelledby="spending-performance-title"
+        >
+            <div class="section-copy">
+                <h2 id="spending-performance-title">
+                    Spending and performance
+                </h2>
+
+                <p>
+                    Club investment can be compared with subsequent sporting
+                    performance to examine what transfer-market spending may
+                    deliver.
+                </p>
+            </div>
+
+            <figure class="chart-figure">
+                <div
+                    id="spending-performance-chart"
+                    class="chart-container"
+                    role="region"
+                    aria-label="Bubble chart comparing club spending and sporting performance"
+                >
+                    <p class="chart-placeholder">
+                        Spending and performance visualization
+                    </p>
+                </div>
+
+                <figcaption>
+                    Figure 3. Club spending and subsequent performance.
+                </figcaption>
+            </figure>
+        </section>
+    </main>
+
+    <footer class="foot-mast">
+        <p class="wordmark">The Football Transfer Market</p>
+        <p class="tagline">STATS 401 final project.</p>
+        <a class="back-link" href="#top">Return to top</a>
+    </footer>
+
+    <script src="js/treemap.js"></script>
+</body>
+</html>
