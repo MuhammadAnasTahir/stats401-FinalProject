@@ -138,9 +138,23 @@
                     role="region"
                     aria-label="Transfer fee flows between league groups"
                 >
-                    <p class="chart-placeholder">
-                        Transfer flow visualization
-                    </p>
+                    <div class="flow-toolbar">
+                        <label class="flow-control" for="flow-season">
+                            <span>Season</span>
+                            <select id="flow-season" aria-label="Select season for transfer flows"></select>
+                        </label>
+                        <div class="flow-summary" aria-live="polite">
+                            <span>Recorded fees</span>
+                            <strong id="flow-total">Loading…</strong>
+                        </div>
+                    </div>
+                    <div class="flow-stage">
+                        <svg id="flow-svg" viewBox="0 0 1100 700" role="img" aria-labelledby="flow-svg-title flow-svg-description">
+                            <title id="flow-svg-title">Directed transfer-fee flows between league groups</title>
+                            <desc id="flow-svg-description">Ribbons travel from buying leagues to selling leagues. Their widths represent recorded transfer fees.</desc>
+                        </svg>
+                        <div id="flow-tooltip" class="flow-tooltip" role="tooltip" aria-hidden="true"></div>
+                    </div>
                 </div>
 
                 <figcaption>
@@ -173,9 +187,27 @@
                     role="region"
                     aria-label="Bubble chart comparing club spending and sporting performance"
                 >
-                    <p class="chart-placeholder">
-                        Spending and performance visualization
-                    </p>
+                    <div class="performance-toolbar">
+                        <label class="performance-control" for="performance-season">
+                            <span>Season</span>
+                            <select id="performance-season" aria-label="Select season for spending and performance"></select>
+                        </label>
+                        <button id="performance-play" class="performance-play-button" type="button" aria-label="Play season animation">Play</button>
+                        <div class="performance-legend" aria-label="League colors">
+                            <span><i class="league-dot league-dot-premier"></i>Premier League</span>
+                            <span><i class="league-dot league-dot-laliga"></i>La Liga</span>
+                            <span><i class="league-dot league-dot-bundesliga"></i>Bundesliga</span>
+                            <span><i class="league-dot league-dot-seriea"></i>Serie A</span>
+                            <span><i class="league-dot league-dot-ligue1"></i>Ligue 1</span>
+                        </div>
+                    </div>
+                    <div class="performance-stage">
+                        <svg id="performance-svg" viewBox="0 0 1100 650" role="img" aria-labelledby="performance-svg-title performance-svg-description">
+                            <title id="performance-svg-title">Club spending and later performance</title>
+                            <desc id="performance-svg-description">Bubbles show clubs. Horizontal position is transfer spending, vertical position is points per game, and bubble size is squad market value.</desc>
+                        </svg>
+                        <div id="performance-tooltip" class="performance-tooltip" role="tooltip" aria-hidden="true"></div>
+                    </div>
                 </div>
 
                 <figcaption>
@@ -192,5 +224,7 @@
     </footer>
 
     <script src="js/treemap.js"></script>
+    <script src="js/transfer-flows.js"></script>
+    <script src="js/spending-performance.js"></script>
 </body>
 </html>

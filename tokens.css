@@ -9,6 +9,10 @@
     --color-mast-muted: oklch(81% 0.030 145);
     --color-accent: oklch(73% 0.135 145);
     --color-focus: oklch(48% 0.120 145);
+    --color-on-leaf: oklch(98% 0.010 145);
+    --color-on-leaf-muted: oklch(91% 0.018 145);
+    --color-label-shadow: oklch(18% 0.040 145 / 0.35);
+    --color-tooltip-shadow: oklch(18% 0.040 145 / 0.16);
 
     --font-display: "Newsreader", ui-serif, serif;
     --font-body: "IBM Plex Sans", ui-sans-serif, sans-serif;
@@ -50,4 +54,6 @@
     --rule-hair: 1px;
     --rule-double-gap: 4px;
     --rule-focus: 2px;
+    --radius-control: 0.25rem;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
