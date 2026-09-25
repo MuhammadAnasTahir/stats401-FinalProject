@@ -1,6 +1,9 @@
 (() => {
     const dataPath = "data/processed/league_transfer_flows.csv";
     const groups = ["Premier League", "La Liga", "Bundesliga", "Serie A", "Ligue 1", "Other Europe", "Outside Europe / Unknown"];
+    const arcLabels = new Map([
+        ["Outside Europe / Unknown", "Outside Europe"],
+    ]);
     const colors = new Map([
         ["Premier League", "#24513f"],
         ["La Liga", "#b85c35"],
@@ -11,9 +14,9 @@
         ["Outside Europe / Unknown", "#9a7446"],
     ]);
     const width = 1100;
-    const height = 700;
-    const outerRadius = 265;
-    const innerRadius = 239;
+    const height = 780;
+    const outerRadius = 245;
+    const innerRadius = 220;
     const chart = d3.select("#transfer-flow-chart");
     const stage = chart.select(".flow-stage");
     const svg = d3.select("#flow-svg");
@@ -146,7 +149,7 @@
             .merge(labels)
             .attr("transform", labelTransform)
             .attr("text-anchor", item => ((item.startAngle + item.endAngle) / 2) > Math.PI ? "end" : "start")
-            .text(item => groups[item.index]);
+            .text(item => arcLabels.get(groups[item.index]) || groups[item.index]);
 
         const label = rows[0]?.season_label || String(season);
         totalLabel.text(`${label} · ${formatMoney(d3.sum(rows, row => row.total_fee_eur))}`);

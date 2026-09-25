@@ -2,7 +2,7 @@
     const dataPath = "data/processed/spending_performance.csv";
     const width = 1100;
     const height = 650;
-    const margin = { top: 34, right: 42, bottom: 66, left: 76 };
+    const margin = { top: 44, right: 42, bottom: 66, left: 76 };
     const playbackDelay = 1500;
     const colors = new Map([
         ["Premier League", "#24513f"],
@@ -152,17 +152,19 @@
             .data([null])
             .join("text")
             .attr("class", "performance-axis-title")
-            .attr("x", plotWidth)
-            .attr("y", plotHeight + 52)
-            .attr("text-anchor", "end")
-            .text("Transfer spending");
+            .attr("x", plotWidth / 2)
+            .attr("y", plotHeight + 48)
+            .attr("text-anchor", "middle")
+            .text("Transfer spending by club");
 
         annotationLayer.selectAll("text.performance-y-title")
             .data([null])
             .join("text")
             .attr("class", "performance-axis-title")
-            .attr("x", 0)
-            .attr("y", -14)
+            .attr("transform", "rotate(-90)")
+            .attr("x", -plotHeight / 2)
+            .attr("y", -56)
+            .attr("text-anchor", "middle")
             .text("Points per game");
 
         const bubbles = bubbleLayer.selectAll("circle.performance-bubble").data(rows, row => row.club_id);

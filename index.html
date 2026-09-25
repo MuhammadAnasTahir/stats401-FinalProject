@@ -5,226 +5,419 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="A visual report on spending, transfer flows, and performance across Europe's top five football leagues.">
     <title>The Football Transfer Market | STATS 401</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=6">
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 </head>
 
 <body id="top">
-    <header class="nav-mast">
-        <p class="mast-line">STATS 401 Final Project</p>
-        <h1 class="mast-name">The Football Transfer Market</h1>
-        <p class="mast-authors">
-            Zihan (Martina) Ma &amp; Muhammad Anas Tahir
-        </p>
-
-        <nav class="mast-nav" aria-label="Report sections">
-            <a href="#market-composition">Composition</a>
-            <a href="#transfer-flows">Flows</a>
-            <a href="#spending-performance">Performance</a>
-        </nav>
+    <header class="masthead">
+        <div class="pitch-mark" aria-hidden="true">
+            <svg class="pitch-ball" viewBox="0 0 100 100" aria-hidden="true">
+                <circle cx="50" cy="50" r="34" />
+                <polygon points="50,32 61,40 57,53 43,53 39,40" />
+                <path d="M50 32 L50 18" />
+                <path d="M61 40 L74 32" />
+                <path d="M57 53 L66 65" />
+                <path d="M43 53 L34 65" />
+                <path d="M39 40 L26 32" />
+            </svg>
+        </div>
+        <div class="masthead-inner">
+            <h1 class="masthead-title">The Football Transfer Market</h1>
+            <p class="masthead-dek">
+                Ten seasons of transfer fees, league-to-league flows, and club
+                performance, traced through the Premier League, La Liga, the
+                Bundesliga, Serie A, and Ligue 1.
+            </p>
+            <p class="byline-names">By Zihan (Martina) Ma &amp; Muhammad Anas Tahir</p>
+            <p class="byline-course">STATS 401 Final Project</p>
+        </div>
     </header>
 
     <main class="report">
         <article class="report-introduction">
             <p class="lede">
-                A visual report on where transfer money moves, who receives it,
-                and whether it changes what happens on the pitch.
+                A visual report on where transfer money moves, who receives
+                it, and whether it changes what happens on the pitch.
             </p>
 
             <p>
-                European football's transfer market is often discussed through
-                record fees and individual deals. This project steps back to
-                examine its wider structure across the five major leagues.
+                European football's transfer market is often discussed
+                through record fees and individual deals. This project
+                examines its wider structure across the five major leagues:
+                Premier League, La Liga, the Bundesliga, Serie A, and Ligue 1.
+                Spending distribution, fees flow between leagues, spending
+                relations to results on the pitch.
             </p>
         </article>
 
-        <section
-            id="market-composition"
-            class="report-section"
-            aria-labelledby="market-composition-title"
-        >
+        <section id="dataset" class="report-section" aria-labelledby="dataset-title">
             <div class="section-copy">
-                <h2 id="market-composition-title">Market composition</h2>
-
+                <h2 id="dataset-title">Dataset</h2>
                 <p>
-                    Transfer expenditure is concentrated among a small group of
-                    clubs across Europe’s five major leagues.
+                    This section documents our raw data, the cleaning steps
+                    applied to it, and the aggregation that turns roughly 1.1
+                    million match, transfer, and valuation records into the
+                    season-level tables each visualization loads. Every
+                    processing step lives in the <code>dataprocessing/</code>
+                    scripts in the repository, so the full pipeline is
+                    reproducible end to end.
                 </p>
             </div>
 
-            <figure class="chart-figure">
-                <div
-                    id="treemap-chart"
-                    class="chart-container"
-                    role="region"
-                    aria-label="Treemap of club transfer spending"
-                >
-                    <div class="treemap-toolbar">
-                        <label class="treemap-control" for="treemap-season">
-                            <span>Season</span>
+            <div class="dataset-block">
+                <h3>Raw Data</h3>
+                <p>
+                    The primary source is the CC0-licensed
+                    <a href="https://github.com/dcaribou/transfermarkt-datasets" target="_blank" rel="noopener">Transfermarkt dataset repository</a>,
+                    downloaded as seven CSV files covering clubs, competitions,
+                    games, club-level match results, players, historical
+                    market valuations, and transfers. Together these hold
+                    roughly 1.1 million rows: every recorded transfer with its
+                    fee and clubs, every historical player valuation, every
+                    match and its club-level result, and reference data for
+                    every player, club, and competition. The raw tables are
+                    shown below.
+                </p>
+                <table class="data-table">
+                    <thead>
+                        <tr><th scope="col">Table</th><th scope="col">Rows</th><th scope="col">What it holds</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>transfers</td><td>175,166</td><td>Every recorded transfer: player, origin and destination club, date, fee</td></tr>
+                        <tr><td>player_valuations</td><td>656,302</td><td>Historical market-value snapshots per player</td></tr>
+                        <tr><td>club_games</td><td>177,917</td><td>One row per club per match: goals, result, league position</td></tr>
+                        <tr><td>games</td><td>88,959</td><td>Match metadata: competition, season, date, scoreline</td></tr>
+                        <tr><td>players</td><td>50,150</td><td>Player profiles: position, age, nationality</td></tr>
+                        <tr><td>clubs</td><td>797</td><td>Club metadata: league, squad size, stadium</td></tr>
+                        <tr><td>competitions</td><td>66</td><td>League and competition reference data</td></tr>
+                    </tbody>
+                </table>
+            </div>
 
-                            <select
-                                id="treemap-season"
-                                aria-label="Select football season"
-                            ></select>
-                        </label>
+            <div class="dataset-block">
+                <h3>Cleaning</h3>
+                <p>
+                    <code>dataprocessing/clean_raw_data.py</code> runs the
+                    same pass over every table: normalizing column names and
+                    encodings, coercing ID, numeric, and date columns to their
+                    proper types, dropping rows missing a required key (a
+                    player, a club, a date), removing duplicate keys, and
+                    discarding records dated after our July 2026 cutoff.
+                    Transfers with a negative fee or market value are treated
+                    as unknown rather than dropped. The transfers table lost
+                    rows in this pass and 175,166 records became 174,528 once
+                    records missing a season or a club on either side of the
+                    deal were removed. Every other table cleaned through with
+                    its row count intact.
+                </p>
+            </div>
 
-                        <button
-                            id="treemap-play"
-                            class="treemap-play-button"
-                            type="button"
-                            aria-label="Play season animation"
-                        >
-                            Play
-                        </button>
+            <div class="dataset-block">
+                <h3>Processed Tables</h3>
+                <p>
+                    From the cleaned tables, the
+                    <code>dataprocessing/build_*.py</code> scripts aggregate
+                    to the club-season level, covering spending and income per
+                    club, points per game, final league position, and a squad
+                    market-value snapshot. The output is restricted to the top
+                    five leagues and the ten most recent completed seasons,
+                    from 2016/17 through 2025/26.
+                </p>
+                <p>
+                    Three chart-ready tables sit on top of that. Both
+                    <code>treemap_data.csv</code> and
+                    <code>spending_performance.csv</code> contain 975
+                    club-season rows and feed the composition and performance
+                    views. The third, <code>league_transfer_flows.csv</code>,
+                    has 450 rows and sums transfer fees between the five
+                    leagues plus two catch-all groups, "Other Europe" and
+                    "Outside Europe / Unknown", for every buying-league to
+                    selling-league pair in each season.
+                </p>
+            </div>
+        </section>
 
-                        <div class="treemap-summary" aria-live="polite">
-                            <span>Top-five spending</span>
-                            <strong id="treemap-total">Loading…</strong>
+        <section id="interaction" class="report-section" aria-labelledby="interaction-title">
+            <div class="section-copy">
+                <h2 id="interaction-title">Interaction &amp; Animation Plan</h2>
+                <p>
+                    Each view already supports the interactions listed below,
+                    built directly into <code>js/treemap.js</code>,
+                    <code>js/transfer-flows.js</code>, and
+                    <code>js/spending-performance.js</code>. The shared
+                    filtering and linked highlighting described in the
+                    proposal is the next layer we plan to add on top of them.
+                    The feature of selecting a league in one view and having
+                    everything unrelated dim across the other two is not yet
+                    implemented.
+                </p>
+            </div>
+
+            <div class="plan-grid">
+                <div class="plan-card">
+                    <h3>Market Composition</h3>
+                    <ul>
+                        <li>The season selector redraws the treemap with an eased 720ms transition, so club rectangles resize and reflow rather than cut instantly between seasons.</li>
+                        <li>Play steps automatically through all ten seasons, about 1.5 seconds each, so a viewer can watch spending share shift without touching the control every time.</li>
+                        <li>Hovering or keyboard-focusing a club cell raises a tooltip with spending, income, net spend, and transfer count, and outlines the cell. This is how a single-number rectangle becomes a comparable, inspectable data point.</li>
+                    </ul>
+                    <p class="plan-next">Next: Clicking a league label filters the other two charts to that league.</p>
+                </div>
+                <div class="plan-card">
+                    <h3>Transfer Flows</h3>
+                    <ul>
+                        <li>The season selector swaps the fee matrix and redraws both ribbons and arcs with a 500ms eased transition.</li>
+                        <li>Hovering a ribbon brings it to full opacity against the others and shows the buying league, selling league, and total fee. This lets a viewer isolate one flow inside a busy diagram.</li>
+                        <li>Hovering a league's outer arc shows that league's total recorded volume across every flow touching it.</li>
+                    </ul>
+                    <p class="plan-next">Next: Dim every ribbon that doesn't touch the hovered or filtered league, rather than only brightening the one under the cursor.</p>
+                </div>
+                <div class="plan-card">
+                    <h3>Spending and Performance</h3>
+                    <ul>
+                        <li>The season selector redraws the scatterplot with a 650ms eased transition, so a club's bubble visibly travels between its old and new (spending, points-per-game) position. This is what makes a change in strategy legible from one season to the next.</li>
+                        <li>Play animates through all ten seasons automatically, the same pacing as the treemap.</li>
+                        <li>Hovering a bubble shows the club, league, season, spending, points per game, squad value, and whether the club over- or under-performed its spending that season.</li>
+                        <li>A dashed reference line marks the season's average points per game, so over- and under-performers read directly off the chart.</li>
+                    </ul>
+                    <p class="plan-next">Next: Let a click pin a club's tooltip and trace its path across seasons.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="visualizations" class="report-section" aria-labelledby="visualizations-title">
+            <div class="section-copy">
+                <h2 id="visualizations-title">Visualizations</h2>
+                <p>
+                    Three working visualizations, built from the processed
+                    data above. The visualizations tell the concentration of
+                    the spending, transfer fee movement between the leagues,
+                    and whether spending is related to performance.
+                </p>
+            </div>
+
+            <div class="viz-block">
+                <h3 id="market-composition">Market Composition</h3>
+                <p class="viz-intro">
+                    Each rectangle is a club, sized by how much it spent on
+                    transfers that season and grouped by league. Bigger
+                    rectangles mean bigger outlays. Step through seasons or
+                    hit Play to see which leagues and clubs pull further ahead
+                    of the pack over time.
+                </p>
+
+                <figure class="chart-figure">
+                    <div
+                        id="treemap-chart"
+                        class="chart-container"
+                        role="region"
+                        aria-label="Treemap of club transfer spending"
+                    >
+                        <div class="treemap-toolbar">
+                            <label class="treemap-control" for="treemap-season">
+                                <span>Season</span>
+
+                                <select
+                                    id="treemap-season"
+                                    aria-label="Select football season"
+                                ></select>
+                            </label>
+
+                            <button
+                                id="treemap-play"
+                                class="treemap-play-button"
+                                type="button"
+                                aria-label="Play season animation"
+                            >
+                                Play
+                            </button>
+
+                            <p class="treemap-summary" aria-live="polite">
+                                <span id="treemap-total">Loading&hellip;</span>
+                            </p>
+                        </div>
+
+                        <div class="treemap-stage">
+                            <svg
+                                id="treemap-svg"
+                                viewBox="0 0 1100 640"
+                                role="img"
+                                aria-labelledby="treemap-svg-title treemap-svg-description"
+                            >
+                                <title id="treemap-svg-title">
+                                    Club transfer spending treemap
+                                </title>
+
+                                <desc id="treemap-svg-description">
+                                    Club rectangles are sized by transfer spending
+                                    and grouped by league.
+                                </desc>
+                            </svg>
+
+                            <div
+                                id="treemap-tooltip"
+                                class="treemap-tooltip"
+                                role="tooltip"
+                                aria-hidden="true"
+                            ></div>
                         </div>
                     </div>
 
-                    <div class="treemap-stage">
-                        <svg
-                            id="treemap-svg"
-                            viewBox="0 0 1100 640"
-                            role="img"
-                            aria-labelledby="treemap-svg-title treemap-svg-description"
-                        >
-                            <title id="treemap-svg-title">
-                                Club transfer spending treemap
-                            </title>
+                    <figcaption>
+                        Figure 1: Club transfer spending across Europe’s five
+                        major leagues by season.
+                    </figcaption>
+                </figure>
+            </div>
 
-                            <desc id="treemap-svg-description">
-                                Club rectangles are sized by transfer spending
-                                and grouped by league.
-                            </desc>
-                        </svg>
-
-                        <div
-                            id="treemap-tooltip"
-                            class="treemap-tooltip"
-                            role="tooltip"
-                            aria-hidden="true"
-                        ></div>
-                    </div>
-                </div>
-
-                <figcaption>
-                    Figure 1. Club transfer spending across Europe’s five major
-                    leagues.
-                </figcaption>
-            </figure>
-        </section>
-
-        <section
-            id="transfer-flows"
-            class="report-section"
-            aria-labelledby="transfer-flows-title"
-        >
-            <div class="section-copy">
-                <h2 id="transfer-flows-title">Transfer flows</h2>
-
-                <p>
+            <div class="viz-block">
+                <h3 id="transfer-flows">Transfer Flows</h3>
+                <p class="viz-intro">
                     Transfer fees connect Europe’s top leagues with each other
                     and with clubs across the rest of the world.
                 </p>
-            </div>
 
-            <figure class="chart-figure">
-                <div
-                    id="transfer-flow-chart"
-                    class="chart-container"
-                    role="region"
-                    aria-label="Transfer fee flows between league groups"
-                >
-                    <div class="flow-toolbar">
-                        <label class="flow-control" for="flow-season">
-                            <span>Season</span>
-                            <select id="flow-season" aria-label="Select season for transfer flows"></select>
-                        </label>
-                        <div class="flow-summary" aria-live="polite">
-                            <span>Recorded fees</span>
-                            <strong id="flow-total">Loading…</strong>
+                <figure class="chart-figure">
+                    <div
+                        id="transfer-flow-chart"
+                        class="chart-container"
+                        role="region"
+                        aria-label="Transfer fee flows between league groups"
+                    >
+                        <div class="flow-toolbar">
+                            <label class="flow-control" for="flow-season">
+                                <span>Season</span>
+                                <select id="flow-season" aria-label="Select season for transfer flows"></select>
+                            </label>
+                            <p class="flow-summary" aria-live="polite">
+                                <span id="flow-total">Loading&hellip;</span>
+                            </p>
+                        </div>
+                        <div class="flow-stage">
+                            <svg id="flow-svg" viewBox="0 0 1100 780" role="img" aria-labelledby="flow-svg-title flow-svg-description">
+                                <title id="flow-svg-title">Directed transfer-fee flows between league groups</title>
+                                <desc id="flow-svg-description">Ribbons travel from buying leagues to selling leagues. Their widths represent recorded transfer fees.</desc>
+                            </svg>
+                            <div id="flow-tooltip" class="flow-tooltip" role="tooltip" aria-hidden="true"></div>
                         </div>
                     </div>
-                    <div class="flow-stage">
-                        <svg id="flow-svg" viewBox="0 0 1100 700" role="img" aria-labelledby="flow-svg-title flow-svg-description">
-                            <title id="flow-svg-title">Directed transfer-fee flows between league groups</title>
-                            <desc id="flow-svg-description">Ribbons travel from buying leagues to selling leagues. Their widths represent recorded transfer fees.</desc>
-                        </svg>
-                        <div id="flow-tooltip" class="flow-tooltip" role="tooltip" aria-hidden="true"></div>
-                    </div>
-                </div>
 
-                <figcaption>
-                    Figure 2. Transfer fee flows between league groups.
-                </figcaption>
-            </figure>
+                    <figcaption>
+                        Figure 2: Transfer fee flows between league groups by
+                        season.
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="viz-block">
+                <h3 id="spending-performance">Spending and Performance</h3>
+                <p class="viz-intro">
+                    Club investment can be compared with subsequent sporting
+                    performance to examine what, if any, is the correlation
+                    between transfer-market spending and performance on the
+                    pitch.
+                </p>
+
+                <figure class="chart-figure">
+                    <div
+                        id="spending-performance-chart"
+                        class="chart-container"
+                        role="region"
+                        aria-label="Bubble chart comparing club spending and sporting performance"
+                    >
+                        <div class="performance-toolbar">
+                            <label class="performance-control" for="performance-season">
+                                <span>Season</span>
+                                <select id="performance-season" aria-label="Select season for spending and performance"></select>
+                            </label>
+                            <button id="performance-play" class="performance-play-button" type="button" aria-label="Play season animation">Play</button>
+                        </div>
+                        <div class="performance-stage">
+                            <div class="performance-legend" aria-label="League colors">
+                                <span><i class="league-dot league-dot-premier"></i>Premier League</span>
+                                <span><i class="league-dot league-dot-laliga"></i>La Liga</span>
+                                <span><i class="league-dot league-dot-bundesliga"></i>Bundesliga</span>
+                                <span><i class="league-dot league-dot-seriea"></i>Serie A</span>
+                                <span><i class="league-dot league-dot-ligue1"></i>Ligue 1</span>
+                                <p class="performance-legend-note">PPG stands for points per game.</p>
+                            </div>
+                            <svg id="performance-svg" viewBox="0 0 1100 650" role="img" aria-labelledby="performance-svg-title performance-svg-description">
+                                <title id="performance-svg-title">Club spending and later performance</title>
+                                <desc id="performance-svg-description">Bubbles show clubs. Horizontal position is transfer spending, vertical position is points per game, and bubble size is squad market value.</desc>
+                            </svg>
+                            <div id="performance-tooltip" class="performance-tooltip" role="tooltip" aria-hidden="true"></div>
+                        </div>
+                    </div>
+
+                    <figcaption>
+                        Figure 3: Club spending and subsequent performance by
+                        season.
+                    </figcaption>
+                </figure>
+            </div>
         </section>
 
-        <section
-            id="spending-performance"
-            class="report-section"
-            aria-labelledby="spending-performance-title"
-        >
+        <section id="evaluation" class="report-section" aria-labelledby="evaluation-title">
             <div class="section-copy">
-                <h2 id="spending-performance-title">
-                    Spending and performance
-                </h2>
-
+                <h2 id="evaluation-title">Evaluation Plan</h2>
                 <p>
-                    Club investment can be compared with subsequent sporting
-                    performance to examine what transfer-market spending may
-                    deliver.
+                    Once all six views are in place, we will check that each
+                    one actually supports the task it is designed for, and
+                    that the controls are usable without us standing over
+                    someone's shoulder to explain them.
                 </p>
             </div>
 
-            <figure class="chart-figure">
-                <div
-                    id="spending-performance-chart"
-                    class="chart-container"
-                    role="region"
-                    aria-label="Bubble chart comparing club spending and sporting performance"
-                >
-                    <div class="performance-toolbar">
-                        <label class="performance-control" for="performance-season">
-                            <span>Season</span>
-                            <select id="performance-season" aria-label="Select season for spending and performance"></select>
-                        </label>
-                        <button id="performance-play" class="performance-play-button" type="button" aria-label="Play season animation">Play</button>
-                        <div class="performance-legend" aria-label="League colors">
-                            <span><i class="league-dot league-dot-premier"></i>Premier League</span>
-                            <span><i class="league-dot league-dot-laliga"></i>La Liga</span>
-                            <span><i class="league-dot league-dot-bundesliga"></i>Bundesliga</span>
-                            <span><i class="league-dot league-dot-seriea"></i>Serie A</span>
-                            <span><i class="league-dot league-dot-ligue1"></i>Ligue 1</span>
-                        </div>
-                    </div>
-                    <div class="performance-stage">
-                        <svg id="performance-svg" viewBox="0 0 1100 650" role="img" aria-labelledby="performance-svg-title performance-svg-description">
-                            <title id="performance-svg-title">Club spending and later performance</title>
-                            <desc id="performance-svg-description">Bubbles show clubs. Horizontal position is transfer spending, vertical position is points per game, and bubble size is squad market value.</desc>
-                        </svg>
-                        <div id="performance-tooltip" class="performance-tooltip" role="tooltip" aria-hidden="true"></div>
-                    </div>
+            <div class="plan-grid plan-grid-three">
+                <div class="plan-card">
+                    <h3>What We Will Evaluate</h3>
+                    <p>
+                        We will evaluate whether each view supports its
+                        intended task: composition and comparison in the
+                        treemap, flow direction and magnitude in the chord
+                        diagram, and relationship and outlier detection in the
+                        scatterplot. We also want to make sure that the
+                        season controls, tooltips, and play animation are
+                        discoverable without instructions.
+                    </p>
                 </div>
-
-                <figcaption>
-                    Figure 3. Club spending and subsequent performance.
-                </figcaption>
-            </figure>
+                <div class="plan-card">
+                    <h3>How We Will Evaluate It</h3>
+                    <p>
+                        We will organise short think-aloud sessions with four
+                        to six classmates or football club members outside the
+                        group. We will give them concrete tasks such as
+                        "which club spent the most in 2023/24," "which league
+                        is the biggest net buyer," and "find a club that
+                        over-performed its spending," and watch where they
+                        hesitate, misread a label, or miss a control.
+                    </p>
+                </div>
+                <div class="plan-card">
+                    <h3>What We Will Collect</h3>
+                    <p>
+                        We want to collect task completion and time-to-answer,
+                        notes on specific points of confusion, and a short
+                        post-task questionnaire on label clarity and trust in
+                        the numbers. We will also fold in TA and peer feedback
+                        from the interim check-in walk-around, and use all of
+                        it in the Week 6 to 7 refinement phase.
+                    </p>
+                </div>
+            </div>
         </section>
     </main>
 
-    <footer class="foot-mast">
-        <p class="wordmark">The Football Transfer Market</p>
-        <p class="tagline">STATS 401 final project.</p>
-        <a class="back-link" href="#top">Return to top</a>
+    <footer class="colophon">
+        <a class="colophon-link" href="https://github.com/MuhammadAnasTahir/stats401-FinalProject" target="_blank" rel="noopener">
+            <span class="colophon-title">The Football Transfer Market</span>
+            <span class="colophon-cta">Click to access the GitHub repo</span>
+        </a>
     </footer>
 
-    <script src="js/treemap.js"></script>
-    <script src="js/transfer-flows.js"></script>
-    <script src="js/spending-performance.js"></script>
+    <script src="js/treemap.js?v=6"></script>
+    <script src="js/transfer-flows.js?v=6"></script>
+    <script src="js/spending-performance.js?v=6"></script>
 </body>
 </html>

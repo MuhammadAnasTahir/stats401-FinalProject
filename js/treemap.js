@@ -184,12 +184,12 @@
         selection.each(function (leaf) {
             const cellWidth = leaf.x1 - leaf.x0;
             const cellHeight = leaf.y1 - leaf.y0;
-            const showName = cellWidth >= 70 && cellHeight >= 30;
+            const showName = cellWidth >= 34 && cellHeight >= 16;
             const canUseTwoLines = cellWidth >= 90 && cellHeight >= 58;
             const lines = showName ? splitLabel(leaf.data.club_name, cellWidth, canUseTwoLines ? 2 : 1) : [];
             const nameLabel = d3.select(this).select(".treemap-club-name");
             const valueLabel = d3.select(this).select(".treemap-club-value");
-            const showValue = cellWidth >= 100 && cellHeight >= (lines.length > 1 ? 76 : 58);
+            const showValue = cellWidth >= 52 && cellHeight >= (lines.length > 1 ? 76 : 32);
 
             nameLabel
                 .style("display", showName ? null : "none")
@@ -250,6 +250,10 @@
             .on("mouseleave blur", hideTooltip);
 
         cellsEnter.append("rect").attr("rx", 2).attr("ry", 2);
+        cellsEnter.append("clipPath")
+            .attr("id", leaf => `treemap-clip-${leaf.data.club_id}`)
+            .append("rect");
+        cellsEnter.attr("clip-path", leaf => `url(#treemap-clip-${leaf.data.club_id})`);
         cellsEnter.append("text").attr("class", "treemap-club-name").attr("x", 9).attr("y", 20);
         cellsEnter.append("text").attr("class", "treemap-club-value").attr("x", 9).attr("y", 38);
 
@@ -276,6 +280,11 @@
             .attr("width", leaf => Math.max(0, leaf.x1 - leaf.x0))
             .attr("height", leaf => Math.max(0, leaf.y1 - leaf.y0))
             .attr("fill", colorForLeaf);
+
+        cellsMerged.select("clipPath rect")
+            .transition(transition)
+            .attr("width", leaf => Math.max(0, leaf.x1 - leaf.x0))
+            .attr("height", leaf => Math.max(0, leaf.y1 - leaf.y0));
 
         const leagues = leagueLayer
             .selectAll("text.treemap-league-label")
