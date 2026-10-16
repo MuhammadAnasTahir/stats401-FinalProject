@@ -35,6 +35,26 @@ def parse_transfer_season(values):
     return converted.astype("Int64")
 
 
+def add_transfer_dimensions(transfers, players):
+    """Attach auditable filter dimensions without inventing a loan status."""
+    player_positions = players[["player_id", "position"]].copy()
+    player_positions["player_id"] = pd.to_numeric(
+        player_positions["player_id"], errors="coerce"
+    ).astype("Int64")
+    player_positions = player_positions.drop_duplicates(subset=["player_id"])
+    result = transfers.merge(
+        player_positions,
+        on="player_id",
+        how="left",
+        validate="many_to_one",
+    )
+    result["position"] = result["position"].fillna("Unknown")
+    result["fee_status"] = "Paid fee"
+    result.loc[result["transfer_fee"].eq(0), "fee_status"] = "Free transfer"
+    result.loc[result["transfer_fee"].isna(), "fee_status"] = "Unknown fee"
+    return result
+
+
 def build_club_season_league(games, competitions):
     competition_columns = [
         "competition_id",
@@ -290,7 +310,7 @@ def build_league_flows(transfers, league_map):
         axis=1,
     )
     grouped = focal.groupby(
-        ["season", "from_group", "to_group"],
+        ["season", "from_group", "to_group", "position", "fee_status"],
         as_index=False,
     )
     flows = grouped.agg(
@@ -309,6 +329,8 @@ def build_league_flows(transfers, league_map):
         "season_label",
         "from_group",
         "to_group",
+        "position",
+        "fee_status",
         "total_fee_eur",
         "transfer_count",
         "known_fee_count",
@@ -319,6 +341,78 @@ def build_league_flows(transfers, league_map):
         ["season", "total_fee_eur"],
         ascending=[True, False],
     ).reset_index(drop=True)
+
+
+def build_country_flows(transfers, league_map, clubs, competitions):
+    """Aggregate actual club-country pairs before any league-group recoding.
+
+    A row is retained only when a club at one end played in a top-five league in
+    that season.  Unknown countries are retained in the fee/count totals only
+    through the quality fields below; they are not assigned a made-up location.
+    """
+    enriched = add_transfer_league_data(transfers, league_map)
+    # Clubs that did not appear in the season's game table still have a
+    # domestic competition in the club reference table.  Use it only as a
+    # country fallback; the season-specific game mapping above remains the
+    # preferred source.
+    fallback = clubs[["club_id", "domestic_competition_id"]].merge(
+        competitions[["competition_id", "country_name", "confederation"]],
+        left_on="domestic_competition_id",
+        right_on="competition_id",
+        how="left",
+    )[["club_id", "country_name", "confederation"]].drop_duplicates("club_id")
+    for side in ["from", "to"]:
+        side_fallback = fallback.rename(
+            columns={
+                "club_id": f"{side}_club_id",
+                "country_name": f"{side}_fallback_country_name",
+                "confederation": f"{side}_fallback_confederation",
+            }
+        )
+        enriched = enriched.merge(side_fallback, on=f"{side}_club_id", how="left")
+        enriched[f"{side}_country_source"] = "season games"
+        missing = enriched[f"{side}_country_name"].isna()
+        enriched.loc[missing, f"{side}_country_name"] = enriched.loc[
+            missing, f"{side}_fallback_country_name"
+        ]
+        enriched.loc[missing, f"{side}_confederation"] = enriched.loc[
+            missing, f"{side}_fallback_confederation"
+        ]
+        enriched.loc[missing, f"{side}_country_source"] = "club reference"
+    focal = enriched[
+        enriched["from_competition_id"].isin(TOP_FIVE_LEAGUE_IDS)
+        | enriched["to_competition_id"].isin(TOP_FIVE_LEAGUE_IDS)
+    ].copy()
+    focal = focal.dropna(subset=["from_country_name", "to_country_name"])
+    focal = focal[
+        focal["from_country_name"].astype("string").str.strip().ne("")
+        & focal["to_country_name"].astype("string").str.strip().ne("")
+    ]
+    focal["fallback_endpoint_count"] = (
+        focal["from_country_source"].eq("club reference").astype(int)
+        + focal["to_country_source"].eq("club reference").astype(int)
+    )
+    flows = focal.groupby(
+        ["season", "from_country_name", "to_country_name", "position", "fee_status"], as_index=False
+    ).agg(
+        total_fee_eur=("transfer_fee", lambda values: values.sum(min_count=1)),
+        transfer_count=("player_id", "size"),
+        known_fee_count=("transfer_fee", "count"),
+        free_transfer_count=("transfer_fee", lambda values: int(values.eq(0).sum())),
+        fallback_endpoint_count=("fallback_endpoint_count", "sum"),
+    )
+    flows["total_fee_eur"] = flows["total_fee_eur"].fillna(0)
+    flows["unknown_fee_count"] = flows["transfer_count"] - flows["known_fee_count"]
+    flows["same_country"] = flows["from_country_name"].eq(flows["to_country_name"])
+    flows["season_label"] = flows["season"].apply(
+        lambda year: f"{int(year)}/{str(int(year) + 1)[-2:]}"
+    )
+    return flows[[
+        "season", "season_label", "from_country_name", "to_country_name", "position", "fee_status",
+        "total_fee_eur", "transfer_count", "known_fee_count",
+        "unknown_fee_count", "free_transfer_count", "same_country",
+        "fallback_endpoint_count",
+    ]].sort_values(["season", "total_fee_eur"], ascending=[True, False]).reset_index(drop=True)
 
 
 def select_recent_seasons(league_map):
@@ -340,6 +434,7 @@ def run_finance_pipeline():
     games = read_cleaned_file("games")
     competitions = read_cleaned_file("competitions")
     clubs = read_cleaned_file("clubs")
+    players = read_cleaned_file("players")
 
     transfers["season"] = parse_transfer_season(transfers["transfer_season"])
     transfers["from_club_id"] = pd.to_numeric(
@@ -351,16 +446,21 @@ def run_finance_pipeline():
     transfers["transfer_fee"] = pd.to_numeric(
         transfers["transfer_fee"], errors="coerce"
     )
+    transfers["player_id"] = pd.to_numeric(
+        transfers["player_id"], errors="coerce"
+    ).astype("Int64")
     games["season"] = pd.to_numeric(games["season"], errors="coerce").astype("Int64")
     clubs["club_id"] = pd.to_numeric(clubs["club_id"], errors="coerce").astype("Int64")
 
     league_map = build_club_season_league(games, competitions)
     recent_seasons = select_recent_seasons(league_map)
     transfers = transfers[transfers["season"].isin(recent_seasons)].copy()
+    transfers = add_transfer_dimensions(transfers, players)
     league_map = league_map[league_map["season"].isin(recent_seasons)].copy()
 
     finance = build_club_finance(transfers, league_map, clubs)
     flows = build_league_flows(transfers, league_map)
+    country_flows = build_country_flows(transfers, league_map, clubs, competitions)
 
     finance.to_csv(
         OUTPUT_FILES["club_season_finance"],
@@ -372,10 +472,14 @@ def run_finance_pipeline():
         index=False,
         encoding="utf-8",
     )
+    country_flows.to_csv(
+        OUTPUT_FILES["country_transfer_flows"], index=False, encoding="utf-8"
+    )
 
     print(f"Seasons: {recent_seasons[0]} to {recent_seasons[-1]}")
     print(f"Club-season finance rows: {len(finance):,}")
     print(f"League flow rows: {len(flows):,}")
+    print(f"Country flow rows: {len(country_flows):,}")
     print(f"Saved: {OUTPUT_FILES['club_season_finance']}")
     print(f"Saved: {OUTPUT_FILES['league_transfer_flows']}")
 

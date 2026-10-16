@@ -93,12 +93,20 @@ def merge_visualization_sources(finance, performance, market_values):
     validate_unique_keys("club_season_market_value", market_values)
 
     performance_columns = [
-        column
-        for column in performance.columns
-        if column in KEY_COLUMNS
-        or column
-        not in {"season_label", "league_name", "club_name"}
+        column for column in performance.columns
+        if column not in {"league_name", "club_name"}
     ]
+    following_performance = performance[performance_columns].copy()
+    following_performance = following_performance.rename(
+        columns={
+            "season": "performance_season",
+            "season_label": "performance_season_label",
+            "competition_id": "performance_competition_id",
+        }
+    )
+    following_performance["spending_season"] = (
+        following_performance["performance_season"] - 1
+    )
     market_columns = [
         column
         for column in market_values.columns
@@ -113,8 +121,9 @@ def merge_visualization_sources(finance, performance, market_values):
     ]
 
     result = finance.merge(
-        performance[performance_columns],
-        on=KEY_COLUMNS,
+        following_performance,
+        left_on=["season", "club_id"],
+        right_on=["spending_season", "club_id"],
         how="inner",
         validate="one_to_one",
     )
@@ -125,12 +134,12 @@ def merge_visualization_sources(finance, performance, market_values):
         validate="one_to_one",
     )
 
-    if len(result) != len(finance):
+    if result.empty:
         raise ValueError(
-            f"Visualization merge lost rows: {len(finance)} finance rows became {len(result)} rows"
+            "No club-seasons have a following-season performance record"
         )
 
-    return result
+    return result.drop(columns="spending_season")
 
 
 def add_performance_comparison_fields(frame):
@@ -196,6 +205,9 @@ def build_spending_performance_data(finance, performance, market_values):
         "incoming_transfer_count",
         "incoming_known_fee_count",
         "incoming_unknown_fee_count",
+        "performance_season",
+        "performance_season_label",
+        "performance_competition_id",
         "matches_played",
         "wins",
         "draws",

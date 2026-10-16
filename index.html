@@ -46,8 +46,9 @@
                 through record fees and individual deals. This project
                 examines its wider structure across the five major leagues:
                 Premier League, La Liga, the Bundesliga, Serie A, and Ligue 1.
-                Spending distribution, fees flow between leagues, spending
-                relations to results on the pitch.
+                It compares the distribution of recorded transfer fees,
+                traces money between leagues, and relates spending to results
+                on the pitch.
             </p>
         </article>
 
@@ -125,15 +126,26 @@
                     from 2016/17 through 2025/26.
                 </p>
                 <p>
-                    Three chart-ready tables sit on top of that. Both
+                    Four chart-ready tables sit on top of that. Both
                     <code>treemap_data.csv</code> and
-                    <code>spending_performance.csv</code> contain 975
+                    <code>spending_performance.csv</code> contain 974
                     club-season rows and feed the composition and performance
                     views. The third, <code>league_transfer_flows.csv</code>,
-                    has 450 rows and sums transfer fees between the five
+                    has 449 rows and sums transfer fees and counts between the five
                     leagues plus two catch-all groups, "Other Europe" and
                     "Outside Europe / Unknown", for every buying-league to
                     selling-league pair in each season.
+                </p>
+                <p>
+                    Fees are summed only where recorded; a missing fee stays
+                    missing for fee-coverage counts and is never recoded as a
+                    zero fee. Transfer records do not provide a sufficiently
+                    consistent loan-status field here, so loans, returns, and
+                    permanent deals are not claimed to be separated. Country
+                    flows use club-country assignments for the transfer
+                    season, retain only pairs with a known country at both
+                    ends, and use a local Natural Earth/world-atlas country
+                    topology for the basemap.
                 </p>
             </div>
         </section>
@@ -142,15 +154,16 @@
             <div class="section-copy">
                 <h2 id="interaction-title">Interaction &amp; Animation Plan</h2>
                 <p>
-                    Each view already supports the interactions listed below,
-                    built directly into <code>js/treemap.js</code>,
-                    <code>js/transfer-flows.js</code>, and
-                    <code>js/spending-performance.js</code>. The shared
-                    filtering and linked highlighting described in the
-                    proposal is the next layer we plan to add on top of them.
-                    The feature of selecting a league in one view and having
-                    everything unrelated dim across the other two is not yet
-                    implemented.
+                    The views share one season, league, and optional club
+                    selection. Changing any season selector (or pressing
+                    Play) updates the others where data for that season are
+                    available. The performance view pairs a spending season
+                    with the following season's results. Clicking a treemap league or a
+                    chord arc selects that league; All leagues clears it.
+                    Clicking a bubble pins the club's available season
+                    trajectory, but does not imply club-level flows in the
+                    league or country views.
+                    Position and fee-status filters are shared by the two flow views.
                 </p>
             </div>
 
@@ -162,7 +175,7 @@
                         <li>Play steps automatically through all ten seasons, about 1.5 seconds each, so a viewer can watch spending share shift without touching the control every time.</li>
                         <li>Hovering or keyboard-focusing a club cell raises a tooltip with spending, income, net spend, and transfer count, and outlines the cell. This is how a single-number rectangle becomes a comparable, inspectable data point.</li>
                     </ul>
-                    <p class="plan-next">Next: Clicking a league label filters the other two charts to that league.</p>
+                    <p class="plan-next">Click a league heading to focus its clubs; All leagues restores the complete composition.</p>
                 </div>
                 <div class="plan-card">
                     <h3>Transfer Flows</h3>
@@ -171,17 +184,17 @@
                         <li>Hovering a ribbon brings it to full opacity against the others and shows the buying league, selling league, and total fee. This lets a viewer isolate one flow inside a busy diagram.</li>
                         <li>Hovering a league's outer arc shows that league's total recorded volume across every flow touching it.</li>
                     </ul>
-                    <p class="plan-next">Next: Dim every ribbon that doesn't touch the hovered or filtered league, rather than only brightening the one under the cursor.</p>
+                    <p class="plan-next">Transfer fees and transfer counts are independent metric choices; unknown fees are not treated as zero-fee transfers.</p>
                 </div>
                 <div class="plan-card">
                     <h3>Spending and Performance</h3>
                     <ul>
                         <li>The season selector redraws the scatterplot with a 650ms eased transition, so a club's bubble visibly travels between its old and new (spending, points-per-game) position. This is what makes a change in strategy legible from one season to the next.</li>
                         <li>Play animates through all ten seasons automatically, the same pacing as the treemap.</li>
-                        <li>Hovering a bubble shows the club, league, season, spending, points per game, squad value, and whether the club over- or under-performed its spending that season.</li>
-                        <li>A dashed reference line marks the season's average points per game, so over- and under-performers read directly off the chart.</li>
+                        <li>Hovering a bubble shows the club, league, spending season, following performance season, spending, points per game, squad value, and whether the club over- or under-performed its spending.</li>
+                        <li>A fitted log-spending trend line gives the expected points per game for the selected sample; bubble outlines show whether a club is above or below that trend.</li>
                     </ul>
-                    <p class="plan-next">Next: Let a click pin a club's tooltip and trace its path across seasons.</p>
+                    <p class="plan-next">A club click traces available seasons only. The fitted line describes an association, not a causal effect of spending.</p>
                 </div>
             </div>
         </section>
@@ -190,22 +203,44 @@
             <div class="section-copy">
                 <h2 id="visualizations-title">Visualizations</h2>
                 <p>
-                    Three working visualizations, built from the processed
+                    Four working visualizations, built from the processed
                     data above. The visualizations tell the concentration of
                     the spending, transfer fee movement between the leagues,
                     and whether spending is related to performance.
                 </p>
             </div>
 
+            <div class="selection-bar" aria-label="Shared visualization selections">
+                <strong>Active selection</strong>
+                <label for="selection-league">League <select id="selection-league"><option value="">All leagues</option></select></label>
+                <span id="selection-summary" aria-live="polite">All leagues · all clubs · all positions · all fee statuses</span>
+                <button id="clear-selections" class="selection-clear" type="button">Clear selections</button>
+            </div>
+
             <div class="viz-block">
                 <h3 id="market-composition">Market Composition</h3>
                 <p class="viz-intro">
-                    Each rectangle is a club, sized by how much it spent on
-                    transfers that season and grouped by league. Bigger
-                    rectangles mean bigger outlays. Step through seasons or
+                    Each rectangle is a club, sized by its recorded transfer-fee
+                    spending that season and grouped by league. Bigger
+                    rectangles mean larger recorded outlays. Step through seasons or
                     hit Play to see which leagues and clubs pull further ahead
-                    of the pack over time.
+                    of the pack over time. Area encodes recorded transfer-fee spending,
+                    color encodes net spending, and enclosing groups identify
+                    leagues. Net spending means spending minus income. In
+                    2025/26, the Premier League accounts for 51.8% of
+                    displayed top-five spending; the largest club accounts for
+                    6.2%.
                 </p>
+
+                <figure class="chart-figure market-trend-figure">
+                    <div id="market-trend-chart" class="market-trend-chart" role="region" aria-label="Annual top-five league transfer spending trend">
+                        <svg id="market-trend-svg" viewBox="0 0 1100 230" role="img" aria-labelledby="market-trend-title market-trend-description">
+                            <title id="market-trend-title">Annual transfer spending across the top five leagues</title>
+                            <desc id="market-trend-description">A line chart showing total recorded transfer spending for the five displayed leagues in each season.</desc>
+                        </svg>
+                    </div>
+                    <figcaption>Annual total recorded spending across the five displayed leagues.</figcaption>
+                </figure>
 
                 <figure class="chart-figure">
                     <div
@@ -232,6 +267,12 @@
                             >
                                 Play
                             </button>
+                            <button id="treemap-clear-league" class="treemap-play-button" type="button">All leagues</button>
+                            <div class="treemap-net-legend" aria-label="Net spending color scale">
+                                <span><i class="treemap-net-swatch treemap-net-seller"></i>Net seller</span>
+                                <span><i class="treemap-net-swatch treemap-net-balanced"></i>Balanced</span>
+                                <span><i class="treemap-net-swatch treemap-net-buyer"></i>Net buyer</span>
+                            </div>
 
                             <p class="treemap-summary" aria-live="polite">
                                 <span id="treemap-total">Loading&hellip;</span>
@@ -265,7 +306,7 @@
                     </div>
 
                     <figcaption>
-                        Figure 1: Club transfer spending across Europe’s five
+                        Figure 1: Club recorded transfer-fee spending across Europe’s five
                         major leagues by season.
                     </figcaption>
                 </figure>
@@ -275,7 +316,11 @@
                 <h3 id="transfer-flows">Transfer Flows</h3>
                 <p class="viz-intro">
                     Transfer fees connect Europe’s top leagues with each other
-                    and with clubs across the rest of the world.
+                    and with clubs across the rest of the world. Arrows run
+                    from buying league to selling league; each outer arc is
+                    the total of flows entering and leaving that group. In
+                    2025/26, the Premier League received €2.34B as a selling
+                    league; the metric control also exposes transfer counts.
                 </p>
 
                 <figure class="chart-figure">
@@ -290,9 +335,24 @@
                                 <span>Season</span>
                                 <select id="flow-season" aria-label="Select season for transfer flows"></select>
                             </label>
+                            <label class="flow-control" for="flow-metric"><span>Metric</span><select id="flow-metric"><option value="fee">Transfer fees</option><option value="count">Transfer count</option></select></label>
+                            <label class="flow-control" for="flow-position"><span>Position</span><select id="flow-position"><option value="all">All positions</option></select></label>
+                            <label class="flow-control" for="flow-fee-status"><span>Fee status</span><select id="flow-fee-status"><option value="all">All fee statuses</option></select></label>
                             <p class="flow-summary" aria-live="polite">
                                 <span id="flow-total">Loading&hellip;</span>
                             </p>
+                        </div>
+                        <div class="league-roles" aria-labelledby="league-roles-title">
+                            <div>
+                                <h4 id="league-roles-title">League roles</h4>
+                                <p>Gross bought and sold summarize the selected season and filters; net spending is bought minus sold.</p>
+                            </div>
+                            <div class="league-roles-table-wrap">
+                                <table class="league-roles-table">
+                                    <thead><tr><th scope="col">League</th><th scope="col">Role</th><th scope="col">Gross bought</th><th scope="col">Gross sold</th><th scope="col">Net spending</th></tr></thead>
+                                    <tbody id="league-roles"></tbody>
+                                </table>
+                            </div>
                         </div>
                         <div class="flow-stage">
                             <svg id="flow-svg" viewBox="0 0 1100 780" role="img" aria-labelledby="flow-svg-title flow-svg-description">
@@ -313,10 +373,12 @@
             <div class="viz-block">
                 <h3 id="spending-performance">Spending and Performance</h3>
                 <p class="viz-intro">
-                    Club investment can be compared with subsequent sporting
-                    performance to examine what, if any, is the correlation
-                    between transfer-market spending and performance on the
-                    pitch.
+                    Each point pairs a club's recorded transfer-fee spending in one season
+                    with its points per game in the following season. The
+                    chart reports the current filtered sample's correlation
+                    and relative performance gap; these are associations, not
+                    causal effects. Performance here means following-season
+                    domestic-league points per game, not cup or European performance.
                 </p>
 
                 <figure class="chart-figure">
@@ -332,6 +394,7 @@
                                 <select id="performance-season" aria-label="Select season for spending and performance"></select>
                             </label>
                             <button id="performance-play" class="performance-play-button" type="button" aria-label="Play season animation">Play</button>
+                            <button id="performance-clear-club" class="performance-play-button" type="button">Clear club</button>
                         </div>
                         <div class="performance-stage">
                             <div class="performance-legend" aria-label="League colors">
@@ -341,20 +404,31 @@
                                 <span><i class="league-dot league-dot-seriea"></i>Serie A</span>
                                 <span><i class="league-dot league-dot-ligue1"></i>Ligue 1</span>
                                 <p class="performance-legend-note">PPG stands for points per game.</p>
+                                <p class="performance-legend-note">Outline: above or below the log-spending trend.</p>
+                                <p id="performance-stats" class="performance-legend-note" aria-live="polite"></p>
                             </div>
                             <svg id="performance-svg" viewBox="0 0 1100 650" role="img" aria-labelledby="performance-svg-title performance-svg-description">
-                                <title id="performance-svg-title">Club spending and later performance</title>
-                                <desc id="performance-svg-description">Bubbles show clubs. Horizontal position is transfer spending, vertical position is points per game, and bubble size is squad market value.</desc>
+                                <title id="performance-svg-title">Club spending and following-season performance</title>
+                                <desc id="performance-svg-description">Bubbles show clubs. Horizontal position is transfer spending, vertical position is points per game in the following season, and bubble size is a near-September squad valuation snapshot.</desc>
                             </svg>
                             <div id="performance-tooltip" class="performance-tooltip" role="tooltip" aria-hidden="true"></div>
                         </div>
                     </div>
 
                     <figcaption>
-                        Figure 3: Club spending and subsequent performance by
-                        season.
+                        Figure 3: Club transfer spending and following-season
+                        performance.
                     </figcaption>
                 </figure>
+            </div>
+
+            <div class="viz-block">
+                <h3 id="geographic-flows">Geographic Transfer Flows</h3>
+                <p class="viz-intro">Country flows are built before league grouping: season-specific club matches supply country first, then the club reference table fills missing country assignments. This view includes only flows involving at least one top-five-league club. Lines point from buyer country to seller country; only the top 30 non-domestic flows are drawn, while domestic transfers are summarized separately. Transfers with no country in either source are excluded rather than placed arbitrarily.</p>
+                <figure class="chart-figure"><div id="map-chart" class="chart-container" role="region" aria-label="Geographic transfer flows">
+                    <div class="flow-toolbar"><label class="flow-control" for="map-metric"><span>Metric</span><select id="map-metric"><option value="fee">Transfer fees</option><option value="count">Transfer count</option></select></label><label class="flow-control" for="map-position"><span>Position</span><select id="map-position"><option value="all">All positions</option></select></label><label class="flow-control" for="map-fee-status"><span>Fee status</span><select id="map-fee-status"><option value="all">All fee statuses</option></select></label><label class="flow-control" for="map-flow-limit"><span>Flows</span><select id="map-flow-limit"><option value="15">Top 15</option><option value="30">Top 30</option></select></label><button id="map-zoom-in" class="performance-play-button" type="button">Zoom in</button><button id="map-zoom-out" class="performance-play-button" type="button">Zoom out</button><button id="map-zoom-europe" class="performance-play-button" type="button">Europe</button><button id="map-zoom-world" class="performance-play-button" type="button">World</button><p class="flow-summary"><span id="map-total">Loading&hellip;</span><span id="map-corridor"></span></p></div>
+                    <div class="flow-stage"><svg id="map-svg" viewBox="0 0 1100 600" role="img"><title>Country-level transfer flows</title></svg><div id="map-tooltip" class="flow-tooltip" role="tooltip"></div></div>
+                </div><figcaption>Figure 4: Country-to-country flows involving at least one top-five-league club.</figcaption></figure>
             </div>
         </section>
 
@@ -362,7 +436,7 @@
             <div class="section-copy">
                 <h2 id="evaluation-title">Evaluation Plan</h2>
                 <p>
-                    Once all six views are in place, we will check that each
+                    For the four implemented non-rumor views, we will check that each
                     one actually supports the task it is designed for, and
                     that the controls are usable without us standing over
                     someone's shoulder to explain them.
@@ -416,8 +490,12 @@
         </a>
     </footer>
 
-    <script src="js/treemap.js?v=6"></script>
-    <script src="js/transfer-flows.js?v=6"></script>
-    <script src="js/spending-performance.js?v=6"></script>
+    <script src="js/topojson-client.min.js"></script>
+    <script src="js/shared-state.js?v=7"></script>
+    <script src="js/market-trend.js?v=1"></script>
+    <script src="js/treemap.js?v=7"></script>
+    <script src="js/transfer-flows.js?v=7"></script>
+    <script src="js/spending-performance.js?v=7"></script>
+    <script src="js/geographic-flows.js?v=7"></script>
 </body>
 </html>

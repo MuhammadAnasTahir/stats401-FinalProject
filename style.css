@@ -60,6 +60,14 @@ figcaption { margin-top: var(--space-md); color: var(--color-ink); font-family: 
 .viz-block + .viz-block { margin-top: var(--space-2xl); }
 .viz-block h3 { margin: 0 0 var(--space-xs); font-family: var(--font-display); font-size: var(--text-xl); font-weight: var(--weight-display); letter-spacing: var(--tracking-body); text-align: left; }
 .viz-intro { margin: 0 0 var(--space-lg); color: var(--color-muted); text-align: left; }
+.selection-bar { margin: 0 0 var(--space-xl); padding: var(--space-sm) var(--space-md); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-md); border-block: var(--rule-hair) solid var(--color-rule); color: var(--color-muted); font-size: var(--text-sm); }
+.selection-bar strong { color: var(--color-ink); font-family: var(--font-display); font-weight: var(--weight-display); }
+.selection-bar label { display: inline-flex; align-items: center; gap: var(--space-xs); }
+.selection-bar select, .selection-clear { min-height: 2.125rem; border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-control); background: var(--color-paper-2); color: var(--color-ink); font: inherit; }
+.selection-bar select { padding-inline: var(--space-xs) var(--space-lg); }
+.selection-clear { padding-inline: var(--space-sm); cursor: pointer; }
+.selection-clear:hover { background: var(--color-mast); color: var(--color-mast-text); }
+#selection-summary { margin-left: auto; font-variant-numeric: tabular-nums; }
 
 /* Treemap */
 #treemap-chart { min-height: 0; padding: 0; display: block; }
@@ -72,15 +80,31 @@ figcaption { margin-top: var(--space-md); color: var(--color-ink); font-family: 
 .treemap-play-button:active { transform: translateY(1px); }
 .treemap-summary, .flow-summary { margin: 0 0 0 auto; color: var(--color-muted); font-family: var(--font-display); font-size: var(--text-sm); text-align: right; }
 .treemap-summary span, .flow-summary span { font-variant-numeric: tabular-nums; }
+.treemap-net-legend { display: inline-flex; align-items: center; gap: var(--space-sm); color: var(--color-muted); font-size: var(--text-xs); }
+.treemap-net-legend span { display: inline-flex; align-items: center; gap: .25rem; white-space: nowrap; }
+.treemap-net-swatch { width: .75rem; height: .75rem; border: var(--rule-hair) solid var(--color-rule); border-radius: 50%; display: inline-block; }
+.treemap-net-seller { background: #d73027; }
+.treemap-net-balanced { background: #fee08b; }
+.treemap-net-buyer { background: #1a9850; }
 .treemap-stage { position: relative; width: 100%; background: var(--color-paper-2); }
 #treemap-svg { display: block; width: 100%; height: auto; min-height: var(--chart-height); }
+.market-trend-figure { margin-bottom: var(--space-xl); }
+.market-trend-chart { overflow: hidden; border-block: var(--rule-hair) solid var(--color-rule); background: var(--color-paper-2); }
+#market-trend-svg { display: block; width: 100%; height: auto; }
+.market-trend-grid .tick line { stroke: var(--color-rule); stroke-dasharray: 2 4; }
+.market-trend-grid text, .market-trend-axis text { fill: var(--color-muted); font-family: var(--font-body); font-size: var(--text-xs); }
+.market-trend-axis path, .market-trend-axis line { stroke: var(--color-rule); }
+.market-trend-line { fill: none; stroke: var(--color-mast); stroke-width: .1875rem; }
+.market-trend-point { fill: var(--color-paper); stroke: var(--color-mast); stroke-width: .15625rem; }
 .treemap-cell { cursor: default; }
 .treemap-cell rect { stroke: var(--color-paper); stroke-width: var(--rule-focus); }
 .treemap-cell:hover rect, .treemap-cell:focus rect { stroke: var(--color-on-leaf); stroke-width: var(--rule-double-gap); }
+.treemap-cell.is-selected rect { stroke: var(--color-ink); stroke-width: .25rem; }
 .treemap-club-name, .treemap-club-value, .treemap-league-label { pointer-events: none; paint-order: stroke; stroke: var(--color-label-shadow); stroke-linejoin: round; }
 .treemap-club-name { fill: var(--color-on-leaf); font-family: var(--font-body); font-size: .875rem; font-weight: var(--weight-ui); stroke-width: .1875rem; }
 .treemap-club-value { fill: var(--color-on-leaf-muted); font-family: var(--font-body); font-size: .75rem; stroke-width: .1875rem; }
 .treemap-league-label { fill: var(--color-ink); font-family: var(--font-body); font-size: .8125rem; font-weight: var(--weight-ui); letter-spacing: var(--tracking-body); stroke: var(--color-paper); stroke-width: var(--rule-double-gap); }
+.treemap-league-label { pointer-events: all; cursor: pointer; }
 .treemap-tooltip { position: absolute; z-index: 2; width: 14.375rem; padding: var(--space-sm) var(--space-md); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-control); background: var(--color-paper); box-shadow: 0 .75rem 1.875rem var(--color-tooltip-shadow); color: var(--color-ink); opacity: 0; pointer-events: none; transform: translateY(var(--space-2xs)); transition: opacity 140ms var(--ease-out), transform 140ms var(--ease-out); }
 .treemap-tooltip.is-visible { opacity: 1; transform: translateY(0); }
 .treemap-tooltip strong, .treemap-tooltip span { display: block; }
@@ -92,6 +116,17 @@ figcaption { margin-top: var(--space-md); color: var(--color-ink); font-family: 
 .treemap-error { margin: 0; padding: var(--space-3xl) var(--space-lg); color: var(--color-muted); text-align: center; }
 
 .flow-toolbar, .performance-toolbar { min-height: 4.625rem; padding: var(--space-sm) var(--space-lg); display: flex; align-items: center; gap: var(--space-md); border-bottom: var(--rule-hair) solid var(--color-rule); background: var(--color-paper); }
+.league-roles { padding: var(--space-md) var(--space-lg); display: grid; grid-template-columns: minmax(12rem, .8fr) minmax(0, 1.7fr); gap: var(--space-lg); border-bottom: var(--rule-hair) solid var(--color-rule); background: var(--color-paper-2); }
+.league-roles h4 { margin: 0 0 var(--space-2xs); font-family: var(--font-display); font-size: var(--text-base); }
+.league-roles p { margin: 0; color: var(--color-muted); font-size: var(--text-xs); line-height: var(--leading-caption); }
+.league-roles-table-wrap { overflow-x: auto; }
+.league-roles-table { width: 100%; border-collapse: collapse; font-size: var(--text-xs); }
+.league-roles-table th, .league-roles-table td { padding: var(--space-2xs) var(--space-xs); border-bottom: var(--rule-hair) solid var(--color-rule); text-align: right; white-space: nowrap; }
+.league-roles-table thead th { color: var(--color-muted); font-weight: var(--weight-ui); }
+.league-roles-table th:first-child, .league-roles-table td:first-child, .league-roles-table th:nth-child(2), .league-roles-table td:nth-child(2) { text-align: left; }
+.league-role-name { color: var(--color-ink); font-weight: var(--weight-ui); }
+.league-role-label { color: var(--color-muted); }
+.league-role-value { font-variant-numeric: tabular-nums; }
 .flow-control, .performance-control { display: inline-flex; align-items: center; gap: var(--space-xs); color: var(--color-muted); font-size: var(--text-sm); font-weight: var(--weight-ui); }
 .flow-control select, .performance-control select, .performance-play-button { min-height: 2.25rem; border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-control); background: var(--color-paper-2); color: var(--color-ink); font: inherit; }
 .flow-control select, .performance-control select { padding-inline: var(--space-xs) var(--space-lg); }
@@ -106,6 +141,12 @@ figcaption { margin-top: var(--space-md); color: var(--color-ink); font-family: 
 .flow-ribbon:hover { opacity: 1 !important; }
 .flow-arc { cursor: pointer; }
 .flow-label { fill: var(--color-ink); font-family: var(--font-body); font-size: var(--text-sm); font-weight: var(--weight-ui); }
+.map-country { fill: var(--color-paper); stroke: var(--color-rule); stroke-width: .6; }
+.map-country, #map-svg { cursor: grab; }
+#map-svg:active { cursor: grabbing; }
+.map-flow { fill: none; stroke: var(--color-mast); stroke-linecap: round; stroke-opacity: .42; }
+.map-point { fill: var(--color-mast); stroke: var(--color-paper); stroke-width: 1; }
+.club-trajectory { pointer-events: none; }
 .flow-tooltip, .performance-tooltip { position: absolute; z-index: 2; width: 14.375rem; padding: var(--space-sm) var(--space-md); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-control); background: var(--color-paper); box-shadow: 0 .75rem 1.875rem var(--color-tooltip-shadow); color: var(--color-ink); opacity: 0; pointer-events: none; transform: translateY(var(--space-2xs)); transition: opacity 140ms var(--ease-out), transform 140ms var(--ease-out); }
 .flow-tooltip.is-visible, .performance-tooltip.is-visible { opacity: 1; transform: translateY(0); }
 .flow-tooltip strong, .flow-tooltip span, .performance-tooltip strong, .performance-tooltip span { display: block; }
@@ -129,6 +170,7 @@ figcaption { margin-top: var(--space-md); color: var(--color-ink); font-family: 
 .performance-axis-title { fill: var(--color-muted); font-family: var(--font-display); font-size: var(--text-sm); }
 .performance-average-label { fill: var(--color-muted); font-family: var(--font-display); font-size: var(--text-sm); }
 .performance-average { stroke: var(--color-mast); stroke-width: var(--rule-hair); stroke-dasharray: 5 4; }
+.performance-trend { stroke: var(--color-ink); stroke-width: .15625rem; stroke-dasharray: 6 4; }
 .performance-bubble { cursor: pointer; stroke: var(--color-paper); stroke-width: var(--rule-focus); }
 .performance-bubble:hover { stroke: var(--color-ink); }
 
@@ -140,16 +182,19 @@ figcaption { margin-top: var(--space-md); color: var(--color-ink); font-family: 
 .colophon-link:hover .colophon-cta { color: var(--color-ink); border-color: var(--color-ink); }
 .colophon-link:focus-visible { outline: var(--rule-focus) solid var(--color-focus); outline-offset: var(--space-2xs); }
 
-.treemap-control select:focus-visible, .treemap-play-button:focus-visible, .treemap-cell:focus-visible { outline: var(--rule-focus) solid var(--color-focus); outline-offset: var(--space-2xs); }
+.treemap-control select:focus-visible, .treemap-play-button:focus-visible, .treemap-cell:focus-visible, .flow-arc:focus-visible, .flow-ribbon:focus-visible, .performance-bubble:focus-visible, .selection-bar select:focus-visible, .selection-clear:focus-visible { outline: var(--rule-focus) solid var(--color-focus); outline-offset: var(--space-2xs); }
 
 @media (max-width: 25rem) { .report { width: min(var(--page-width), calc(100% - var(--space-xl))); } }
 @media (max-width: 40rem) {
     .treemap-toolbar, .flow-toolbar, .performance-toolbar { min-height: 0; align-items: flex-start; flex-wrap: wrap; gap: var(--space-sm); padding: var(--space-sm); }
+    .league-roles { grid-template-columns: 1fr; gap: var(--space-sm); padding: var(--space-sm); }
     .treemap-summary, .flow-summary { width: 100%; margin-inline-start: 0; text-align: left; }
+    #selection-summary { width: 100%; margin-left: 0; }
     .performance-stage { flex-direction: column; align-items: stretch; padding: var(--space-sm); gap: var(--space-md); }
     .performance-legend { flex-direction: row; flex-wrap: wrap; gap: var(--space-sm) var(--space-md); }
     .performance-legend-note { border-top: none; padding-top: 0; max-width: none; }
     #treemap-svg, #flow-svg, #performance-svg { min-height: 15rem; }
+    #market-trend-svg { min-height: 12rem; }
     .treemap-tooltip, .flow-tooltip, .performance-tooltip { display: none; }
     .flow-label { font-size: var(--text-xs); }
     .masthead { padding-block: var(--space-2xl) var(--space-xl); }

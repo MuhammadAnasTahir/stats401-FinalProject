@@ -29,6 +29,7 @@ OUTPUT_FILES = {
     "club_season_market_value": PROCESSED_DATA_DIR / "club_season_market_value.csv",
     "treemap": PROCESSED_DATA_DIR / "treemap_data.csv",
     "league_transfer_flows": PROCESSED_DATA_DIR / "league_transfer_flows.csv",
+    "country_transfer_flows": PROCESSED_DATA_DIR / "country_transfer_flows.csv",
     "spending_performance": PROCESSED_DATA_DIR / "spending_performance.csv",
     "data_quality_report": PROCESSED_DATA_DIR / "data_quality_report.csv",
 }
