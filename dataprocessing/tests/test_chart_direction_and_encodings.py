@@ -14,13 +14,17 @@ class ChartEncodingTests(unittest.TestCase):
         self.assertIn("map-flow-arrow", source)
         self.assertIn('marker-end', source)
 
-    def test_treemap_fill_uses_net_spending(self):
+    def test_treemap_fill_uses_league_identity(self):
         source = (PROJECT_ROOT / "js" / "treemap.js").read_text()
-        page = (PROJECT_ROOT / "index.html").read_text()
 
-        self.assertIn("net_spending_eur", source)
-        self.assertIn("interpolateRdYlGn", source)
-        self.assertIn("treemap-net-legend", page)
+        self.assertIn("leagueColors", source)
+        self.assertIn("'Premier League','#24513f'", source)
+        self.assertIn("'La Liga','#b85c35'", source)
+        self.assertIn("'Bundesliga','#315f73'", source)
+        self.assertIn("'Serie A','#77733d'", source)
+        self.assertIn("'Ligue 1','#7c4f68'", source)
+        self.assertIn("row.league_name", source)
+        self.assertNotIn("interpolateLab", source)
 
     def test_flow_summary_discloses_recorded_fee_coverage(self):
         source = (PROJECT_ROOT / "js" / "transfer-flows.js").read_text()
@@ -56,6 +60,41 @@ class ChartEncodingTests(unittest.TestCase):
         self.assertIn("function flowPath", source)
         self.assertIn("flowLimit", source)
 
+    def test_map_fee_filter_excludes_unknown_fees(self):
+        """Catch a map that renders the omitted unknown-fee category."""
+        page = (PROJECT_ROOT / "index.html").read_text()
+        source = (PROJECT_ROOT / "js" / "geographic-flows.js").read_text()
+
+        self.assertIn('<option value="Paid fee" selected>Paid fee</option>', page)
+        self.assertIn('<option value="Free transfer">Free transfer</option>', page)
+        self.assertNotIn('<option value="unknown">Unknown</option>', page)
+        self.assertIn("d.fee_status === selectedFeeStatus", source)
+
+    def test_map_preserves_full_basemap_and_visible_arrowheads(self):
+        """Catch a Europe-only base map or arrowheads that shrink with thin strokes."""
+        source = (PROJECT_ROOT / "js" / "geographic-flows.js").read_text()
+
+        self.assertIn("markerUnits','userSpaceOnUse'", source)
+        self.assertIn("markerWidth',6", source)
+        self.assertIn("svg.call(zoom).call(zoom.transform,europeView)", source)
+        self.assertNotIn("features.filter(isEuropeanBasemap)", source)
+
+    def test_map_aggregates_country_corridors_and_counts_free_transfers(self):
+        """Catch position-level duplicates and meaningless €0 free-transfer ranking."""
+        source = (PROJECT_ROOT / "js" / "geographic-flows.js").read_text()
+
+        self.assertIn("d3.rollup", source)
+        self.assertIn("selectedFeeStatus === 'Free transfer'", source)
+        self.assertIn("option[value=\"fee\"]", source)
+        self.assertIn("metric.property('value','count')", source)
+
+    def test_map_uses_uniform_thin_flow_lines(self):
+        """Catch weighted strokes that make overlapping country flows unreadable."""
+        source = (PROJECT_ROOT / "js" / "geographic-flows.js").read_text()
+
+        self.assertIn(".attr('stroke-width',1.1)", source)
+        self.assertNotIn("const scale=d3.scaleSqrt", source)
+
     def test_scatter_uses_a_spending_trendline_for_relative_performance(self):
         source = (PROJECT_ROOT / "js" / "spending-performance.js").read_text()
 
@@ -63,6 +102,13 @@ class ChartEncodingTests(unittest.TestCase):
         self.assertIn("performance-trend", source)
         self.assertIn("Expected PPG", source)
         self.assertIn("Difference from trend", source)
+
+    def test_scatter_expands_low_spending_with_a_symlog_x_scale(self):
+        source = (PROJECT_ROOT / "js" / "spending-performance.js").read_text()
+
+        self.assertIn("d3.scaleSymlog", source)
+        self.assertIn(".constant(10)", source)
+        self.assertIn("symlog scale", source)
 
     def test_interactive_marks_support_keyboard_selection(self):
         treemap = (PROJECT_ROOT / "js" / "treemap.js").read_text()

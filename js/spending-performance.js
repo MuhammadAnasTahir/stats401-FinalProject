@@ -3,8 +3,9 @@
     const svg = d3.select('#performance-svg'), stage = d3.select('.performance-stage'), select = d3.select('#performance-season'), play = d3.select('#performance-play'), clear = d3.select('#performance-clear-club'), tip = d3.select('#performance-tooltip'), stats = d3.select('#performance-stats'), state = window.TransferMarketState;
     if (svg.empty()) return;
     let data = [], seasons = [];
+    let animationTimer = null, localSeason = null;
     const width = 1100, height = 650, margin = { top: 42, right: 40, bottom: 65, left: 76 }, plotWidth = width - margin.left - margin.right, plotHeight = height - margin.top - margin.bottom;
-    const plot = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`), x = d3.scaleLinear().range([0, plotWidth]), y = d3.scaleLinear().range([plotHeight, 0]), radius = d3.scaleSqrt().range([4, 30]);
+    const plot = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`), x = d3.scaleSymlog().constant(10).range([0, plotWidth]), y = d3.scaleLinear().range([plotHeight, 0]), radius = d3.scaleSqrt().range([4, 30]);
     const formatMoney = value => value >= 1000 ? `€${d3.format('.1~f')(value / 1000)}B` : `€${d3.format(',.0f')(value)}M`;
     const number = value => +value || 0;
 
@@ -41,7 +42,7 @@
         plot.selectAll('.y-axis').data([0]).join('g').attr('class', 'performance-axes y-axis').call(d3.axisLeft(y).ticks(5));
         const trendPoints = [0, d3.max(rows, row => row.spending_million_eur)].map(spending => ({ spending, points: regression.predict(spending) }));
         plot.selectAll('path.performance-trend').data([trendPoints]).join('path').attr('class', 'performance-trend').attr('fill', 'none').attr('d', d3.line().x(point => x(point.spending)).y(point => y(point.points)));
-        plot.selectAll('.x-label').data([0]).join('text').attr('class', 'performance-axis-title x-label').attr('x', plotWidth / 2).attr('y', plotHeight + 48).attr('text-anchor', 'middle').text(`Transfer spending (${sample.season_label})`);
+        plot.selectAll('.x-label').data([0]).join('text').attr('class', 'performance-axis-title x-label').attr('x', plotWidth / 2).attr('y', plotHeight + 48).attr('text-anchor', 'middle').text(`Transfer spending — symlog scale (€M, ${sample.season_label})`);
         plot.selectAll('.y-label').data([0]).join('text').attr('class', 'performance-axis-title y-label').attr('transform', 'rotate(-90)').attr('x', -plotHeight / 2).attr('y', -56).attr('text-anchor', 'middle').text(`Points per game (${sample.performance_season_label})`);
         const bubbles = plot.selectAll('circle.performance-bubble').data(rows, row => row.club_id);
         bubbles.exit().remove();
@@ -56,9 +57,20 @@
         const selected = query.clubId ? data.filter(row => row.club_id === query.clubId).sort((a, b) => a.season - b.season) : [];
         plot.selectAll('path.club-trajectory').data(selected.length > 1 ? [selected] : []).join('path').attr('class', 'club-trajectory').attr('fill', 'none').attr('stroke', '#171b19').attr('stroke-width', 2).attr('stroke-dasharray', '4 3').attr('d', d3.line().defined(row => row.points_per_game > 0).x(row => x(row.spending_million_eur)).y(row => y(row.points_per_game)));
         const fallback = requestedSeason !== season ? ` Showing the latest available spending season (${sample.season_label} → ${sample.performance_season_label}).` : '';
-        stats.text(`${sample.season_label} spending → ${sample.performance_season_label} performance. Pearson r = ${d3.format('.2f')(rValue)}; n = ${rows.length}. The line is a within-sample association between log spending and PPG; a green outline is above the line and red is below. Squad value sums one nearest valuation per player around 1 September.${fallback}`);
+        stats.text(`${sample.season_label} spending → ${sample.performance_season_label} performance. Pearson r = ${d3.format('.2f')(rValue)}; n = ${rows.length}. The symlog x-axis expands the lower-spending range while preserving zero; a green outline is above the line and red is below. Squad value sums one nearest valuation per player around 1 September.${fallback}`);
         select.property('value', season);
-        play.text(query.playing ? 'Pause' : 'Play');
+    }
+    function updatePlayButton() { const playing = animationTimer !== null; play.text(playing ? 'Pause' : 'Play').attr('aria-label', playing ? 'Pause season animation' : 'Play season animation'); }
+    function stopAnimation() { if (animationTimer !== null) window.clearTimeout(animationTimer); animationTimer = null; updatePlayButton(); }
+    function advanceSeason() {
+        const index = seasons.indexOf(localSeason), nextIndex = index < 0 || index >= seasons.length - 1 ? 0 : index + 1;
+        localSeason = seasons[nextIndex]; render(localSeason);
+        animationTimer = window.setTimeout(advanceSeason, 1500); updatePlayButton();
+    }
+    function toggleAnimation() {
+        if (animationTimer !== null) { stopAnimation(); return; }
+        localSeason = number(select.property('value')) || localSeason || seasons.at(-1);
+        animationTimer = window.setTimeout(advanceSeason, 0); updatePlayButton();
     }
     d3.csv('data/processed/spending_performance.csv', row => ({ ...row, season: number(row.season), club_id: String(row.club_id), spending_million_eur: number(row.spending_million_eur), points_per_game: number(row.points_per_game), squad_market_value_million_eur: number(row.squad_market_value_million_eur) })).then(rows => {
         data = rows.filter(row => row.points_per_game > 0 && Number.isFinite(row.squad_market_value_million_eur));
@@ -67,9 +79,9 @@
         y.domain([0, d3.max(data, row => row.points_per_game) + .1]).nice();
         radius.domain([0, d3.max(data, row => row.squad_market_value_million_eur)]);
         select.selectAll('option').data(seasons).join('option').attr('value', season => season).text(season => data.find(row => row.season === season).season_label);
-        select.on('change', event => { state.stop(); state.set({ season: number(event.target.value) }); });
-        play.on('click', () => state.play(seasons));
+        select.on('change', event => { stopAnimation(); localSeason = number(event.target.value); state.set({ season: localSeason }); });
+        play.on('click', toggleAnimation);
         clear.on('click', () => state.set({ clubId: null, clubName: null }));
-        state.subscribe(query => render(query.season || seasons.at(-1)));
+        state.subscribe(query => { localSeason = animationTimer === null ? (query.season || seasons.at(-1)) : localSeason; render(localSeason); });
     }).catch(() => stage.html('<p class="chart-placeholder">Spending-performance data could not be loaded.</p>'));
 })();
