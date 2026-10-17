@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="A visual report on spending, transfer flows, and performance across Europe's top five football leagues.">
     <title>The Football Transfer Market | STATS 401</title>
-    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="style.css?v=8">
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 </head>
 
@@ -432,6 +432,131 @@
             </div>
         </section>
 
+        <section id="rumours" class="report-section" aria-labelledby="rumours-title">
+            <div class="section-copy">
+                <h2 id="rumours-title">Transfer Rumours</h2>
+                <p>
+                    Beyond the completed deals, this half of the project asks
+                    whether the pre-signing rumour cycle relates to the final
+                    financial outcome of a transfer. We built a second,
+                    scraped dataset of transfer-rumour articles, linked each
+                    article to a completed transfer, and derived rumour
+                    intensity, tone, and explicit agent attribution for every
+                    linked deal.
+                </p>
+            </div>
+
+            <div class="dataset-block">
+                <h3>How the Rumour Data Was Built</h3>
+                <p>
+                    We collected <strong>3,221 transfer-window articles</strong>
+                    from the <a href="https://open-platform.theguardian.com/" target="_blank" rel="noopener">Guardian Open Platform API</a>,
+                    one full article body each, spread across all ten seasons.
+                    Each article is linked to a completed transfer when a
+                    distinctive player-name token and a club name both appear
+                    in the article within 120 days before the signing. We then
+                    classify tone from a keyword lexicon and flag articles that
+                    explicitly cite a player's agent.
+                </p>
+                <p>
+                    Because this half is built from scraped text and keyword
+                    rules, it is not perfectly accurate, and we report its
+                    limits openly. <strong>86%</strong> of articles linked to a
+                    real transfer; <strong>4,403 transfers</strong> carry at
+                    least one article. Tone keywords match
+                    <strong>74%</strong> of articles, so the remaining
+                    <strong>26%</strong> fall into a combined "neutral /
+                    unclear" band rather than a confident neutral.
+                    <strong>91%</strong> of linked transfers have a
+                    market-value change, while only <strong>39%</strong> have a
+                    disclosed fee, so the fee-premium view is limited to deals
+                    with a reported fee. Agent attribution is an explicit
+                    text match only, never inferred. The full accounting lives
+                    in <code>data/processed/rumor_data_quality.csv</code>.
+                </p>
+            </div>
+
+            <div class="viz-block">
+                <h3 id="rumour-highlights-heading">Most-Covered Transfers</h3>
+                <p class="viz-intro">
+                    The six transfers that drew the most rumour coverage in our
+                    corpus, ranked purely by linked-article count among deals
+                    with a disclosed fee and a market-value change. Each card
+                    traces the player's market value into the fee actually paid
+                    and the valuation that followed.
+                </p>
+                <figure class="chart-figure">
+                    <div id="rumor-highlights" class="rumor-tiles" role="region" aria-label="Most-covered transfers">
+                        <p class="chart-placeholder">Loading highlights&hellip;</p>
+                    </div>
+                    <figcaption>Figure 5: The six most-covered transfers in the rumour corpus.</figcaption>
+                </figure>
+            </div>
+
+            <div class="viz-block">
+                <h3 id="rumour-boxplot-heading">Rumour Intensity and Transfer Outcomes</h3>
+                <p class="viz-intro">
+                    Transfers are split into low, medium, and high rumour
+                    intensity by their linked-article count. Each box shows the
+                    distribution of a financial outcome across that group. Use
+                    the control to switch between the fee premium (fee paid
+                    relative to market value) and the change in the player's
+                    market value around the transfer.
+                </p>
+                <figure class="chart-figure">
+                    <div id="rumor-boxplot-chart" class="chart-container" role="region" aria-label="Rumour intensity versus transfer outcome">
+                        <div class="flow-toolbar">
+                            <label class="flow-control" for="boxplot-metric">
+                                <span>Outcome</span>
+                                <select id="boxplot-metric">
+                                    <option value="fee_premium_ratio">Fee premium (fee ÷ market value)</option>
+                                    <option value="mv_change_pct">Market-value change (%)</option>
+                                </select>
+                            </label>
+                            <p class="flow-summary" aria-live="polite"><span id="boxplot-summary">Loading&hellip;</span></p>
+                        </div>
+                        <div class="flow-stage">
+                            <svg id="rumor-boxplot-svg" viewBox="0 0 1100 560" role="img" aria-labelledby="rumor-boxplot-title rumor-boxplot-desc">
+                                <title id="rumor-boxplot-title">Transfer outcome distribution by rumour intensity</title>
+                                <desc id="rumor-boxplot-desc">Box plots comparing a financial outcome across low, medium, and high rumour-intensity groups.</desc>
+                            </svg>
+                            <div id="rumor-boxplot-tooltip" class="flow-tooltip" role="tooltip" aria-hidden="true"></div>
+                        </div>
+                    </div>
+                    <figcaption>Figure 6: Transfer outcomes across rumour-intensity groups.</figcaption>
+                </figure>
+            </div>
+
+            <div class="viz-block">
+                <h3 id="rumour-stream-heading">Rumour Volume and Tone Before a Signing</h3>
+                <p class="viz-intro">
+                    Linked articles are aligned by how many weeks before the
+                    signing they appeared, then stacked by tone. The shape
+                    shows how coverage builds toward deadline and how the mix
+                    of optimistic, doubtful, and neutral reporting shifts as a
+                    deal nears completion.
+                </p>
+                <figure class="chart-figure">
+                    <div id="rumor-stream-chart" class="chart-container" role="region" aria-label="Rumour volume and tone before signing">
+                        <div class="performance-stage">
+                            <div class="performance-legend" aria-label="Tone colours">
+                                <span><i class="tone-dot tone-dot-optimistic"></i>Optimistic</span>
+                                <span><i class="tone-dot tone-dot-neutral"></i>Neutral / unclear</span>
+                                <span><i class="tone-dot tone-dot-doubtful"></i>Doubtful</span>
+                                <p class="performance-legend-note">Tone keywords match 74% of articles; the rest are counted as neutral / unclear.</p>
+                            </div>
+                            <svg id="rumor-stream-svg" viewBox="0 0 1100 520" role="img" aria-labelledby="rumor-stream-title rumor-stream-desc">
+                                <title id="rumor-stream-title">Weekly rumour volume before signing, by tone</title>
+                                <desc id="rumor-stream-desc">A streamgraph of article counts per week before the transfer, stacked by tone.</desc>
+                            </svg>
+                            <div id="rumor-stream-tooltip" class="flow-tooltip" role="tooltip" aria-hidden="true"></div>
+                        </div>
+                    </div>
+                    <figcaption>Figure 7: Weekly rumour volume before a signing, split by tone.</figcaption>
+                </figure>
+            </div>
+        </section>
+
         <section id="evaluation" class="report-section" aria-labelledby="evaluation-title">
             <div class="section-copy">
                 <h2 id="evaluation-title">Evaluation Plan</h2>
@@ -497,5 +622,8 @@
     <script src="js/transfer-flows.js?v=7"></script>
     <script src="js/spending-performance.js?v=7"></script>
     <script src="js/geographic-flows.js?v=7"></script>
+    <script src="js/rumor-highlights.js?v=1"></script>
+    <script src="js/rumor-boxplot.js?v=1"></script>
+    <script src="js/rumor-streamgraph.js?v=1"></script>
 </body>
 </html>

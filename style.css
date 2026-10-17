@@ -201,3 +201,47 @@ figcaption { margin-top: var(--space-md); color: var(--color-ink); font-family: 
 }
 @media (min-width: 40rem) { .report-section { padding-bottom: var(--space-2xl); } #treemap-svg, #flow-svg, #performance-svg { min-height: var(--chart-height-wide); } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .treemap-play-button, .treemap-tooltip, .performance-play-button, .flow-tooltip, .performance-tooltip { transition: none; } }
+
+/* ===== Transfer Rumours ===== */
+/* Highlight tiles */
+.rumor-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: var(--space-lg); }
+.rumor-tile { display: flex; flex-direction: column; overflow: hidden; border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-control); background: var(--color-paper-2); }
+.rumor-tile-photo { position: relative; aspect-ratio: 3 / 2; background: var(--color-mast); overflow: hidden; }
+.rumor-tile-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+.rumor-tile-photo.is-missing::after { content: "No photo"; position: absolute; inset: 0; display: grid; place-items: center; color: var(--color-mast-muted); font-size: var(--text-xs); }
+.rumor-tile-body { display: flex; flex-direction: column; gap: var(--space-2xs); padding: var(--space-md); }
+.rumor-tile-name { margin: 0; font-family: var(--font-display); font-size: var(--text-base); font-weight: var(--weight-display); }
+.rumor-tile-move { margin: 0; color: var(--color-muted); font-size: var(--text-sm); font-weight: var(--weight-ui); }
+.rumor-tile-season { margin: 0 0 var(--space-xs); color: var(--color-muted); font-size: var(--text-xs); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.rumor-tile-stats { margin: 0; padding-top: var(--space-xs); display: grid; gap: var(--space-2xs); border-top: var(--rule-hair) solid var(--color-rule); }
+.rumor-tile-stats div { display: flex; justify-content: space-between; gap: var(--space-sm); }
+.rumor-tile-stats dt { margin: 0; color: var(--color-muted); font-size: var(--text-xs); }
+.rumor-tile-stats dd { margin: 0; color: var(--color-ink); font-size: var(--text-sm); font-weight: var(--weight-ui); font-variant-numeric: tabular-nums; }
+.rumor-tile-delta { font-size: var(--text-xs); font-weight: var(--weight-ui); }
+.rumor-tile-delta.up { color: #2f6b4f; }
+.rumor-tile-delta.down { color: #b85c35; }
+.rumor-tile-badges { margin: var(--space-xs) 0 0; display: flex; flex-wrap: wrap; gap: var(--space-2xs); }
+.rumor-badge { padding: 0.1rem 0.45rem; border-radius: 999px; font-size: var(--text-xs); font-weight: var(--weight-ui); text-transform: capitalize; }
+.rumor-badge.intensity-high { background: #24513f; color: #fff; }
+.rumor-badge.intensity-medium { background: #4f7a64; color: #fff; }
+.rumor-badge.intensity-low { background: #c7d4cc; color: var(--color-ink); }
+.rumor-badge.tone-optimistic { background: #d9e6df; color: #214a38; }
+.rumor-badge.tone-doubtful { background: #f0dcd1; color: #8a4326; }
+.rumor-badge.tone-neutral { background: #ece3d4; color: #6b5a3c; }
+.rumor-badge.agent { background: var(--color-mast); color: var(--color-mast-text); }
+
+/* Box plot */
+.box-rect { stroke: var(--color-ink); stroke-width: var(--rule-hair); }
+.box-median { stroke: var(--color-on-leaf); stroke-width: 2.5px; }
+.box-whisker { stroke: var(--color-ink); stroke-width: var(--rule-hair); }
+#rumor-boxplot-chart .box { cursor: pointer; }
+#rumor-boxplot-chart .box:hover .box-rect { stroke-width: var(--rule-focus); }
+
+/* Streamgraph */
+.stream-band { cursor: pointer; transition: opacity 140ms var(--ease-out); }
+.tone-dot { width: .875rem; height: .875rem; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.tone-dot-optimistic { background: #4f7a64; }
+.tone-dot-neutral { background: #b9a07a; }
+.tone-dot-doubtful { background: #b85c35; }
+#rumor-stream-svg, #rumor-boxplot-svg { display: block; width: 100%; height: auto; min-height: var(--chart-height); }
+@media (min-width: 40rem) { #rumor-stream-svg, #rumor-boxplot-svg { min-height: var(--chart-height-wide); } }

@@ -1,0 +1,14 @@
+metric,value,unit,note
+corpus_size,3221,articles,Guardian transfer-window articles cached (full body text)
+source_count,1,sources,"Single source (Guardian); affects outlet diversity, not accuracy"
+seasons_covered,10,seasons,"2016/17 through 2025/26, every window populated"
+articles_linked,2756,articles,86% of corpus tied to a completed transfer
+link_rule,name-token + club co-mention + <=120d pre-signing window,,Linkage requires a distinctive player name token AND a club name in-article
+linkage_limitation,deadline roundups,,"Omnibus deadline-day articles mention many players, inflating a few low-profile counts"
+tone_keyword_coverage,74.4,%,Share of linked articles matching >=1 tone keyword; the rest default to neutral
+tone_forced_neutral,25.6,%,"Articles with NO tone keyword, counted as neutral -> neutral band is 'neutral or unclassified'"
+tone_mixed_signal,25.6,%,Articles with both optimistic and doubtful cues; classified by majority
+agent_attribution_rate,19.6,%,"Transfers with >=1 article explicitly citing an agent (explicit match only, never inferred)"
+fee_premium_coverage,38.5,%,Linked transfers with a disclosed fee AND market value (fee premium computable)
+mv_change_coverage,91.4,%,Linked transfers with a before/after valuation (market-value change computable)
+transfers_analysed,4403,transfers,Completed transfers with at least one linked rumor article

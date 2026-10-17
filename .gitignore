@@ -3,3 +3,7 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# Rumor pipeline: raw scraped corpus and API key stay out of the repo
+data/rawdata/rumors/
+**/.guardian_key
