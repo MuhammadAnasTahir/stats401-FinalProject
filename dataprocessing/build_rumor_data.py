@@ -281,6 +281,37 @@ def intensity_bucket(counts: pd.Series) -> pd.Series:
     return counts.map(label), (lo, hi)
 
 
+def download_highlight_images(highlights: pd.DataFrame) -> list[str]:
+    """Save each highlight's high-res Transfermarkt portrait under images/players/.
+
+    Returns the repo-relative local path per row (empty string if a download fails,
+    in which case the page falls back to hotlinking).
+    """
+    import urllib.request
+    from rumor_config import PROJECT_ROOT
+
+    out_dir = PROJECT_ROOT / "images" / "players"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    headers = {"User-Agent": "STATS401-FinalProject-Research/1.0 (academic project)"}
+    paths = []
+    for row in highlights.itertuples():
+        big = re.sub(r"/portrait/(header|medium|small)/", "/portrait/big/", str(row.image_url))
+        rel = f"images/players/{row.transfer_id}.jpg"
+        target = PROJECT_ROOT / rel
+        if target.exists():
+            paths.append(rel)
+            continue
+        try:
+            request = urllib.request.Request(big, headers=headers)
+            data = urllib.request.urlopen(request, timeout=20).read()
+            target.write_bytes(data)
+            paths.append(rel)
+        except Exception as error:
+            print(f"  ! image download failed for {row.player_name}: {error}")
+            paths.append("")
+    return paths
+
+
 def build_outputs():
     from rumor_config import RUMOR_OUTPUT_FILES
 
@@ -365,9 +396,12 @@ def build_outputs():
         & agg["mv_change_pct"].notna()
     ].merge(images, on="player_id", how="left")
     complete = complete[complete["image_url"].notna()]
-    highlights = complete.sort_values("article_count", ascending=False).head(HIGHLIGHT_COUNT)
+    highlights = complete.sort_values("article_count", ascending=False).head(HIGHLIGHT_COUNT).copy()
+    # Download each highlight's high-res photo locally so the page never depends on
+    # live hotlinking (more reliable on GitHub Pages, and avoids cache/referer issues).
+    highlights["local_image"] = download_highlight_images(highlights)
     highlight_cols = [
-        "transfer_id", "player_name", "image_url", "from_club_name", "to_club_name",
+        "transfer_id", "player_name", "image_url", "local_image", "from_club_name", "to_club_name",
         "transfer_season", "transfer_date", "article_count", "rumor_intensity",
         "dominant_tone", "agent_originated", "first_rumor_days",
         "market_value_eur", "fee_eur", "fee_premium_ratio",

@@ -29,21 +29,23 @@
         const photo = document.createElement("div");
         photo.className = "rumor-tile-photo";
         const img = document.createElement("img");
-        // Transfermarkt serves several crops; "/big/" is the high-res portrait.
-        const bigUrl = String(row.image_url).replace(/\/portrait\/(header|medium|small)\//, "/portrait/big/");
-        img.src = bigUrl;
         img.alt = row.player_name;
         img.referrerPolicy = "no-referrer";
-        let triedOriginal = false;
+        // Prefer the locally served high-res image; fall back to the Transfermarkt
+        // CDN "/big/" crop, then the original, before giving up.
+        const bigUrl = String(row.image_url).replace(/\/portrait\/(header|medium|small)\//, "/portrait/big/");
+        const sources = [row.local_image, bigUrl, row.image_url].filter(Boolean);
+        let srcIndex = 0;
         img.onerror = () => {
-            if (!triedOriginal && bigUrl !== row.image_url) {
-                triedOriginal = true;
-                img.src = row.image_url;        // fall back to the original crop
+            srcIndex += 1;
+            if (srcIndex < sources.length) {
+                img.src = sources[srcIndex];
                 return;
             }
             photo.classList.add("is-missing");
             img.remove();
         };
+        img.src = sources[0];
         photo.appendChild(img);
 
         const body = document.createElement("div");

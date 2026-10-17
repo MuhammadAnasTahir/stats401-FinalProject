@@ -204,8 +204,8 @@ figcaption { margin-top: var(--space-md); color: var(--color-ink); font-family: 
 /* Highlight tiles */
 .rumor-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: var(--space-lg); }
 .rumor-tile { display: flex; flex-direction: column; overflow: hidden; border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-control); background: var(--color-paper-2); }
-.rumor-tile-photo { position: relative; aspect-ratio: 3 / 2; background: var(--color-mast); overflow: hidden; }
-.rumor-tile-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+.rumor-tile-photo { position: relative; aspect-ratio: 4 / 5; background: var(--color-mast); overflow: hidden; }
+.rumor-tile-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 12%; display: block; }
 .rumor-tile-photo.is-missing::after { content: "No photo"; position: absolute; inset: 0; display: grid; place-items: center; color: var(--color-mast-muted); font-size: var(--text-xs); }
 .rumor-tile-body { display: flex; flex-direction: column; gap: var(--space-2xs); padding: var(--space-md); }
 .rumor-tile-name { margin: 0; font-family: var(--font-display); font-size: var(--text-base); font-weight: var(--weight-display); }
