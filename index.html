@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="A visual report on spending, transfer flows, and performance across Europe's top five football leagues.">
     <title>The Football Transfer Market | STATS 401</title>
-    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="style.css?v=9">
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 </head>
 
@@ -155,15 +155,15 @@
                 <h2 id="interaction-title">Interaction &amp; Animation Plan</h2>
                 <p>
                     The views share one season, league, and optional club
-                    selection. Changing any season selector (or pressing
-                    Play) updates the others where data for that season are
-                    available. The performance view pairs a spending season
+                    selection. Changing any season selector updates the others
+                    where data for that season are available; each chart's Play
+                    control advances only its own view. The performance view pairs a spending season
                     with the following season's results. Clicking a treemap league or a
                     chord arc selects that league; All leagues clears it.
                     Clicking a bubble pins the club's available season
                     trajectory, but does not imply club-level flows in the
                     league or country views.
-                    Position and fee-status filters are shared by the two flow views.
+                    Position filters are shared by the two flow views. The map's fee-status filter is local to the map, so its geographic framing can respond to the selected type of transfer.
                 </p>
             </div>
 
@@ -210,13 +210,6 @@
                 </p>
             </div>
 
-            <div class="selection-bar" aria-label="Shared visualization selections">
-                <strong>Active selection</strong>
-                <label for="selection-league">League <select id="selection-league"><option value="">All leagues</option></select></label>
-                <span id="selection-summary" aria-live="polite">All leagues · all clubs · all positions · all fee statuses</span>
-                <button id="clear-selections" class="selection-clear" type="button">Clear selections</button>
-            </div>
-
             <div class="viz-block">
                 <h3 id="market-composition">Market Composition</h3>
                 <p class="viz-intro">
@@ -231,16 +224,6 @@
                     displayed top-five spending; the largest club accounts for
                     6.2%.
                 </p>
-
-                <figure class="chart-figure market-trend-figure">
-                    <div id="market-trend-chart" class="market-trend-chart" role="region" aria-label="Annual top-five league transfer spending trend">
-                        <svg id="market-trend-svg" viewBox="0 0 1100 230" role="img" aria-labelledby="market-trend-title market-trend-description">
-                            <title id="market-trend-title">Annual transfer spending across the top five leagues</title>
-                            <desc id="market-trend-description">A line chart showing total recorded transfer spending for the five displayed leagues in each season.</desc>
-                        </svg>
-                    </div>
-                    <figcaption>Annual total recorded spending across the five displayed leagues.</figcaption>
-                </figure>
 
                 <figure class="chart-figure">
                     <div
@@ -268,12 +251,6 @@
                                 Play
                             </button>
                             <button id="treemap-clear-league" class="treemap-play-button" type="button">All leagues</button>
-                            <div class="treemap-net-legend" aria-label="Net spending color scale">
-                                <span><i class="treemap-net-swatch treemap-net-seller"></i>Net seller</span>
-                                <span><i class="treemap-net-swatch treemap-net-balanced"></i>Balanced</span>
-                                <span><i class="treemap-net-swatch treemap-net-buyer"></i>Net buyer</span>
-                            </div>
-
                             <p class="treemap-summary" aria-live="polite">
                                 <span id="treemap-total">Loading&hellip;</span>
                             </p>
@@ -309,6 +286,17 @@
                         Figure 1: Club recorded transfer-fee spending across Europe’s five
                         major leagues by season.
                     </figcaption>
+                </figure>
+
+                <figure class="chart-figure market-trend-figure">
+                    <div id="market-trend-chart" class="market-trend-chart" role="region" aria-label="Annual top-five league transfer spending trend">
+                        <svg id="market-trend-svg" viewBox="0 0 1100 230" role="img" aria-labelledby="market-trend-title market-trend-description">
+                            <title id="market-trend-title">Annual transfer spending across the top five leagues</title>
+                            <desc id="market-trend-description">A line chart showing total recorded transfer spending for the five displayed leagues in each season.</desc>
+                        </svg>
+                        <div id="market-trend-tooltip" class="market-trend-tooltip" role="tooltip" aria-hidden="true"></div>
+                    </div>
+                    <figcaption>Annual total recorded spending across the five displayed leagues.</figcaption>
                 </figure>
             </div>
 
@@ -426,7 +414,7 @@
                 <h3 id="geographic-flows">Geographic Transfer Flows</h3>
                 <p class="viz-intro">Country flows are built before league grouping: season-specific club matches supply country first, then the club reference table fills missing country assignments. This view includes only flows involving at least one top-five-league club. Lines point from buyer country to seller country; only the top 30 non-domestic flows are drawn, while domestic transfers are summarized separately. Transfers with no country in either source are excluded rather than placed arbitrarily.</p>
                 <figure class="chart-figure"><div id="map-chart" class="chart-container" role="region" aria-label="Geographic transfer flows">
-                    <div class="flow-toolbar"><label class="flow-control" for="map-metric"><span>Metric</span><select id="map-metric"><option value="fee">Transfer fees</option><option value="count">Transfer count</option></select></label><label class="flow-control" for="map-position"><span>Position</span><select id="map-position"><option value="all">All positions</option></select></label><label class="flow-control" for="map-fee-status"><span>Fee status</span><select id="map-fee-status"><option value="all">All fee statuses</option></select></label><label class="flow-control" for="map-flow-limit"><span>Flows</span><select id="map-flow-limit"><option value="15">Top 15</option><option value="30">Top 30</option></select></label><button id="map-zoom-in" class="performance-play-button" type="button">Zoom in</button><button id="map-zoom-out" class="performance-play-button" type="button">Zoom out</button><button id="map-zoom-europe" class="performance-play-button" type="button">Europe</button><button id="map-zoom-world" class="performance-play-button" type="button">World</button><p class="flow-summary"><span id="map-total">Loading&hellip;</span><span id="map-corridor"></span></p></div>
+                    <div class="flow-toolbar"><label class="flow-control" for="map-metric"><span>Metric</span><select id="map-metric"><option value="fee">Transfer fees</option><option value="count">Transfer count</option></select></label><label class="flow-control" for="map-position"><span>Position</span><select id="map-position"><option value="all">All positions</option></select></label><label class="flow-control" for="map-fee-status"><span>Fee status</span><select id="map-fee-status"><option value="Paid fee" selected>Paid fee</option><option value="Free transfer">Free transfer</option></select></label><label class="flow-control" for="map-flow-limit"><span>Flows</span><select id="map-flow-limit"><option value="15">Top 15</option><option value="30">Top 30</option></select></label><button id="map-zoom-in" class="performance-play-button" type="button">Zoom in</button><button id="map-zoom-out" class="performance-play-button" type="button">Zoom out</button><button id="map-zoom-europe" class="performance-play-button" type="button">Europe</button><button id="map-zoom-world" class="performance-play-button" type="button">World</button><p class="flow-summary"><span id="map-total">Loading&hellip;</span><span id="map-corridor"></span></p></div>
                     <div class="flow-stage"><svg id="map-svg" viewBox="0 0 1100 600" role="img"><title>Country-level transfer flows</title></svg><div id="map-tooltip" class="flow-tooltip" role="tooltip"></div></div>
                 </div><figcaption>Figure 4: Country-to-country flows involving at least one top-five-league club.</figcaption></figure>
             </div>
@@ -497,22 +485,16 @@
                 <h3 id="rumour-boxplot-heading">Rumour Intensity and Transfer Outcomes</h3>
                 <p class="viz-intro">
                     Transfers are split into low, medium, and high rumour
-                    intensity by their linked-article count. Each box shows the
-                    distribution of a financial outcome across that group. Use
-                    the control to switch between the fee premium (fee paid
-                    relative to market value) and the change in the player's
-                    market value around the transfer.
+                    intensity by their linked-article count. The two panels
+                    show both financial outcomes side by side: on the left, the
+                    fee premium (fee paid relative to market value); on the
+                    right, the change in the player's market value around the
+                    transfer. Each panel keeps its own scale because the two
+                    outcomes are measured in different units.
                 </p>
                 <figure class="chart-figure">
                     <div id="rumor-boxplot-chart" class="chart-container" role="region" aria-label="Rumour intensity versus transfer outcome">
                         <div class="flow-toolbar">
-                            <label class="flow-control" for="boxplot-metric">
-                                <span>Outcome</span>
-                                <select id="boxplot-metric">
-                                    <option value="fee_premium_ratio">Fee premium (fee ÷ market value)</option>
-                                    <option value="mv_change_pct">Market-value change (%)</option>
-                                </select>
-                            </label>
                             <p class="flow-summary" aria-live="polite"><span id="boxplot-summary">Loading&hellip;</span></p>
                         </div>
                         <div class="flow-stage">
@@ -618,12 +600,12 @@
     <script src="js/topojson-client.min.js"></script>
     <script src="js/shared-state.js?v=7"></script>
     <script src="js/market-trend.js?v=1"></script>
-    <script src="js/treemap.js?v=7"></script>
+    <script src="js/treemap.js?v=8"></script>
     <script src="js/transfer-flows.js?v=7"></script>
-    <script src="js/spending-performance.js?v=7"></script>
-    <script src="js/geographic-flows.js?v=7"></script>
-    <script src="js/rumor-highlights.js?v=1"></script>
-    <script src="js/rumor-boxplot.js?v=1"></script>
+    <script src="js/spending-performance.js?v=8"></script>
+    <script src="js/geographic-flows.js?v=9"></script>
+    <script src="js/rumor-highlights.js?v=3"></script>
+    <script src="js/rumor-boxplot.js?v=2"></script>
     <script src="js/rumor-streamgraph.js?v=1"></script>
 </body>
 </html>

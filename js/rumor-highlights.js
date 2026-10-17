@@ -29,11 +29,21 @@
         const photo = document.createElement("div");
         photo.className = "rumor-tile-photo";
         const img = document.createElement("img");
-        img.src = row.image_url;
+        // Transfermarkt serves several crops; "/big/" is the high-res portrait.
+        const bigUrl = String(row.image_url).replace(/\/portrait\/(header|medium|small)\//, "/portrait/big/");
+        img.src = bigUrl;
         img.alt = row.player_name;
-        img.loading = "lazy";
         img.referrerPolicy = "no-referrer";
-        img.onerror = () => { photo.classList.add("is-missing"); img.remove(); };
+        let triedOriginal = false;
+        img.onerror = () => {
+            if (!triedOriginal && bigUrl !== row.image_url) {
+                triedOriginal = true;
+                img.src = row.image_url;        // fall back to the original crop
+                return;
+            }
+            photo.classList.add("is-missing");
+            img.remove();
+        };
         photo.appendChild(img);
 
         const body = document.createElement("div");

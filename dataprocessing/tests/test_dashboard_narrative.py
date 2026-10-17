@@ -21,6 +21,25 @@ class DashboardNarrativeTests(unittest.TestCase):
         self.assertIn("seasons.includes(requestedSeason)", self.scatter)
         self.assertIn("latest available spending season", self.scatter)
 
+    def test_play_controls_animate_each_chart_independently(self):
+        treemap = (PROJECT_ROOT / "js" / "treemap.js").read_text()
+
+        for source in [treemap, self.scatter]:
+            self.assertIn("let animationTimer = null", source)
+            self.assertIn("window.setTimeout(advanceSeason, 1500)", source)
+            self.assertNotIn("state.play(seasons)", source)
+
+        self.assertIn("only its own view", self.page)
+
+    def test_flow_toolbars_wrap_before_controls_are_clipped(self):
+        styles = (PROJECT_ROOT / "style.css").read_text()
+
+        self.assertRegex(
+            styles,
+            r"\.flow-toolbar, \.performance-toolbar \{[^}]*flex-wrap: wrap",
+        )
+        self.assertIn(".flow-toolbar .flow-summary { flex: 1 0 100%;", styles)
+
     def test_market_section_includes_a_time_trend(self):
         self.assertIn('id="market-trend-chart"', self.page)
         self.assertIn("js/market-trend.js", self.page)
@@ -29,13 +48,24 @@ class DashboardNarrativeTests(unittest.TestCase):
         self.assertRegex(self.page, r"Arrows run\s+from buying league to selling league")
         self.assertIn("involving at least one top-five-league club", self.page)
 
-    def test_interaction_plan_has_an_active_selection_summary(self):
-        self.assertIn('id="selection-summary"', self.page)
-        self.assertIn('id="clear-selections"', self.page)
-        self.assertIn("Active selection", self.page)
+    def test_market_composition_prioritizes_treemap_over_trend(self):
+        self.assertLess(
+            self.page.index('id="treemap-chart"'),
+            self.page.index('id="market-trend-chart"'),
+        )
+        self.assertNotIn('id="selection-league"', self.page)
+        self.assertNotIn('id="clear-selections"', self.page)
 
-    def test_interaction_plan_describes_the_shared_filters_truthfully(self):
-        self.assertIn("Position and fee-status filters are shared by the two flow views", self.page)
+    def test_market_trend_has_an_accessible_data_tooltip(self):
+        trend = (PROJECT_ROOT / "js" / "market-trend.js").read_text()
+
+        self.assertIn("market-trend-tooltip", self.page)
+        self.assertIn("mouseenter focus", trend)
+        self.assertIn("tabindex", trend)
+
+    def test_interaction_plan_describes_map_fee_filter_truthfully(self):
+        self.assertIn("Position filters are shared by the two flow views", self.page)
+        self.assertIn("map's fee-status filter is local to the map", self.page)
         self.assertIn("does not imply club-level flows", self.page)
 
     def test_non_rumor_views_explain_measurement_scope(self):

@@ -80,22 +80,19 @@ figcaption { margin-top: var(--space-md); color: var(--color-ink); font-family: 
 .treemap-play-button:active { transform: translateY(1px); }
 .treemap-summary, .flow-summary { margin: 0 0 0 auto; color: var(--color-muted); font-family: var(--font-display); font-size: var(--text-sm); text-align: right; }
 .treemap-summary span, .flow-summary span { font-variant-numeric: tabular-nums; }
-.treemap-net-legend { display: inline-flex; align-items: center; gap: var(--space-sm); color: var(--color-muted); font-size: var(--text-xs); }
-.treemap-net-legend span { display: inline-flex; align-items: center; gap: .25rem; white-space: nowrap; }
-.treemap-net-swatch { width: .75rem; height: .75rem; border: var(--rule-hair) solid var(--color-rule); border-radius: 50%; display: inline-block; }
-.treemap-net-seller { background: #d73027; }
-.treemap-net-balanced { background: #fee08b; }
-.treemap-net-buyer { background: #1a9850; }
 .treemap-stage { position: relative; width: 100%; background: var(--color-paper-2); }
 #treemap-svg { display: block; width: 100%; height: auto; min-height: var(--chart-height); }
 .market-trend-figure { margin-bottom: var(--space-xl); }
-.market-trend-chart { overflow: hidden; border-block: var(--rule-hair) solid var(--color-rule); background: var(--color-paper-2); }
+.market-trend-chart { position: relative; overflow: hidden; border-block: var(--rule-hair) solid var(--color-rule); background: var(--color-paper-2); }
 #market-trend-svg { display: block; width: 100%; height: auto; }
 .market-trend-grid .tick line { stroke: var(--color-rule); stroke-dasharray: 2 4; }
 .market-trend-grid text, .market-trend-axis text { fill: var(--color-muted); font-family: var(--font-body); font-size: var(--text-xs); }
 .market-trend-axis path, .market-trend-axis line { stroke: var(--color-rule); }
 .market-trend-line { fill: none; stroke: var(--color-mast); stroke-width: .1875rem; }
 .market-trend-point { fill: var(--color-paper); stroke: var(--color-mast); stroke-width: .15625rem; }
+.market-trend-point { cursor: pointer; }
+.market-trend-tooltip { position: absolute; z-index: 2; padding: var(--space-xs) var(--space-sm); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-control); background: var(--color-paper); box-shadow: 0 .5rem 1.25rem var(--color-tooltip-shadow); color: var(--color-ink); font-size: var(--text-xs); font-variant-numeric: tabular-nums; opacity: 0; pointer-events: none; transform: translateY(var(--space-2xs)); transition: opacity 140ms var(--ease-out), transform 140ms var(--ease-out); }
+.market-trend-tooltip.is-visible { opacity: 1; transform: translateY(0); }
 .treemap-cell { cursor: default; }
 .treemap-cell rect { stroke: var(--color-paper); stroke-width: var(--rule-focus); }
 .treemap-cell:hover rect, .treemap-cell:focus rect { stroke: var(--color-on-leaf); stroke-width: var(--rule-double-gap); }
@@ -115,7 +112,8 @@ figcaption { margin-top: var(--space-md); color: var(--color-ink); font-family: 
 .treemap-tooltip dd { margin: 0; color: var(--color-ink); font-weight: var(--weight-ui); font-variant-numeric: tabular-nums; }
 .treemap-error { margin: 0; padding: var(--space-3xl) var(--space-lg); color: var(--color-muted); text-align: center; }
 
-.flow-toolbar, .performance-toolbar { min-height: 4.625rem; padding: var(--space-sm) var(--space-lg); display: flex; align-items: center; gap: var(--space-md); border-bottom: var(--rule-hair) solid var(--color-rule); background: var(--color-paper); }
+.flow-toolbar, .performance-toolbar { min-height: 4.625rem; padding: var(--space-sm) var(--space-lg); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); border-bottom: var(--rule-hair) solid var(--color-rule); background: var(--color-paper); }
+.flow-toolbar .flow-summary { flex: 1 0 100%; margin-left: 0; text-align: left; }
 .league-roles { padding: var(--space-md) var(--space-lg); display: grid; grid-template-columns: minmax(12rem, .8fr) minmax(0, 1.7fr); gap: var(--space-lg); border-bottom: var(--rule-hair) solid var(--color-rule); background: var(--color-paper-2); }
 .league-roles h4 { margin: 0 0 var(--space-2xs); font-family: var(--font-display); font-size: var(--text-base); }
 .league-roles p { margin: 0; color: var(--color-muted); font-size: var(--text-xs); line-height: var(--leading-caption); }
@@ -195,7 +193,7 @@ figcaption { margin-top: var(--space-md); color: var(--color-ink); font-family: 
     .performance-legend-note { border-top: none; padding-top: 0; max-width: none; }
     #treemap-svg, #flow-svg, #performance-svg { min-height: 15rem; }
     #market-trend-svg { min-height: 12rem; }
-    .treemap-tooltip, .flow-tooltip, .performance-tooltip { display: none; }
+    .treemap-tooltip, .flow-tooltip, .performance-tooltip, .market-trend-tooltip { display: none; }
     .flow-label { font-size: var(--text-xs); }
     .masthead { padding-block: var(--space-2xl) var(--space-xl); }
 }
@@ -245,3 +243,5 @@ figcaption { margin-top: var(--space-md); color: var(--color-ink); font-family: 
 .tone-dot-doubtful { background: #b85c35; }
 #rumor-stream-svg, #rumor-boxplot-svg { display: block; width: 100%; height: auto; min-height: var(--chart-height); }
 @media (min-width: 40rem) { #rumor-stream-svg, #rumor-boxplot-svg { min-height: var(--chart-height-wide); } }
+
+.box-panel-title { fill: var(--color-ink); font-family: var(--font-display); font-size: 1rem; font-weight: var(--weight-display); }
