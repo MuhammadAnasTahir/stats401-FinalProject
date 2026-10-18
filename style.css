@@ -339,3 +339,10 @@ figcaption { margin-top: var(--space-md); color: var(--color-ink); font-family: 
     .treemap-toolbar, .flow-toolbar, .performance-toolbar { justify-content: center; }
     .rumor-tiles-toggle { min-height: 2.75rem; }
 }
+
+/* Project report button, centred above the Introduction */
+.report-cta { display: flex; justify-content: center; margin: var(--space-xl) 0 var(--space-lg); }
+.report-cta-button { display: inline-block; padding: var(--space-sm) var(--space-xl); border: 2px solid var(--color-ink); border-radius: 999px; background: var(--color-ink); color: var(--color-paper); font-size: var(--text-lg); font-weight: var(--weight-ui); text-align: center; text-decoration: none; box-shadow: 0 3px 0 oklch(30% 0.05 150 / 0.35); transition: transform .15s ease, box-shadow .15s ease; }
+.report-cta-button:hover { transform: translateY(-2px); box-shadow: 0 5px 0 oklch(30% 0.05 150 / 0.35); }
+.report-cta-button:focus-visible { outline: var(--rule-focus) solid var(--color-focus); outline-offset: var(--space-2xs); }
+@media (max-width: 40rem) { .report-cta { margin: var(--space-lg) 0; } .report-cta-button { padding: var(--space-sm) var(--space-lg); font-size: var(--text-base); } }
