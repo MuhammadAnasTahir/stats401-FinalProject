@@ -5,9 +5,21 @@
     let data=[], seasons=[];
     let animationTimer = null, localSeason = null;
     const number=v=>Number.isFinite(+v)?+v:0, money=v=>Math.abs(v)>=1e9?`€${d3.format('.2~f')(v/1e9)}B`:`€${d3.format(',.1f')(v/1e6)}M`, escape=v=>String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    // Fit a label to maxWidth, trimming with an ellipsis instead of hard-clipping.
+    function fitText(sel, full, maxWidth) {
+        const node = sel.node();
+        sel.text(full);
+        if (node.getComputedTextLength() <= maxWidth) return;
+        let str = full;
+        while (str.length > 1) {
+            str = str.slice(0, -1);
+            sel.text(str.replace(/\s+$/, '') + '…');
+            if (node.getComputedTextLength() <= maxWidth) return;
+        }
+    }
     const leagueColors=new Map([['Premier League','#24513f'],['La Liga','#b85c35'],['Bundesliga','#315f73'],['Serie A','#77733d'],['Ligue 1','#7c4f68']]);
     function positionTip(event) { const b=stage.node().getBoundingClientRect(); tip.style('left',`${Math.min(b.width-242,Math.max(10,event.clientX-b.left+12))}px`).style('top',`${Math.min(b.height-150,Math.max(10,event.clientY-b.top+12))}px`); }
-    function showTip(event, leaf) { const row=leaf.data.row; tip.html(`<strong>${escape(row.club_name)}</strong><span>${escape(row.league_name)} · ${row.season_label}</span><dl><dt>Spending</dt><dd>${money(row.spending_eur)}</dd><dt>Income</dt><dd>${money(row.income_eur)}</dd><dt>Net spending</dt><dd>${row.net_spending_eur>=0?'+':'−'}${money(Math.abs(row.net_spending_eur))}</dd><dt>Transfers</dt><dd>${row.incoming_transfer_count}</dd><dt>Share of league spending</dt><dd>${d3.format('.1%')(row.league_spending_share)}</dd></dl>`).classed('is-visible',true); positionTip(event); }
+    function showTip(event, leaf) { const row=leaf.data.row; tip.html(`<strong>${escape(row.club_name)}</strong><span>${escape(row.league_name)} | ${row.season_label}</span><dl><dt>Spending</dt><dd>${money(row.spending_eur)}</dd><dt>Income</dt><dd>${money(row.income_eur)}</dd><dt>Net spending</dt><dd>${row.net_spending_eur>=0?'+':'−'}${money(Math.abs(row.net_spending_eur))}</dd><dt>Transfers</dt><dd>${row.incoming_transfer_count}</dd><dt>Share of league spending</dt><dd>${d3.format('.1%')(row.league_spending_share)}</dd></dl>`).classed('is-visible',true); positionTip(event); }
     function rootFor(league) {
         const key=league||'all';
         if(roots.has(key)) return roots.get(key);
@@ -30,16 +42,24 @@
         const selectClub=(event,leaf)=>state.set({clubId:leaf.data.club_id,clubName:leaf.data.row.club_name});
         const activateClub=(event,leaf)=>{ if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectClub(event,leaf); } };
         const enter=cells.enter().append('g').attr('class','treemap-cell').attr('tabindex',0).attr('role','button').on('mouseenter focus',showTip).on('mousemove',positionTip).on('mouseleave blur',()=>tip.classed('is-visible',false)).on('click',selectClub).on('keydown',activateClub);
-        enter.append('rect'); enter.append('text').attr('class','treemap-club-name').attr('x',8).attr('y',20); enter.append('text').attr('class','treemap-club-value').attr('x',8).attr('y',38);
+        enter.append('rect');
+        enter.append('clipPath').attr('id',leaf=>`tm-clip-${leaf.data.club_id}`).append('rect');
+        enter.attr('clip-path',leaf=>`url(#tm-clip-${leaf.data.club_id})`);
+        enter.append('text').attr('class','treemap-club-name').attr('x',8).attr('y',20); enter.append('text').attr('class','treemap-club-value').attr('x',8).attr('y',38);
         const merged=enter.merge(cells).attr('aria-label',leaf=>`${leaf.data.row.club_name}: ${money(leaf.data.row.spending_eur)}`).classed('is-selected',leaf=>String(leaf.data.club_id)===String(q.clubId));
         merged.transition(transition).style('opacity',1).attr('transform',leaf=>`translate(${leaf.x0},${leaf.y0})`);
         merged.select('rect').transition(transition).attr('width',leaf=>leaf.x1-leaf.x0).attr('height',leaf=>leaf.y1-leaf.y0).attr('fill',leaf=>leagueColors.get(leaf.data.row.league_name)||'#58766c');
-        merged.select('.treemap-club-name').text(leaf=>(leaf.x1-leaf.x0>56&&leaf.y1-leaf.y0>20)?leaf.data.row.club_name:'');
+        merged.select('clipPath rect').attr('width',leaf=>Math.max(0,leaf.x1-leaf.x0)).attr('height',leaf=>Math.max(0,leaf.y1-leaf.y0));
+        merged.select('.treemap-club-name').each(function(leaf){
+            const w=leaf.x1-leaf.x0, h=leaf.y1-leaf.y0, sel=d3.select(this);
+            if(w<=56||h<=20){ sel.text(''); return; }
+            fitText(sel, leaf.data.row.club_name, w-16);
+        });
         merged.select('.treemap-club-value').text(leaf=>(leaf.x1-leaf.x0>62&&leaf.y1-leaf.y0>40)?money(leaf.data.row.spending_eur):'');
         const leagues=layer.selectAll('text.treemap-league-label').data(root.children||[],league=>league.data.id); leagues.exit().remove();
         const selectLeague=(event,league)=>state.set({league:league.data.name,clubId:null,clubName:null});
         leagues.enter().append('text').attr('class','treemap-league-label').attr('tabindex',0).attr('role','button').on('click',selectLeague).on('keydown',(event,league)=>{if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectLeague(event,league); }}).merge(leagues).attr('x',league=>league.x0+8).attr('y',league=>league.y0+19).text(league=>league.data.name);
-        total.text(`${rows[0].season_label} · ${money(d3.sum(rows,row=>row.spending_eur))}${q.league?` · ${q.league}`:''}`); seasonSelect.property('value',season);
+        total.text(`${rows[0].season_label} | ${money(d3.sum(rows,row=>row.spending_eur))}${q.league?` | ${q.league}`:''}`); seasonSelect.property('value',season);
     }
     function updatePlayButton() { const playing=animationTimer!==null; play.text(playing?'Pause':'Play').attr('aria-label',playing?'Pause season animation':'Play season animation'); }
     function stopAnimation() { if(animationTimer!==null) window.clearTimeout(animationTimer); animationTimer=null; updatePlayButton(); }

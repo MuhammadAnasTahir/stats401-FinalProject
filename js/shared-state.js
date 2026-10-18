@@ -40,7 +40,7 @@ window.TransferMarketState = (() => {
             selection.position === 'all' ? 'All positions' : selection.position,
             selection.feeStatus === 'all' ? 'All fee statuses' : selection.feeStatus,
         ];
-        summary.textContent = parts.join(' · ');
+        summary.textContent = parts.join(' | ');
     });
     clear.addEventListener('click', () => window.TransferMarketState.set({ league: null, clubId: null, clubName: null, position: 'all', feeStatus: 'all' }));
 })();

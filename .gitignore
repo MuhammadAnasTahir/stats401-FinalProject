@@ -4,6 +4,8 @@ __pycache__/
 *.pyc
 .DS_Store
 
-# Rumor pipeline: raw scraped corpus and API key stay out of the repo
-data/rawdata/rumors/
+# Rumor pipeline: the raw Guardian corpus (data/rawdata/rumors/guardian/) IS committed.
+# Only the API key and the abandoned GDELT pilot caches stay out of the repo.
 **/.guardian_key
+data/rawdata/rumors/gdelt_index/
+data/rawdata/rumors/articles/

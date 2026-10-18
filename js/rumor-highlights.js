@@ -3,7 +3,7 @@
     const container = document.getElementById("rumor-highlights");
     if (!container) return;
 
-    const toneLabel = { optimistic: "Optimistic", neutral: "Neutral / unclear", doubtful: "Doubtful" };
+    const toneLabel = { optimistic: "Optimistic", neutral: "Neutral", doubtful: "Doubtful" };
 
     function number(value) {
         const parsed = Number(value);
@@ -53,7 +53,7 @@
         body.innerHTML = `
             <p class="rumor-tile-name">${row.player_name}</p>
             <p class="rumor-tile-move">${row.from_club_name} <span aria-hidden="true">→</span> ${row.to_club_name}</p>
-            <p class="rumor-tile-season">${row.transfer_season} · ${row.article_count} articles</p>
+            <p class="rumor-tile-season">${row.transfer_season} | ${row.article_count} articles</p>
             <dl class="rumor-tile-stats">
                 <div><dt>Market value</dt><dd>${formatMoney(number(row.market_value_eur))}</dd></div>
                 <div><dt>Fee paid</dt><dd>${formatMoney(number(row.fee_eur))}</dd></div>
@@ -70,10 +70,34 @@
         return card;
     }
 
+    const VISIBLE = 4;  // show the first four tiles; reveal the rest on demand
+
     d3.csv(dataPath, d3.autoType)
         .then(rows => {
             container.innerHTML = "";
-            rows.forEach(row => container.appendChild(tile(row)));
+            rows.forEach((row, i) => {
+                const card = tile(row);
+                if (i >= VISIBLE) card.classList.add("rumor-tile-extra");
+                container.appendChild(card);
+            });
+
+            if (rows.length > VISIBLE) {
+                const toggle = document.createElement("button");
+                toggle.type = "button";
+                toggle.className = "rumor-tiles-toggle";
+                const setLabel = expanded => {
+                    toggle.innerHTML = expanded
+                        ? 'Show Less <span class="rumor-toggle-caret" aria-hidden="true">▲</span>'
+                        : 'Show More <span class="rumor-toggle-caret" aria-hidden="true">▼</span>';
+                    toggle.setAttribute("aria-expanded", String(expanded));
+                };
+                setLabel(false);
+                toggle.addEventListener("click", () => {
+                    const expanded = container.classList.toggle("is-expanded");
+                    setLabel(expanded);
+                });
+                container.insertAdjacentElement("afterend", toggle);
+            }
         })
         .catch(() => {
             container.innerHTML = '<p class="chart-placeholder">Highlight data could not be loaded.</p>';

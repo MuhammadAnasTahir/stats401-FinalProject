@@ -24,6 +24,10 @@
             format: v => `${v >= 0 ? "+" : ""}${v.toFixed(0)}%`,
             baseline: 0,
             baselineLabel: "no change",
+            // Transfermarkt re-values players only a few times a year, so ~24% of
+            // transfers show an exact 0% change (no valuation update in the window).
+            // Those pile a false median on 0 and hide the real trend, so drop them.
+            excludeZero: true,
         },
     ];
 
@@ -70,7 +74,7 @@
             const values = data
                 .filter(r => r.rumor_intensity === group)
                 .map(r => r[panel.key])
-                .filter(v => Number.isFinite(v))
+                .filter(v => Number.isFinite(v) && (!panel.excludeZero || v !== 0))
                 .sort(d3.ascending);
             return { group, ...(values.length ? quantiles(values) : {}) };
         }).filter(s => s.n);
@@ -80,10 +84,13 @@
         const pad = (hi - lo) * 0.08 || 1;
         y.domain([Math.min(lo, panel.baseline) - pad, Math.max(hi, panel.baseline) + pad]).nice();
 
-        // Panel title.
+        // Panel title + a subtitle naming the baseline (keeps it off the boxes).
         g.append("text").attr("class", "box-panel-title")
-            .attr("x", panelWidth / 2).attr("y", plotTop - 28).attr("text-anchor", "middle")
+            .attr("x", panelWidth / 2).attr("y", plotTop - 30).attr("text-anchor", "middle")
             .text(panel.title);
+        g.append("text").attr("class", "box-panel-subtitle")
+            .attr("x", panelWidth / 2).attr("y", plotTop - 12).attr("text-anchor", "middle")
+            .text(`dashed line: ${panel.baselineLabel}`);
 
         // Grid + axes.
         g.append("g").selectAll("line").data(y.ticks(6)).join("line")
@@ -102,12 +109,9 @@
             .attr("x", panelWidth / 2).attr("y", plotBottom + 46).attr("text-anchor", "middle")
             .text("Rumour intensity");
 
-        // Baseline.
+        // Baseline (reference line only; its meaning is in the panel subtitle).
         g.append("line").attr("class", "performance-average")
             .attr("x1", 0).attr("x2", panelWidth).attr("y1", y(panel.baseline)).attr("y2", y(panel.baseline));
-        g.append("text").attr("class", "performance-average-label")
-            .attr("x", panelWidth).attr("y", y(panel.baseline) - 6).attr("text-anchor", "end")
-            .text(panel.baselineLabel);
 
         // Boxes.
         const bw = x.bandwidth();
@@ -117,7 +121,7 @@
             .on("mouseenter", (event, d) => {
                 tooltip.html(`
                     <strong>${groupLabel[d.group]} intensity</strong>
-                    <span>${d.n.toLocaleString()} transfers · ${panel.title}</span>
+                    <span>${d.n.toLocaleString()} transfers | ${panel.title}</span>
                     <dl>
                         <dt>Median</dt><dd>${panel.format(d.median)}</dd>
                         <dt>Upper quartile</dt><dd>${panel.format(d.q3)}</dd>
@@ -149,7 +153,7 @@
             const rootG = svg.append("g");
             const nFee = drawPanel(rootG, panels[0], rows, margin.left);
             const nMv = drawPanel(rootG, panels[1], rows, margin.left + panelWidth + panelGap);
-            summary.text(`Fee premium: ${nFee.toLocaleString()} transfers · Market-value change: ${nMv.toLocaleString()} transfers`);
+            summary.text(`Fee premium: ${nFee.toLocaleString()} transfers | Market-value change: ${nMv.toLocaleString()} transfers`);
         })
         .catch(() => {
             stage.html('<p class="chart-placeholder">Rumour-outcome data could not be loaded.</p>');

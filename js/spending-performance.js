@@ -1,6 +1,6 @@
 (() => {
     const colors = new Map([['Premier League', '#24513f'], ['La Liga', '#b85c35'], ['Bundesliga', '#315f73'], ['Serie A', '#77733d'], ['Ligue 1', '#7c4f68']]);
-    const svg = d3.select('#performance-svg'), stage = d3.select('.performance-stage'), select = d3.select('#performance-season'), play = d3.select('#performance-play'), clear = d3.select('#performance-clear-club'), tip = d3.select('#performance-tooltip'), stats = d3.select('#performance-stats'), state = window.TransferMarketState;
+    const svg = d3.select('#performance-svg'), stage = d3.select('#spending-performance-chart .performance-stage'), select = d3.select('#performance-season'), play = d3.select('#performance-play'), clear = d3.select('#performance-clear-club'), tip = d3.select('#performance-tooltip'), stats = d3.select('#performance-stats'), state = window.TransferMarketState;
     if (svg.empty()) return;
     let data = [], seasons = [];
     let animationTimer = null, localSeason = null;
@@ -11,12 +11,18 @@
 
     function moveTooltip(event) {
         const bounds = stage.node().getBoundingClientRect();
-        tip.style('left', `${Math.max(10, Math.min(bounds.width - 242, event.clientX - bounds.left + 12))}px`).style('top', `${Math.max(10, Math.min(bounds.height - 160, event.clientY - bounds.top + 12))}px`);
+        const node = tip.node(), width = node.offsetWidth || 240, height = node.offsetHeight || 160;
+        const left = Math.max(10, Math.min(bounds.width - width - 10, event.clientX - bounds.left + 12));
+        let top = event.clientY - bounds.top + 12;
+        if (top + height > bounds.height - 10) top = event.clientY - bounds.top - height - 12;
+        tip.style('left', `${left}px`).style('top', `${Math.max(10, top)}px`);
     }
     function correlation(rows) {
-        const spendingMean = d3.mean(rows, row => row.spending_million_eur), performanceMean = d3.mean(rows, row => row.points_per_game);
-        const numerator = d3.sum(rows, row => (row.spending_million_eur - spendingMean) * (row.points_per_game - performanceMean));
-        const denominator = Math.sqrt(d3.sum(rows, row => (row.spending_million_eur - spendingMean) ** 2) * d3.sum(rows, row => (row.points_per_game - performanceMean) ** 2));
+        // Same quantity the trend line is fitted to: log(1 + spending) against points per game.
+        const spend = row => Math.log1p(row.spending_million_eur);
+        const spendingMean = d3.mean(rows, spend), performanceMean = d3.mean(rows, row => row.points_per_game);
+        const numerator = d3.sum(rows, row => (spend(row) - spendingMean) * (row.points_per_game - performanceMean));
+        const denominator = Math.sqrt(d3.sum(rows, row => (spend(row) - spendingMean) ** 2) * d3.sum(rows, row => (row.points_per_game - performanceMean) ** 2));
         return denominator ? numerator / denominator : NaN;
     }
     function logSpendingRegression(rows) {
@@ -48,16 +54,16 @@
         bubbles.exit().remove();
         const showTooltip = (event, row) => {
             const gap = row.performance_gap >= 0 ? `+${d3.format('.2f')(row.performance_gap)}` : d3.format('.2f')(row.performance_gap);
-            tip.html(`<strong>${row.club_name}</strong><span>${row.league_name} · ${row.season_label} spending → ${row.performance_season_label} performance</span><dl><dt>Spending</dt><dd>${formatMoney(row.spending_million_eur)}</dd><dt>Points per game</dt><dd>${d3.format('.2f')(row.points_per_game)}</dd><dt>Expected PPG</dt><dd>${d3.format('.2f')(row.expected_points_per_game)}</dd><dt>Difference from trend</dt><dd>${gap} PPG</dd><dt>Squad value</dt><dd>${formatMoney(row.squad_market_value_million_eur)}</dd></dl>`).classed('is-visible', true);
+            tip.html(`<strong>${row.club_name}</strong><span>${row.league_name} | ${row.season_label} spending → ${row.performance_season_label} performance</span><dl><dt>Spending</dt><dd>${formatMoney(row.spending_million_eur)}</dd><dt>Points per game</dt><dd>${d3.format('.2f')(row.points_per_game)}</dd><dt>Expected PPG</dt><dd>${d3.format('.2f')(row.expected_points_per_game)}</dd><dt>Difference from trend</dt><dd>${gap} PPG</dd><dt>Squad value</dt><dd>${formatMoney(row.squad_market_value_million_eur)}</dd></dl>`).classed('is-visible', true);
             moveTooltip(event);
         };
         const selectClub = (event, row) => state.set({ clubId: row.club_id, clubName: row.club_name });
         const activateClub = (event, row) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectClub(event, row); } };
-        bubbles.enter().append('circle').attr('class', 'performance-bubble').attr('tabindex', 0).attr('role', 'button').on('mouseenter focus', showTooltip).on('mousemove', moveTooltip).on('mouseleave blur', () => tip.classed('is-visible', false)).on('click', selectClub).on('keydown', activateClub).merge(bubbles).attr('aria-label', row => `${row.club_name}: ${d3.format('.2f')(row.points_per_game)} points per game`).attr('cx', row => x(row.spending_million_eur)).attr('cy', row => y(row.points_per_game)).attr('r', row => radius(row.squad_market_value_million_eur)).attr('fill', row => colors.get(row.league_name)).attr('stroke', row => row.performance_gap >= 0 ? '#1a9850' : '#d73027').style('opacity', row => !query.clubId || row.club_id === query.clubId ? .86 : .16).attr('stroke-width', row => row.club_id === query.clubId ? 4 : 2);
+        bubbles.enter().append('circle').attr('class', 'performance-bubble').attr('tabindex', 0).attr('role', 'button').on('mouseenter focus', showTooltip).on('mousemove', moveTooltip).on('mouseleave blur', () => tip.classed('is-visible', false)).on('click', selectClub).on('keydown', activateClub).merge(bubbles).attr('aria-label', row => `${row.club_name}: ${d3.format('.2f')(row.points_per_game)} points per game`).attr('cx', row => x(row.spending_million_eur)).attr('cy', row => y(row.points_per_game)).attr('r', row => radius(row.squad_market_value_million_eur)).attr('fill', row => colors.get(row.league_name)).style('opacity', row => !query.clubId || row.club_id === query.clubId ? .86 : .16).attr('stroke-width', row => row.club_id === query.clubId ? 4 : 2);
         const selected = query.clubId ? data.filter(row => row.club_id === query.clubId).sort((a, b) => a.season - b.season) : [];
         plot.selectAll('path.club-trajectory').data(selected.length > 1 ? [selected] : []).join('path').attr('class', 'club-trajectory').attr('fill', 'none').attr('stroke', '#171b19').attr('stroke-width', 2).attr('stroke-dasharray', '4 3').attr('d', d3.line().defined(row => row.points_per_game > 0).x(row => x(row.spending_million_eur)).y(row => y(row.points_per_game)));
         const fallback = requestedSeason !== season ? ` Showing the latest available spending season (${sample.season_label} → ${sample.performance_season_label}).` : '';
-        stats.text(`${sample.season_label} spending → ${sample.performance_season_label} performance. Pearson r = ${d3.format('.2f')(rValue)}; n = ${rows.length}. The symlog x-axis expands the lower-spending range while preserving zero; a green outline is above the line and red is below. Squad value sums one nearest valuation per player around 1 September.${fallback}`);
+        stats.text(`${sample.season_label} spending → ${sample.performance_season_label} performance. Pearson r = ${d3.format('.2f')(rValue)} between log spending and points per game, the same relationship the dashed line fits; n = ${rows.length}. The symlog x-axis expands the lower-spending range while preserving zero; a bubble above the dashed line scored more points than its spending predicts and a bubble below it scored fewer. Squad value sums one nearest valuation per player around 1 September.${fallback}`);
         select.property('value', season);
     }
     function updatePlayButton() { const playing = animationTimer !== null; play.text(playing ? 'Pause' : 'Play').attr('aria-label', playing ? 'Pause season animation' : 'Play season animation'); }

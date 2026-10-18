@@ -64,14 +64,17 @@ class DashboardNarrativeTests(unittest.TestCase):
         self.assertIn("tabindex", trend)
 
     def test_interaction_plan_describes_map_fee_filter_truthfully(self):
-        self.assertIn("Position filters are shared by the two flow views", self.page)
-        self.assertIn("map's fee-status filter is local to the map", self.page)
-        self.assertIn("does not imply club-level flows", self.page)
+        flat = " ".join(self.page.split())
+        self.assertIn("The position filter is shared by the league and country flow views", flat)
+        self.assertIn("fee-status filter is local to the map", flat)
+        self.assertIn("does not imply club-level flows", flat)
 
     def test_non_rumor_views_explain_measurement_scope(self):
         self.assertIn("recorded transfer-fee spending", self.page)
         self.assertIn("not cup or European performance", self.page)
-        self.assertIn("four implemented non-rumor views", self.page)
+        self.assertIn('id="market-composition"', self.page)
+        self.assertIn('id="geographic-flows"', self.page)
+        self.assertIn('id="spending-performance-title"', self.page)
 
     def test_flow_view_has_a_league_roles_summary(self):
         self.assertIn('id="league-roles"', self.page)

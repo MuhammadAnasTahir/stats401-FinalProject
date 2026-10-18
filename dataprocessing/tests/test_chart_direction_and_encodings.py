@@ -30,7 +30,7 @@ class ChartEncodingTests(unittest.TestCase):
         source = (PROJECT_ROOT / "js" / "transfer-flows.js").read_text()
 
         self.assertIn("known_fee_count", source)
-        self.assertIn("recorded fees", source)
+        self.assertIn("have a recorded fee", source)
 
     def test_flow_views_offer_position_and_fee_status_filters(self):
         page = (PROJECT_ROOT / "index.html").read_text()
@@ -88,12 +88,13 @@ class ChartEncodingTests(unittest.TestCase):
         self.assertIn("option[value=\"fee\"]", source)
         self.assertIn("metric.property('value','count')", source)
 
-    def test_map_uses_uniform_thin_flow_lines(self):
-        """Catch weighted strokes that make overlapping country flows unreadable."""
+    def test_map_scales_flow_width_with_a_capped_range(self):
+        """Flow width follows the metric but is capped so overlapping flows stay readable."""
         source = (PROJECT_ROOT / "js" / "geographic-flows.js").read_text()
 
-        self.assertIn(".attr('stroke-width',1.1)", source)
-        self.assertNotIn("const scale=d3.scaleSqrt", source)
+        self.assertIn("widthScale=d3.scaleSqrt()", source)
+        self.assertIn(".range([1.2,7])", source)
+        self.assertIn("map-flow-hit", source)
 
     def test_scatter_uses_a_spending_trendline_for_relative_performance(self):
         source = (PROJECT_ROOT / "js" / "spending-performance.js").read_text()

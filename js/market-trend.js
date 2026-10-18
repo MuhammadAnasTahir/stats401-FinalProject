@@ -23,9 +23,18 @@
         y.domain([0, d3.max(seasons, row => row.spending_eur)]).nice();
         chart.append('g').attr('class', 'market-trend-grid').call(d3.axisLeft(y).ticks(3).tickSize(-innerWidth).tickFormat(formatBillions)).call(group => group.select('.domain').remove());
         chart.append('g').attr('class', 'market-trend-axis').attr('transform', `translate(0,${innerHeight})`).call(d3.axisBottom(x));
+        // Annotate the largest year-on-year drop, computed from the data.
+        const drops = seasons.slice(1).map((row, index) => ({ row, change: row.spending_eur / seasons[index].spending_eur - 1 }));
+        const worst = d3.least(drops, item => item.change);
+        if (worst && worst.change < 0) {
+            const note = chart.append('g').attr('class', 'market-trend-note');
+            const px = x(worst.row.season_label), py = y(worst.row.spending_eur);
+            note.append('line').attr('x1', px).attr('x2', px).attr('y1', py + 8).attr('y2', py + 26);
+            note.append('text').attr('x', px).attr('y', py + 40).attr('text-anchor', 'middle').text(`Largest drop: ${d3.format('.0%')(worst.change)} in ${worst.row.season_label}`);
+        }
         chart.append('path').datum(seasons).attr('class', 'market-trend-line').attr('d', d3.line().x(row => x(row.season_label)).y(row => y(row.spending_eur)));
         chart.selectAll('circle').data(seasons).join('circle').attr('class', 'market-trend-point').attr('cx', row => x(row.season_label)).attr('cy', row => y(row.spending_eur)).attr('r', 4).attr('tabindex', 0).attr('aria-label', row => `${row.season_label}: ${formatBillions(row.spending_eur)}`).on('mouseenter focus', (event, row) => {
-            tip.text(`${row.season_label} · ${formatBillions(row.spending_eur)}`).attr('aria-hidden', 'false').classed('is-visible', true);
+            tip.text(`${row.season_label} | ${formatBillions(row.spending_eur)}`).attr('aria-hidden', 'false').classed('is-visible', true);
             moveTip(event);
         }).on('mousemove', moveTip).on('mouseleave blur', () => tip.attr('aria-hidden', 'true').classed('is-visible', false));
     }).catch(() => svg.node().insertAdjacentHTML('afterend', '<p class="chart-placeholder">Annual spending data could not be loaded.</p>'));

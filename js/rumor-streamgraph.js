@@ -4,7 +4,7 @@
     const height = 520;
     const margin = { top: 30, right: 32, bottom: 60, left: 32 };
     const tones = ["doubtful", "neutral", "optimistic"];
-    const toneLabel = { optimistic: "Optimistic", neutral: "Neutral / unclear", doubtful: "Doubtful" };
+    const toneLabel = { optimistic: "Optimistic", neutral: "Neutral", doubtful: "Doubtful" };
     const toneColor = { optimistic: "#4f7a64", neutral: "#b9a07a", doubtful: "#b85c35" };
 
     const svg = d3.select("#rumor-stream-svg");
@@ -58,6 +58,15 @@
                 .on("mousemove", moveTip)
                 .on("mouseleave", hideTip);
 
+            // Annotate the final two weeks and the share of all mentions inside them (computed from the data).
+            const allMentions = d3.sum(series, d => d.optimistic + d.neutral + d.doubtful);
+            const lastTwo = d3.sum(series.filter(d => d.weeks_before <= 1), d => d.optimistic + d.neutral + d.doubtful);
+            const noteX = x(1.5);
+            const note = labelLayer.append('g').attr('class', 'stream-note');
+            note.append('rect').attr('x', noteX).attr('y', 0).attr('width', plotWidth - noteX).attr('height', plotHeight);
+            note.append('line').attr('x1', noteX).attr('x2', noteX).attr('y1', -14).attr('y2', plotHeight);
+            note.append('text').attr('x', noteX - 8).attr('y', -6).attr('text-anchor', 'end').text(`Final two weeks: ${d3.format('.0%')(lastTwo / allMentions)} of all mentions`);
+
             // X axis: weeks before signing.
             const axis = d3.axisBottom(x)
                 .tickValues(d3.range(0, maxWeek + 1, 2))
@@ -74,7 +83,14 @@
             function showTip(event, key) {
                 areaLayer.selectAll("path.stream-band").style("opacity", d => d.key === key ? 1 : 0.35);
                 const total = d3.sum(series, d => d[key]);
-                tooltip.html(`<strong>${toneLabel[key]}</strong><span>${total.toLocaleString()} linked articles total</span>`)
+                const grand = d3.sum(series, d => d.optimistic + d.neutral + d.doubtful);
+                tooltip.html(`
+                    <strong>${toneLabel[key]} coverage</strong>
+                    <span>Across all weeks before signing</span>
+                    <dl>
+                        <dt>Article mentions</dt><dd>${total.toLocaleString()}</dd>
+                        <dt>Share of mentions</dt><dd>${(total / grand * 100).toFixed(0)}%</dd>
+                    </dl>`)
                     .attr("aria-hidden", "false").classed("is-visible", true);
                 moveTip(event);
             }

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="A visual report on spending, transfer flows, and performance across Europe's top five football leagues.">
+    <meta name="description" content="A visual report on spending, transfer flows, rumour coverage, and performance across Europe's top five football leagues.">
     <title>The Football Transfer Market | STATS 401</title>
-    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="stylesheet" href="style.css?v=30">
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 </head>
 
@@ -25,17 +25,33 @@
         <div class="masthead-inner">
             <h1 class="masthead-title">The Football Transfer Market</h1>
             <p class="masthead-dek">
-                Ten seasons of transfer fees, league-to-league flows, and club
-                performance, traced through the Premier League, La Liga, the
-                Bundesliga, Serie A, and Ligue 1.
+                Ten seasons of transfer fees, league and country flows, rumour
+                coverage, and club performance, traced through the Premier
+                League, La Liga, the Bundesliga, Serie A, and Ligue 1.
             </p>
             <p class="byline-names">By Zihan (Martina) Ma &amp; Muhammad Anas Tahir</p>
             <p class="byline-course">STATS 401 Final Project</p>
         </div>
     </header>
 
+    <nav class="site-nav" aria-label="Page sections">
+        <ul class="site-nav-main">
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#dataset">Dataset</a></li>
+            <li><a href="#interaction">Interaction</a></li>
+            <li><a href="#evaluation">Evaluation</a></li>
+            <li><a href="#visualizations">Visualizations</a></li>
+            <li><a href="#rumours">Rumours</a></li>
+            <li><a href="#spending-performance-section">Performance</a></li>
+            <li><a href="#findings">Findings</a></li>
+        </ul>
+        <ul class="site-nav-sub" id="site-nav-sub" aria-label="Views in this section" hidden></ul>
+    </nav>
+
     <main class="report">
-        <article class="report-introduction">
+        <article id="introduction" class="report-introduction" aria-labelledby="introduction-title">
+            <p class="story-step"><span class="story-step-kind">Context</span><span class="story-step-q">Why does this market matter?</span></p>
+                <h2 id="introduction-title">Introduction</h2>
             <p class="lede">
                 A visual report on where transfer money moves, who receives
                 it, and whether it changes what happens on the pitch.
@@ -47,22 +63,111 @@
                 examines its wider structure across the five major leagues:
                 Premier League, La Liga, the Bundesliga, Serie A, and Ligue 1.
                 It compares the distribution of recorded transfer fees,
-                traces money between leagues, and relates spending to results
-                on the pitch.
+                traces money between leagues and countries, tests whether
+                pre-signing rumour coverage is associated with what a deal
+                costs and how the player is valued afterwards, and relates
+                spending to results on the pitch.
             </p>
+
+            <div class="dataset-block">
+                <h3>Why It Matters</h3>
+                <p>
+                    A single record signing makes the headlines, but it sits
+                    inside a market that moves billions of euros between
+                    leagues every year. Fans, journalists, and analysts argue
+                    about whether big spending buys success, which leagues
+                    depend on selling players to survive, and whether the
+                    transfer rumours that fill the sports media tell us
+                    anything about what a deal will really cost. Looking at the
+                    whole market, rather than one deal at a time, lets us check
+                    those claims against ten seasons of evidence and shows the
+                    structure underneath the headlines.
+                </p>
+            </div>
+
+            <div class="dataset-block">
+                <h3>Research Questions</h3>
+                <p>
+                    The overall question is: how does money move through the
+                    European transfer market, and what factors shape the
+                    financial outcomes of transfers? It breaks into three
+                    questions that organise the rest of the page.
+                </p>
+                <ol class="question-list">
+                    <li><strong>Market structure.</strong> How have transfer spending and cross-league flows changed over time, and which clubs and leagues act as buyers, sellers, hubs, or feeders?</li>
+                    <li><strong>Spending and performance.</strong> To what extent is club spending associated with later sporting performance, and which clubs over- or under-perform relative to their spending?</li>
+                    <li><strong>Rumours and outcomes.</strong> Before a signing, how are rumour intensity, tone, and agent-attributed reports associated with the final fee and the change in a player's market value?</li>
+                </ol>
+            </div>
+
+            <div class="dataset-block">
+                <h3>What We Use</h3>
+                <p>
+                    Two sources answer these questions. The Transfermarkt
+                    dataset supplies about 1.1 million records of transfers,
+                    player valuations, and match results, from which we take
+                    fees, dates, buying and selling clubs, leagues, player
+                    positions, market values, and points per game for 2016/17
+                    to 2025/26. A second dataset, 3,221 transfer-window
+                    articles from the Guardian, supplies the rumour side: each
+                    article is linked to a completed transfer and scored for
+                    intensity, tone, and explicit agent attribution.
+                </p>
+            </div>
+
+            <div class="dataset-block">
+                <h3>How Visualization Helps</h3>
+                <p>
+                    Each question needs a different view. A treemap and an
+                    annual line show how spending is concentrated and how it
+                    has grown. A chord diagram and a map show direction, with
+                    arrows from buyers to sellers between leagues and between
+                    countries. A scatterplot relates spending to the following
+                    season's results, and a box plot and a streamgraph show how
+                    rumour coverage builds and whether it lines up with the
+                    price paid. Filters, season controls, and linked selections
+                    let the viewer move between the overview and a single
+                    league, club, or position.
+                </p>
+            </div>
+
+            <div class="dataset-block">
+                <h3>Who It Is For</h3>
+                <p>
+                    The page is written for football fans, analysts,
+                    journalists, and anyone interested in the economics of
+                    sport. No background in statistics is needed. Where a chart
+                    shows an association, the text says so, and the findings
+                    section at the end separates what the data show from what
+                    they cannot show.
+                </p>
+            </div>
+
+            <div class="dataset-block">
+                <h3>How to Read This Page</h3>
+                <p>
+                    Use the navigation bar at the top of the page to jump to
+                    any section; it follows you as you scroll. The page moves from the data, to the
+                    interactions and how we evaluate them, to the visualizations
+                    in order: where the money goes, the rumour cycle, and
+                    whether spending buys results. It ends with the findings
+                    for each research question.
+                </p>
+            </div>
         </article>
 
         <section id="dataset" class="report-section" aria-labelledby="dataset-title">
             <div class="section-copy">
+                <p class="story-step"><span class="story-step-kind">Context</span><span class="story-step-q">What data do we use?</span></p>
                 <h2 id="dataset-title">Dataset</h2>
                 <p>
-                    This section documents our raw data, the cleaning steps
-                    applied to it, and the aggregation that turns roughly 1.1
-                    million match, transfer, and valuation records into the
-                    season-level tables each visualization loads. Every
-                    processing step lives in the <code>dataprocessing/</code>
-                    scripts in the repository, so the full pipeline is
-                    reproducible end to end.
+                    This section documents our two data sources, the cleaning
+                    steps applied to them, and the aggregation that turns
+                    roughly 1.1 million match, transfer, and valuation records,
+                    plus 3,221 scraped news articles, into the tables each
+                    visualization loads. Every processing step lives in the
+                    <code>dataprocessing/</code> scripts in the repository, so
+                    the full pipeline is reproducible end to end.
                 </p>
             </div>
 
@@ -126,15 +231,24 @@
                     from 2016/17 through 2025/26.
                 </p>
                 <p>
-                    Four chart-ready tables sit on top of that. Both
-                    <code>treemap_data.csv</code> and
-                    <code>spending_performance.csv</code> contain 974
-                    club-season rows and feed the composition and performance
-                    views. The third, <code>league_transfer_flows.csv</code>,
-                    has 449 rows and sums transfer fees and counts between the five
+                    Five chart-ready tables sit on top of that.
+                    <code>treemap_data.csv</code> has 974 club-season rows and
+                    feeds the composition view and the annual spending trend.
+                    <code>spending_performance.csv</code> has 754 rows, because
+                    each club's spending in one season is paired with its
+                    league results in the following season (spending seasons
+                    2016/17 to 2024/25 against performance seasons 2017/18 to
+                    2025/26). <code>league_transfer_flows.csv</code> has 3,308
+                    rows and sums transfer fees and counts between the five
                     leagues plus two catch-all groups, "Other Europe" and
                     "Outside Europe / Unknown", for every buying-league to
-                    selling-league pair in each season.
+                    selling-league pair in each season, split by player
+                    position and fee status. <code>club_pair_flows.csv</code>
+                    has 20,411 rows and keeps the same flows at club level, so
+                    the chord tooltips can name the biggest individual deals;
+                    its totals match the league flows exactly.
+                    <code>country_transfer_flows.csv</code> has 5,617 rows and
+                    holds the same measures at country level for the map.
                 </p>
                 <p>
                     Fees are summed only where recorded; a missing fee stays
@@ -148,22 +262,75 @@
                     topology for the basemap.
                 </p>
             </div>
+
+            <div class="dataset-block">
+                <h3>How the Rumour Data Was Built</h3>
+                <p>
+                    We collected <strong>3,221 transfer-window articles</strong>
+                    from the <a href="https://open-platform.theguardian.com/" target="_blank" rel="noopener">Guardian Open Platform API</a>,
+                    one full article body each, spread across all ten seasons.
+                    Each article is linked to a completed transfer when a
+                    distinctive player-name token and a club name both appear
+                    in the article within 120 days before the signing. We then
+                    classify tone from a keyword lexicon and flag articles that
+                    explicitly cite a player's agent. The raw corpus, one JSON
+                    file per article with its full text, is stored in
+                    <code>data/rawdata/rumors/guardian/</code>, and the article
+                    text is courtesy of the Guardian Open Platform, used here
+                    for a student project.
+                </p>
+                <p>
+                    Because this half is built from scraped text and keyword
+                    rules, it is not perfectly accurate, and we report its
+                    limits openly. <strong>86%</strong> of articles linked to a
+                    real transfer; <strong>4,403 transfers</strong> carry at
+                    least one article. Tone keywords match
+                    <strong>74%</strong> of articles, so the remaining
+                    <strong>26%</strong> fall into the neutral band by
+                    default rather than a confidently neutral reading.
+                    <strong>91%</strong> of linked transfers have a
+                    market-value change, while only <strong>39%</strong> have a
+                    disclosed fee, so the fee-premium view is limited to deals
+                    with a reported fee. Agent attribution is an explicit
+                    text match only, never inferred. The full accounting lives
+                    in <code>data/processed/rumor_data_quality.csv</code>.
+                </p>
+                <p>
+                    Four chart-ready tables come out of this pipeline.
+                    <code>rumor_articles.csv</code> has 16,720 rows, one for
+                    every article-to-transfer link, which is more than the
+                    number of articles because one article can cover several
+                    transfers. <code>rumor_outcomes.csv</code> has 4,403 rows,
+                    one per linked transfer, with its rumour intensity, tone
+                    mix, agent flag, fee premium, and market-value change.
+                    <code>rumor_timeline.csv</code> has 54 rows of weekly
+                    article counts by tone before the signing, and
+                    <code>rumor_highlights.csv</code> has the six most-covered
+                    transfers with a disclosed fee and a market-value change.
+                </p>
+            </div>
         </section>
 
         <section id="interaction" class="report-section" aria-labelledby="interaction-title">
             <div class="section-copy">
+                <p class="story-step"><span class="story-step-kind">Method</span><span class="story-step-q">How can readers explore it?</span></p>
                 <h2 id="interaction-title">Interaction &amp; Animation Plan</h2>
                 <p>
-                    The views share one season, league, and optional club
-                    selection. Changing any season selector updates the others
-                    where data for that season are available; each chart's Play
-                    control advances only its own view. The performance view pairs a spending season
-                    with the following season's results. Clicking a treemap league or a
-                    chord arc selects that league; All leagues clears it.
-                    Clicking a bubble pins the club's available season
+                    The spending views (treemap, league flows, map, and
+                    scatterplot) share one season, league, and optional club
+                    selection. Changing a season selector updates the others
+                    where data for that season are available, while each
+                    chart's Play control advances only its own view. The
+                    scatterplot pairs a spending season with the following
+                    season's results. Clicking a treemap league heading or a
+                    chord arc selects that league, and All leagues clears it.
+                    Clicking a bubble pins that club's season-by-season
                     trajectory, but does not imply club-level flows in the
-                    league or country views.
-                    Position filters are shared by the two flow views. The map's fee-status filter is local to the map, so its geographic framing can respond to the selected type of transfer.
+                    league or country views. The position filter is shared by
+                    the league and country flow views, whereas the map's
+                    fee-status filter is local to the map. The three rumour
+                    views are standalone and do not respond to these shared
+                    selections.
                 </p>
             </div>
 
@@ -175,54 +342,133 @@
                         <li>Play steps automatically through all ten seasons, about 1.5 seconds each, so a viewer can watch spending share shift without touching the control every time.</li>
                         <li>Hovering or keyboard-focusing a club cell raises a tooltip with spending, income, net spend, and transfer count, and outlines the cell. This is how a single-number rectangle becomes a comparable, inspectable data point.</li>
                     </ul>
-                    <p class="plan-next">Click a league heading to focus its clubs; All leagues restores the complete composition.</p>
+                    <p class="plan-next">Click a league heading to focus its clubs; All leagues restores the complete composition. Hovering a point on the annual line shows that season's total spending.</p>
                 </div>
                 <div class="plan-card">
                     <h3>Transfer Flows</h3>
                     <ul>
-                        <li>The season selector swaps the fee matrix and redraws both ribbons and arcs with a 500ms eased transition.</li>
-                        <li>Hovering a ribbon brings it to full opacity against the others and shows the buying league, selling league, and total fee. This lets a viewer isolate one flow inside a busy diagram.</li>
-                        <li>Hovering a league's outer arc shows that league's total recorded volume across every flow touching it.</li>
+                        <li>The season, metric, position, and fee-status controls redraw the ribbons and arcs with a 500ms eased transition.</li>
+                        <li>Hovering a ribbon shows the buying league, the selling league, the fees and number of transfers between them, and the three biggest club-to-club deals in that flow. This lets a viewer isolate one flow inside a busy diagram and see which clubs drive it.</li>
+                        <li>Hovering a league's outer arc shows what that league spent on incoming transfers, what it received from outgoing ones, its net spending, and its incoming and outgoing transfer counts. Clicking the arc selects that league in the other views.</li>
+                        <li>Choosing Free transfer or Unknown fee switches the chord to transfer counts, because those deals carry no recorded fee to draw.</li>
                     </ul>
                     <p class="plan-next">Transfer fees and transfer counts are independent metric choices; unknown fees are not treated as zero-fee transfers.</p>
+                </div>
+                <div class="plan-card">
+                    <h3>Geographic Transfer Flows</h3>
+                    <ul>
+                        <li>The Season dropdown gives each of the ten seasons its own flow map, and it moves the other season-based charts to the same season. Each curve joins a buying country to a selling country, and its width encodes the selected metric, so larger flows read as thicker lines.</li>
+                        <li>Hovering near a curve highlights it and fades the others to a lighter tone, and a tooltip gives its fees and transfer count. A wide invisible hover zone makes thin lines easy to reach.</li>
+                        <li>The plus, minus, and reset buttons in the corner of the map zoom in, zoom out, and return to the default Europe-centred view. Dragging pans the map, while scroll-wheel zoom is turned off so the page keeps scrolling normally.</li>
+                    </ul>
+                    <p class="plan-next">Metric, position, fee status, and the number of flows (top 15 or top 30) are chosen independently; free transfers are shown by count because they carry no fee.</p>
+                </div>
+                <div class="plan-card">
+                    <h3>Transfer Rumours</h3>
+                    <ul>
+                        <li>The most-covered transfer cards show four players at first, and Show More reveals the other two. Each card traces market value, fee paid, and value afterwards.</li>
+                        <li>Hovering a box in the box plot shows its group size, median, and quartiles, and the two panels keep separate scales for the two outcomes.</li>
+                        <li>Hovering a band in the streamgraph highlights that tone and dims the others, and its tooltip gives the number of article mentions and the tone's share.</li>
+                    </ul>
+                    <p class="plan-next">The rumour views describe associations in scraped text; they do not respond to the shared season, league, or club selection.</p>
                 </div>
                 <div class="plan-card">
                     <h3>Spending and Performance</h3>
                     <ul>
                         <li>The season selector redraws the scatterplot with a 650ms eased transition, so a club's bubble visibly travels between its old and new (spending, points-per-game) position. This is what makes a change in strategy legible from one season to the next.</li>
-                        <li>Play animates through all ten seasons automatically, the same pacing as the treemap.</li>
-                        <li>Hovering a bubble shows the club, league, spending season, following performance season, spending, points per game, squad value, and whether the club over- or under-performed its spending.</li>
-                        <li>A fitted log-spending trend line gives the expected points per game for the selected sample; bubble outlines show whether a club is above or below that trend.</li>
+                        <li>Play animates through all ten seasons automatically, the same pacing as the treemap, and Clear club removes a pinned club.</li>
+                        <li>Hovering a bubble shows the club, league, spending season, following performance season, spending, points per game, expected points per game, and squad value.</li>
+                        <li>A fitted log-spending trend line gives the expected points per game for the selected sample; a bubble above the line scored more points than its spending predicts and a bubble below it scored fewer, and the tooltip gives each club's difference from the trend.</li>
                     </ul>
                     <p class="plan-next">A club click traces available seasons only. The fitted line describes an association, not a causal effect of spending.</p>
                 </div>
             </div>
         </section>
 
+        <section id="evaluation" class="report-section" aria-labelledby="evaluation-title">
+            <div class="section-copy">
+                <p class="story-step"><span class="story-step-kind">Method</span><span class="story-step-q">How do we test the design?</span></p>
+                <h2 id="evaluation-title">Evaluation Plan</h2>
+                <p>
+                    We will evaluate each of the eight views against the task it is
+                    designed for, and we will check that the controls are usable
+                    without us standing over someone's shoulder to explain
+                    them.
+                </p>
+            </div>
+
+            <div class="plan-grid plan-grid-three">
+                <div class="plan-card">
+                    <h3>What We Evaluate</h3>
+                    <p>
+                        We will evaluate whether each view supports its intended
+                        task: composition and comparison in the treemap, trend
+                        reading in the line chart, flow direction and magnitude
+                        in the chord diagram and the map, comparison of
+                        distributions in the box plot, change over time in the
+                        streamgraph, and relationship and outlier detection in
+                        the scatterplot. We will also check that the season
+                        controls, filters, zoom buttons, tooltips, and play
+                        animation are discoverable without instructions, and
+                        that the rumour views are not misread as showing cause
+                        and effect.
+                    </p>
+                </div>
+                <div class="plan-card">
+                    <h3>How We Evaluate It</h3>
+                    <p>
+                        We will run short think-aloud sessions with four to six
+                        classmates or football club members outside the group.
+                        Each participant will get concrete tasks such as "which club
+                        spent the most in 2023/24," "which league is the biggest
+                        net buyer," "which country receives the most money from
+                        England," "do heavily rumoured deals cost more," and
+                        "find a club that over-performed its spending," and we
+                        will watch where they hesitate, misread a label, or miss a
+                        control.
+                    </p>
+                </div>
+                <div class="plan-card">
+                    <h3>What We Collect</h3>
+                    <p>
+                        We will collect task completion and time-to-answer, notes on
+                        specific points of confusion, and a short post-task
+                        questionnaire on label clarity and trust in the numbers.
+                        We will also fold in the TA and peer feedback received at the
+                        interim check-in, and will use all of it in the final
+                        refinement of the page.
+                    </p>
+                </div>
+            </div>
+        </section>
+
         <section id="visualizations" class="report-section" aria-labelledby="visualizations-title">
             <div class="section-copy">
+                <p class="story-step"><span class="story-step-kind">The market</span><span class="story-step-q">What does it look like?</span></p>
                 <h2 id="visualizations-title">Visualizations</h2>
                 <p>
-                    Four working visualizations, built from the processed
-                    data above. The visualizations tell the concentration of
-                    the spending, transfer fee movement between the leagues,
-                    and whether spending is related to performance.
+                    Eight working views, built from the processed data above.
+                    This section holds the first four figures on where the
+                    money goes: how spending is concentrated among clubs and
+                    how it has grown over time, how fees move between leagues,
+                    and how they move between countries. The rumour views and
+                    the spending-versus-performance scatterplot follow in
+                    their own sections.
                 </p>
             </div>
 
             <div class="viz-block">
+                <p class="story-step"><span class="story-step-kind">Overview</span><span class="story-step-q">Where does the money go?</span></p>
                 <h3 id="market-composition">Market Composition</h3>
                 <p class="viz-intro">
                     Each rectangle is a club, sized by its recorded transfer-fee
                     spending that season and grouped by league. Bigger
                     rectangles mean larger recorded outlays. Step through seasons or
                     hit Play to see which leagues and clubs pull further ahead
-                    of the pack over time. Area encodes recorded transfer-fee spending,
-                    color encodes net spending, and enclosing groups identify
-                    leagues. Net spending means spending minus income. In
-                    2025/26, the Premier League accounts for 51.8% of
-                    displayed top-five spending; the largest club accounts for
-                    6.2%.
+                    of the pack over time. Area encodes recorded transfer-fee
+                    spending, while the enclosing groups and colours identify
+                    leagues. Hover over a club to see its spending, income, and
+                    net spending (spending minus income).
                 </p>
 
                 <figure class="chart-figure">
@@ -261,17 +507,8 @@
                                 id="treemap-svg"
                                 viewBox="0 0 1100 640"
                                 role="img"
-                                aria-labelledby="treemap-svg-title treemap-svg-description"
-                            >
-                                <title id="treemap-svg-title">
-                                    Club transfer spending treemap
-                                </title>
-
-                                <desc id="treemap-svg-description">
-                                    Club rectangles are sized by transfer spending
-                                    and grouped by league.
-                                </desc>
-                            </svg>
+                                aria-label="Club transfer spending treemap. Club rectangles are sized by transfer spending and grouped by league."
+                            ></svg>
 
                             <div
                                 id="treemap-tooltip"
@@ -290,25 +527,22 @@
 
                 <figure class="chart-figure market-trend-figure">
                     <div id="market-trend-chart" class="market-trend-chart" role="region" aria-label="Annual top-five league transfer spending trend">
-                        <svg id="market-trend-svg" viewBox="0 0 1100 230" role="img" aria-labelledby="market-trend-title market-trend-description">
-                            <title id="market-trend-title">Annual transfer spending across the top five leagues</title>
-                            <desc id="market-trend-description">A line chart showing total recorded transfer spending for the five displayed leagues in each season.</desc>
-                        </svg>
+                        <svg id="market-trend-svg" viewBox="0 0 1100 230" role="img" aria-label="Annual transfer spending across the top five leagues. A line chart showing total recorded transfer spending for the five displayed leagues in each season."></svg>
                         <div id="market-trend-tooltip" class="market-trend-tooltip" role="tooltip" aria-hidden="true"></div>
                     </div>
-                    <figcaption>Annual total recorded spending across the five displayed leagues.</figcaption>
+                    <figcaption>Figure 2: Annual total recorded spending across the five displayed leagues.</figcaption>
                 </figure>
             </div>
 
             <div class="viz-block">
+                <p class="story-step"><span class="story-step-kind">Pattern</span><span class="story-step-q">Who pays whom between leagues?</span></p>
                 <h3 id="transfer-flows">Transfer Flows</h3>
                 <p class="viz-intro">
                     Transfer fees connect Europe’s top leagues with each other
                     and with clubs across the rest of the world. Arrows run
-                    from buying league to selling league; each outer arc is
-                    the total of flows entering and leaving that group. In
-                    2025/26, the Premier League received €2.34B as a selling
-                    league; the metric control also exposes transfer counts.
+                    from buying league to selling league and each outer arc is
+                    the total of flows entering and leaving that group. The
+                    metric control also exposes transfer counts.
                 </p>
 
                 <figure class="chart-figure">
@@ -343,23 +577,152 @@
                             </div>
                         </div>
                         <div class="flow-stage">
-                            <svg id="flow-svg" viewBox="0 0 1100 780" role="img" aria-labelledby="flow-svg-title flow-svg-description">
-                                <title id="flow-svg-title">Directed transfer-fee flows between league groups</title>
-                                <desc id="flow-svg-description">Ribbons travel from buying leagues to selling leagues. Their widths represent recorded transfer fees.</desc>
-                            </svg>
+                            <svg id="flow-svg" viewBox="0 0 1100 780" role="img" aria-label="Directed transfer-fee flows between league groups. Ribbons travel from buying leagues to selling leagues. Their widths represent recorded transfer fees."></svg>
                             <div id="flow-tooltip" class="flow-tooltip" role="tooltip" aria-hidden="true"></div>
                         </div>
                     </div>
 
                     <figcaption>
-                        Figure 2: Transfer fee flows between league groups by
+                        Figure 3: Transfer fee flows between league groups by
                         season.
                     </figcaption>
                 </figure>
             </div>
 
             <div class="viz-block">
-                <h3 id="spending-performance">Spending and Performance</h3>
+                <p class="story-step"><span class="story-step-kind">Pattern</span><span class="story-step-q">How do the flows run across countries?</span></p>
+                <h3 id="geographic-flows">Geographic Transfer Flows</h3>
+                <p class="viz-intro">Country flows are built before league grouping: season-specific club matches supply country first, then the club reference table fills missing country assignments. This view includes only flows involving at least one top-five-league club. Curves point from buyer country to seller country, and the line width shows the selected metric, so thicker curves are larger flows. Only the top 15 non-domestic flows are drawn by default (top 30 on request), while domestic transfers are summarized separately above the map. Transfers with no country in either source are excluded rather than placed arbitrarily.</p>
+                <figure class="chart-figure"><div id="map-chart" class="chart-container" role="region" aria-label="Geographic transfer flows">
+                    <div class="flow-toolbar map-toolbar">
+                        <label class="flow-control" for="map-season"><span>Season</span><select id="map-season" aria-label="Select season for the map"></select></label>
+                        <label class="flow-control" for="map-metric"><span>Metric</span><select id="map-metric"><option value="fee">Transfer fees</option><option value="count">Transfer count</option></select></label>
+                        <label class="flow-control" for="map-position"><span>Position</span><select id="map-position"><option value="all">All positions</option></select></label>
+                        <label class="flow-control" for="map-fee-status"><span>Fee status</span><select id="map-fee-status"><option value="Paid fee" selected>Paid fee</option><option value="Free transfer">Free transfer</option></select></label>
+                        <label class="flow-control" for="map-flow-limit"><span>Flows</span><select id="map-flow-limit"><option value="15">Top 15</option><option value="30">Top 30</option></select></label>
+                    </div>
+                    <p class="flow-summary map-summary" aria-live="polite"><span id="map-total">Loading&hellip;</span><span id="map-corridor"></span></p>
+                    <div class="flow-stage map-stage">
+                        <div class="map-zoom-controls" aria-label="Zoom controls">
+                            <button id="map-zoom-in" type="button" aria-label="Zoom in">+</button>
+                            <button id="map-zoom-out" type="button" aria-label="Zoom out">&minus;</button>
+                            <button id="map-zoom-reset" type="button" aria-label="Reset view" title="Reset view">⟲</button>
+                        </div>
+                        <svg id="map-svg" viewBox="0 0 1100 600" role="img" aria-label="Country-level transfer flows"></svg>
+                        <div id="map-tooltip" class="flow-tooltip" role="tooltip"></div>
+                    </div>
+                </div><figcaption>Figure 4: Country-to-country flows involving at least one top-five-league club.</figcaption></figure>
+            </div>
+        </section>
+
+        <section id="rumours" class="report-section" aria-labelledby="rumours-title">
+            <div class="section-copy">
+                <p class="story-step"><span class="story-step-kind">The talk</span><span class="story-step-q">What does coverage reveal?</span></p>
+                <h2 id="rumours-title">Transfer Rumours</h2>
+                <p>
+                    Beyond the completed deals, this half of the project asks
+                    whether the pre-signing rumour cycle relates to the final
+                    financial outcome of a transfer. We built a second,
+                    scraped dataset of transfer-rumour articles, linked each
+                    article to a completed transfer, and derived rumour
+                    intensity, tone, and explicit agent attribution for every
+                    linked deal.
+                </p>
+            </div>
+
+            <div class="viz-block">
+                <p class="story-step"><span class="story-step-kind">Deeper look</span><span class="story-step-q">Which deals drew the most rumours?</span></p>
+                <h3 id="rumour-highlights-heading">Most-Covered Transfers</h3>
+                <p class="viz-intro">
+                    The six transfers that drew the most rumour coverage in our
+                    corpus, ranked purely by linked-article count among deals
+                    with a disclosed fee and a market-value change. Each card
+                    traces the player's market value into the fee actually paid
+                    and the valuation that followed. The first four are shown,
+                    and Show More reveals the remaining two. Intensity is the
+                    number of linked articles, and tone is the most common
+                    reading across them.
+                </p>
+                <figure class="chart-figure">
+                    <div id="rumor-highlights" class="rumor-tiles" role="region" aria-label="Most-covered transfers">
+                        <p class="chart-placeholder">Loading highlights&hellip;</p>
+                    </div>
+                    <figcaption>Figure 5: The six most-covered transfers in the rumour corpus.</figcaption>
+                </figure>
+            </div>
+
+            <div class="viz-block">
+                <p class="story-step"><span class="story-step-kind">Deeper look</span><span class="story-step-q">Do rumours relate to what a deal costs?</span></p>
+                <h3 id="rumour-boxplot-heading">Rumour Intensity and Transfer Outcomes</h3>
+                <p class="viz-intro">
+                    Transfers are split into low, medium, and high rumour
+                    intensity by their linked-article count. The two panels
+                    show both financial outcomes side by side: on the left, the
+                    fee premium (fee paid relative to market value); on the
+                    right, the change in the player's market value around the
+                    transfer. Each panel keeps its own scale because the two
+                    outcomes are measured in different units. The market-value
+                    panel excludes the roughly one in four transfers whose
+                    valuation was not updated in the window (an exact 0%
+                    change), so the boxes reflect deals that were actually
+                    re-valued.
+                </p>
+                <figure class="chart-figure">
+                    <div id="rumor-boxplot-chart" class="chart-container" role="region" aria-label="Rumour intensity versus transfer outcome">
+                        <div class="flow-toolbar">
+                            <p class="flow-summary" aria-live="polite"><span id="boxplot-summary">Loading&hellip;</span></p>
+                        </div>
+                        <div class="flow-stage">
+                            <svg id="rumor-boxplot-svg" viewBox="0 0 1100 560" role="img" aria-label="Transfer outcome distribution by rumour intensity. Box plots comparing a financial outcome across low, medium, and high rumour-intensity groups."></svg>
+                            <div id="rumor-boxplot-tooltip" class="flow-tooltip" role="tooltip" aria-hidden="true"></div>
+                        </div>
+                    </div>
+                    <figcaption>Figure 6: Transfer outcomes across rumour-intensity groups.</figcaption>
+                </figure>
+            </div>
+
+            <div class="viz-block">
+                <p class="story-step"><span class="story-step-kind">Deeper look</span><span class="story-step-q">How does coverage build toward a signing?</span></p>
+                <h3 id="rumour-stream-heading">Rumour Volume and Tone Before a Signing</h3>
+                <p class="viz-intro">
+                    Linked articles are aligned by how many weeks before the
+                    signing they appeared, then stacked by tone. The shape
+                    shows how coverage builds toward deadline and how the mix
+                    of optimistic, doubtful, and neutral reporting shifts as a
+                    deal nears completion.
+                </p>
+                <figure class="chart-figure">
+                    <div id="rumor-stream-chart" class="chart-container" role="region" aria-label="Rumour volume and tone before signing">
+                        <div class="performance-stage">
+                            <div class="performance-legend" aria-label="Tone colours">
+                                <span><i class="tone-dot tone-dot-optimistic"></i>Optimistic</span>
+                                <span><i class="tone-dot tone-dot-neutral"></i>Neutral</span>
+                                <span><i class="tone-dot tone-dot-doubtful"></i>Doubtful</span>
+                                <p class="performance-legend-note">One article can mention several transfers, so the bands count article–transfer mentions, not unique articles.</p>
+                                <p class="performance-legend-note">Tone keywords match 74% of mentions; the rest are counted as neutral.</p>
+                            </div>
+                            <svg id="rumor-stream-svg" viewBox="0 0 1100 520" role="img" aria-label="Weekly rumour volume before signing, by tone. A streamgraph of article counts per week before the transfer, stacked by tone."></svg>
+                            <div id="rumor-stream-tooltip" class="flow-tooltip" role="tooltip" aria-hidden="true"></div>
+                        </div>
+                    </div>
+                    <figcaption>Figure 7: Weekly rumour volume before a signing, split by tone.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section id="spending-performance-section" class="report-section" aria-labelledby="spending-performance-title">
+            <div class="section-copy">
+                <p class="story-step"><span class="story-step-kind">Insight</span><span class="story-step-q">Does the money buy results?</span></p>
+                <h2 id="spending-performance-title">Spending and Performance</h2>
+                <p>
+                    Does spending more actually deliver better results? This
+                    closing view pairs each club's recorded transfer-fee
+                    spending in one season with its league performance the
+                    following season.
+                </p>
+            </div>
+
+            <div class="viz-block">
                 <p class="viz-intro">
                     Each point pairs a club's recorded transfer-fee spending in one season
                     with its points per game in the following season. The
@@ -392,200 +755,84 @@
                                 <span><i class="league-dot league-dot-seriea"></i>Serie A</span>
                                 <span><i class="league-dot league-dot-ligue1"></i>Ligue 1</span>
                                 <p class="performance-legend-note">PPG stands for points per game.</p>
-                                <p class="performance-legend-note">Outline: above or below the log-spending trend.</p>
+                                <p class="performance-legend-note">Above the dashed line: more points than spending predicts. Below it: fewer.</p>
                                 <p id="performance-stats" class="performance-legend-note" aria-live="polite"></p>
                             </div>
-                            <svg id="performance-svg" viewBox="0 0 1100 650" role="img" aria-labelledby="performance-svg-title performance-svg-description">
-                                <title id="performance-svg-title">Club spending and following-season performance</title>
-                                <desc id="performance-svg-description">Bubbles show clubs. Horizontal position is transfer spending, vertical position is points per game in the following season, and bubble size is a near-September squad valuation snapshot.</desc>
-                            </svg>
+                            <svg id="performance-svg" viewBox="0 0 1100 650" role="img" aria-label="Club spending and following-season performance. Bubbles show clubs. Horizontal position is transfer spending, vertical position is points per game in the following season, and bubble size is a near-September squad valuation snapshot."></svg>
                             <div id="performance-tooltip" class="performance-tooltip" role="tooltip" aria-hidden="true"></div>
                         </div>
                     </div>
 
                     <figcaption>
-                        Figure 3: Club transfer spending and following-season
+                        Figure 8: Club transfer spending and following-season
                         performance.
                     </figcaption>
                 </figure>
             </div>
-
-            <div class="viz-block">
-                <h3 id="geographic-flows">Geographic Transfer Flows</h3>
-                <p class="viz-intro">Country flows are built before league grouping: season-specific club matches supply country first, then the club reference table fills missing country assignments. This view includes only flows involving at least one top-five-league club. Lines point from buyer country to seller country; only the top 30 non-domestic flows are drawn, while domestic transfers are summarized separately. Transfers with no country in either source are excluded rather than placed arbitrarily.</p>
-                <figure class="chart-figure"><div id="map-chart" class="chart-container" role="region" aria-label="Geographic transfer flows">
-                    <div class="flow-toolbar"><label class="flow-control" for="map-metric"><span>Metric</span><select id="map-metric"><option value="fee">Transfer fees</option><option value="count">Transfer count</option></select></label><label class="flow-control" for="map-position"><span>Position</span><select id="map-position"><option value="all">All positions</option></select></label><label class="flow-control" for="map-fee-status"><span>Fee status</span><select id="map-fee-status"><option value="Paid fee" selected>Paid fee</option><option value="Free transfer">Free transfer</option></select></label><label class="flow-control" for="map-flow-limit"><span>Flows</span><select id="map-flow-limit"><option value="15">Top 15</option><option value="30">Top 30</option></select></label><button id="map-zoom-in" class="performance-play-button" type="button">Zoom in</button><button id="map-zoom-out" class="performance-play-button" type="button">Zoom out</button><button id="map-zoom-europe" class="performance-play-button" type="button">Europe</button><button id="map-zoom-world" class="performance-play-button" type="button">World</button><p class="flow-summary"><span id="map-total">Loading&hellip;</span><span id="map-corridor"></span></p></div>
-                    <div class="flow-stage"><svg id="map-svg" viewBox="0 0 1100 600" role="img"><title>Country-level transfer flows</title></svg><div id="map-tooltip" class="flow-tooltip" role="tooltip"></div></div>
-                </div><figcaption>Figure 4: Country-to-country flows involving at least one top-five-league club.</figcaption></figure>
-            </div>
         </section>
-
-        <section id="rumours" class="report-section" aria-labelledby="rumours-title">
+        <section id="findings" class="report-section" aria-labelledby="findings-title">
             <div class="section-copy">
-                <h2 id="rumours-title">Transfer Rumours</h2>
+                <p class="story-step"><span class="story-step-kind">Conclusion</span><span class="story-step-q">What the data show</span></p>
+                <h2 id="findings-title">Findings</h2>
                 <p>
-                    Beyond the completed deals, this half of the project asks
-                    whether the pre-signing rumour cycle relates to the final
-                    financial outcome of a transfer. We built a second,
-                    scraped dataset of transfer-rumour articles, linked each
-                    article to a completed transfer, and derived rumour
-                    intensity, tone, and explicit agent attribution for every
-                    linked deal.
+                    Each group of findings answers one of the three research
+                    questions. The headline result is that transfer spending
+                    is clearly followed by better results on the pitch.
                 </p>
             </div>
 
             <div class="dataset-block">
-                <h3>How the Rumour Data Was Built</h3>
+                <h3>Market Structure</h3>
+                <ul class="finding-list">
+                    <li><strong>Spending has grown, and England takes the largest share.</strong> Recorded transfer-fee spending by clubs in the five leagues rose from €2.93B in 2016/17 to €7.72B in 2025/26, about 2.6 times as much, with a dip to €3.47B in 2020/21. The Premier League's share ranged from 28.6% (2019/20) to 53.6% (2022/23) and was 51.8% in 2025/26. Over the ten seasons Chelsea spent the most (€2.64B), ahead of Manchester City (€2.03B) and Manchester United (€1.86B).</li>
+                    <li><strong>The Premier League is the market's net buyer.</strong> Premier League clubs bought €22.1B of players and sold €10.4B over the ten seasons, a net of +€11.6B. Serie A (+€1.4B), La Liga (+€0.5B), and the Bundesliga (+€0.3B) are close to balanced, and Ligue 1 is the only one of the five that sells more than it buys (−€0.6B).</li>
+                    <li><strong>English clubs pull money from every other big league.</strong> The four largest cross-border corridors are English clubs buying from German (€2.70B), French (€2.51B), Italian (€2.06B), and Spanish (€1.98B) clubs. About a third (33%) of paid-fee money stays inside a single country.</li>
+                </ul>
+            </div>
+
+            <div class="dataset-block">
+                <h3>Spending and Performance</h3>
+                <ul class="finding-list">
+                    <li><strong><u>Clubs that spend more finish higher the next season.</u></strong> In every one of the nine spending seasons, the top quarter of spenders among the five leagues' clubs earned more points per game the following season than the bottom quarter. On average the top spenders collected 1.78 points per game against 1.17 for the lowest spenders, a gap of about 0.6 points per game, or roughly 23 points over a 38-match season. The typical top-quarter spender finished 5th in its league, while the typical bottom-quarter spender finished 13th.</li>
+                    <li><strong>The link is consistent across seasons.</strong> The correlation between a club's log spending and its next-season points per game is positive in all nine seasons, from 0.35 to 0.67 and about 0.51 on average. Half of the top-quarter spenders finished in the top four of their league, more than twice the share a randomly chosen club would have.</li>
+                    <li><strong>Some clubs beat their budget and some waste it.</strong> Bubbles above the dashed line scored more points than their spending predicts and bubbles below it scored fewer, and the scatterplot lets a viewer pin a club to follow its path across seasons.</li>
+                </ul>
+            </div>
+
+            <div class="dataset-block">
+                <h3>Rumours and Outcomes</h3>
+                <ul class="finding-list">
+                    <li><strong>Rumour coverage builds sharply toward the signing.</strong> Half of all linked article mentions (50%) fall in the last two weeks before a signing, and 73% in the last four. Optimistic reporting grows as the deal nears, from 30% of mentions four to five weeks out to 42% in the signing week, while doubtful reporting remains throughout.</li>
+                    <li><strong>Heavily rumoured deals cost somewhat more over market value.</strong> The median fee-to-value ratio is 1.18× for low-intensity transfers, 1.17× for medium, and 1.23× for high, and the boxes overlap heavily.</li>
+                    <li><strong>Rumour intensity does not change how a player's value moves afterwards.</strong> Among players whose valuation was updated, the median change is +11.1% for both low and high intensity and +7.9% for medium, while the average change is smaller for high-intensity transfers (+35%) than for low-intensity ones (+54%). One possible reading is that the most-covered players are already valued near their peak, so coverage follows value rather than creating it.</li>
+                </ul>
+            </div>
+
+            <div class="dataset-block">
+                <h3>Limitations</h3>
+                <ul class="finding-list">
+                    <li>The rumour data come from one outlet, the Guardian, and tone keywords match only 74% of mentions; the rest default to neutral.</li>
+                    <li>Only 39% of linked transfers have a disclosed fee, so the fee-premium comparison covers fewer deals than the market-value one.</li>
+                    <li>Transfermarkt updates valuations only a few times a year, so about one in four transfers show no value change and are left out of the market-value panel.</li>
+                    <li>Loans, returns, and permanent deals are not separated, and valuable players attract more coverage whatever the rumours say, so none of these results should be read as cause and effect.</li>
+                </ul>
+            </div>
+
+            <div class="dataset-block">
+                <h3>Conclusion</h3>
                 <p>
-                    We collected <strong>3,221 transfer-window articles</strong>
-                    from the <a href="https://open-platform.theguardian.com/" target="_blank" rel="noopener">Guardian Open Platform API</a>,
-                    one full article body each, spread across all ten seasons.
-                    Each article is linked to a completed transfer when a
-                    distinctive player-name token and a club name both appear
-                    in the article within 120 days before the signing. We then
-                    classify tone from a keyword lexicon and flag articles that
-                    explicitly cite a player's agent.
+                    <strong><u>Higher spending is followed by better results.</u></strong> Across ten seasons the transfer
+                    market grew about 2.6 times, with English clubs as its
+                    largest buyers and most other leagues close to balanced, and
+                    the clubs that spent the most scored about 0.6 more points
+                    per game the next season than the clubs that spent the
+                    least, in every season we measured. Rumour coverage
+                    shows how close a deal is, building sharply in the final two
+                    weeks, but it does not clearly predict what a player costs or
+                    how a player's value changes. The main message is that money moves a club up the
+                    table, and that England's spending power shapes the
+                    market's flows.
                 </p>
-                <p>
-                    Because this half is built from scraped text and keyword
-                    rules, it is not perfectly accurate, and we report its
-                    limits openly. <strong>86%</strong> of articles linked to a
-                    real transfer; <strong>4,403 transfers</strong> carry at
-                    least one article. Tone keywords match
-                    <strong>74%</strong> of articles, so the remaining
-                    <strong>26%</strong> fall into a combined "neutral /
-                    unclear" band rather than a confident neutral.
-                    <strong>91%</strong> of linked transfers have a
-                    market-value change, while only <strong>39%</strong> have a
-                    disclosed fee, so the fee-premium view is limited to deals
-                    with a reported fee. Agent attribution is an explicit
-                    text match only, never inferred. The full accounting lives
-                    in <code>data/processed/rumor_data_quality.csv</code>.
-                </p>
-            </div>
-
-            <div class="viz-block">
-                <h3 id="rumour-highlights-heading">Most-Covered Transfers</h3>
-                <p class="viz-intro">
-                    The six transfers that drew the most rumour coverage in our
-                    corpus, ranked purely by linked-article count among deals
-                    with a disclosed fee and a market-value change. Each card
-                    traces the player's market value into the fee actually paid
-                    and the valuation that followed.
-                </p>
-                <figure class="chart-figure">
-                    <div id="rumor-highlights" class="rumor-tiles" role="region" aria-label="Most-covered transfers">
-                        <p class="chart-placeholder">Loading highlights&hellip;</p>
-                    </div>
-                    <figcaption>Figure 5: The six most-covered transfers in the rumour corpus.</figcaption>
-                </figure>
-            </div>
-
-            <div class="viz-block">
-                <h3 id="rumour-boxplot-heading">Rumour Intensity and Transfer Outcomes</h3>
-                <p class="viz-intro">
-                    Transfers are split into low, medium, and high rumour
-                    intensity by their linked-article count. The two panels
-                    show both financial outcomes side by side: on the left, the
-                    fee premium (fee paid relative to market value); on the
-                    right, the change in the player's market value around the
-                    transfer. Each panel keeps its own scale because the two
-                    outcomes are measured in different units.
-                </p>
-                <figure class="chart-figure">
-                    <div id="rumor-boxplot-chart" class="chart-container" role="region" aria-label="Rumour intensity versus transfer outcome">
-                        <div class="flow-toolbar">
-                            <p class="flow-summary" aria-live="polite"><span id="boxplot-summary">Loading&hellip;</span></p>
-                        </div>
-                        <div class="flow-stage">
-                            <svg id="rumor-boxplot-svg" viewBox="0 0 1100 560" role="img" aria-labelledby="rumor-boxplot-title rumor-boxplot-desc">
-                                <title id="rumor-boxplot-title">Transfer outcome distribution by rumour intensity</title>
-                                <desc id="rumor-boxplot-desc">Box plots comparing a financial outcome across low, medium, and high rumour-intensity groups.</desc>
-                            </svg>
-                            <div id="rumor-boxplot-tooltip" class="flow-tooltip" role="tooltip" aria-hidden="true"></div>
-                        </div>
-                    </div>
-                    <figcaption>Figure 6: Transfer outcomes across rumour-intensity groups.</figcaption>
-                </figure>
-            </div>
-
-            <div class="viz-block">
-                <h3 id="rumour-stream-heading">Rumour Volume and Tone Before a Signing</h3>
-                <p class="viz-intro">
-                    Linked articles are aligned by how many weeks before the
-                    signing they appeared, then stacked by tone. The shape
-                    shows how coverage builds toward deadline and how the mix
-                    of optimistic, doubtful, and neutral reporting shifts as a
-                    deal nears completion.
-                </p>
-                <figure class="chart-figure">
-                    <div id="rumor-stream-chart" class="chart-container" role="region" aria-label="Rumour volume and tone before signing">
-                        <div class="performance-stage">
-                            <div class="performance-legend" aria-label="Tone colours">
-                                <span><i class="tone-dot tone-dot-optimistic"></i>Optimistic</span>
-                                <span><i class="tone-dot tone-dot-neutral"></i>Neutral / unclear</span>
-                                <span><i class="tone-dot tone-dot-doubtful"></i>Doubtful</span>
-                                <p class="performance-legend-note">Tone keywords match 74% of articles; the rest are counted as neutral / unclear.</p>
-                            </div>
-                            <svg id="rumor-stream-svg" viewBox="0 0 1100 520" role="img" aria-labelledby="rumor-stream-title rumor-stream-desc">
-                                <title id="rumor-stream-title">Weekly rumour volume before signing, by tone</title>
-                                <desc id="rumor-stream-desc">A streamgraph of article counts per week before the transfer, stacked by tone.</desc>
-                            </svg>
-                            <div id="rumor-stream-tooltip" class="flow-tooltip" role="tooltip" aria-hidden="true"></div>
-                        </div>
-                    </div>
-                    <figcaption>Figure 7: Weekly rumour volume before a signing, split by tone.</figcaption>
-                </figure>
-            </div>
-        </section>
-
-        <section id="evaluation" class="report-section" aria-labelledby="evaluation-title">
-            <div class="section-copy">
-                <h2 id="evaluation-title">Evaluation Plan</h2>
-                <p>
-                    For the four implemented non-rumor views, we will check that each
-                    one actually supports the task it is designed for, and
-                    that the controls are usable without us standing over
-                    someone's shoulder to explain them.
-                </p>
-            </div>
-
-            <div class="plan-grid plan-grid-three">
-                <div class="plan-card">
-                    <h3>What We Will Evaluate</h3>
-                    <p>
-                        We will evaluate whether each view supports its
-                        intended task: composition and comparison in the
-                        treemap, flow direction and magnitude in the chord
-                        diagram, and relationship and outlier detection in the
-                        scatterplot. We also want to make sure that the
-                        season controls, tooltips, and play animation are
-                        discoverable without instructions.
-                    </p>
-                </div>
-                <div class="plan-card">
-                    <h3>How We Will Evaluate It</h3>
-                    <p>
-                        We will organise short think-aloud sessions with four
-                        to six classmates or football club members outside the
-                        group. We will give them concrete tasks such as
-                        "which club spent the most in 2023/24," "which league
-                        is the biggest net buyer," and "find a club that
-                        over-performed its spending," and watch where they
-                        hesitate, misread a label, or miss a control.
-                    </p>
-                </div>
-                <div class="plan-card">
-                    <h3>What We Will Collect</h3>
-                    <p>
-                        We want to collect task completion and time-to-answer,
-                        notes on specific points of confusion, and a short
-                        post-task questionnaire on label clarity and trust in
-                        the numbers. We will also fold in TA and peer feedback
-                        from the interim check-in walk-around, and use all of
-                        it in the Week 6 to 7 refinement phase.
-                    </p>
-                </div>
             </div>
         </section>
     </main>
@@ -598,14 +845,15 @@
     </footer>
 
     <script src="js/topojson-client.min.js"></script>
-    <script src="js/shared-state.js?v=7"></script>
-    <script src="js/market-trend.js?v=1"></script>
-    <script src="js/treemap.js?v=8"></script>
-    <script src="js/transfer-flows.js?v=7"></script>
-    <script src="js/spending-performance.js?v=8"></script>
-    <script src="js/geographic-flows.js?v=9"></script>
-    <script src="js/rumor-highlights.js?v=4"></script>
-    <script src="js/rumor-boxplot.js?v=2"></script>
-    <script src="js/rumor-streamgraph.js?v=1"></script>
+    <script src="js/shared-state.js?v=8"></script>
+    <script src="js/market-trend.js?v=3"></script>
+    <script src="js/treemap.js?v=11"></script>
+    <script src="js/transfer-flows.js?v=11"></script>
+    <script src="js/spending-performance.js?v=13"></script>
+    <script src="js/geographic-flows.js?v=15"></script>
+    <script src="js/rumor-highlights.js?v=8"></script>
+    <script src="js/rumor-boxplot.js?v=4"></script>
+    <script src="js/rumor-streamgraph.js?v=3"></script>
+    <script src="js/navigation.js?v=5"></script>
 </body>
 </html>
