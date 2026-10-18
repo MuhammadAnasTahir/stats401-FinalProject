@@ -83,6 +83,24 @@
             .forEach(tip => tip.classList.remove('is-visible'));
     }, { passive: true });
 
+
+    // Wide screens: the signposts sit in the left margin, centred on the first line of their heading.
+    const wide = window.matchMedia('(min-width: 92rem)');
+    function alignSignposts() {
+        document.querySelectorAll('.story-step').forEach(step => {
+            const heading = step.nextElementSibling;
+            if (!wide.matches || !heading) { step.style.top = ''; return; }
+            const style = getComputedStyle(heading);
+            const size = parseFloat(style.fontSize);
+            const line = parseFloat(style.lineHeight) || size * 1.2;
+            step.style.top = `${heading.offsetTop + (line - step.offsetHeight) / 2}px`;
+        });
+    }
+    alignSignposts();
+    window.addEventListener('resize', alignSignposts);
+    window.addEventListener('load', alignSignposts);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(alignSignposts);
+
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
     update();
